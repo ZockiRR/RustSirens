@@ -11,7 +11,6 @@ namespace Oxide.Plugins
     [Description("Gives players the ability to attach sirens to modular cars")]
     class Sirens : RustPlugin
     {
-
         #region variables
         private const string PERMISSION_ATTACHSIRENS = "sirens.attachsirens";
         private const string PERMISSION_DETACHSIRENS = "sirens.detachsirens";
