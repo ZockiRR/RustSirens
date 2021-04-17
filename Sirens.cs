@@ -7,7 +7,7 @@ using static InstrumentKeyController;
 
 namespace Oxide.Plugins
 {
-    [Info("Sirens", "ZockiRR", "1.1.0")]
+    [Info("Sirens", "ZockiRR", "1.0.0")]
     [Description("Gives players the ability to attach sirens to modular cars")]
     class Sirens : RustPlugin
     {
