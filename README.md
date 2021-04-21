@@ -6,7 +6,7 @@ The sirens will get attached to every cockpit module of the car the player looks
 
 ```
 /attachsirens [optional:sirenname]
-Example: /attachsirens police-german
+Example: /attachsirens police-germany
 ```
 
 #### Syntax - Options
