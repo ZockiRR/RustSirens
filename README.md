@@ -1,5 +1,5 @@
 ## How It Works
-The sirens will get attached to every cockpit module of the car the play looks at. When pressing the button inside the cockpit the sirens will iterate through the states off, on and lights only. If sound is configured as disabled or a siren without tones was chosen, then the on state will be skipped.
+The sirens will get attached to every cockpit module of the car the player looks at. When pressing the button inside the cockpit the sirens will iterate through the states off, on and lights only. If sound is configured as disabled or a siren without tones was chosen, then the on state will be skipped.
 
 ## Chat Commands
 ### AttachSirens
