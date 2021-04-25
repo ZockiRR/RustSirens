@@ -30,8 +30,7 @@ Example: /detachsirens
   "MountNeeded": true,
   // Global config for enabling the usage of sounds for sirens
   "SoundEnabled": true,
-  
-  // These are the siren melodies usable ingame, the german police siren is preconfigured
+  // These are the sirens usable ingame, the german police siren and some silent warning lights are preconfigured
   "Sirens": [
     {
       // Mapping name to identify the siren while attaching
@@ -54,119 +53,305 @@ Example: /detachsirens
           "Octave": 5,
           "Duration": 1.0
         }
-      ]
+      ],
+      // These are the configs for each module relevant for this siren, if a module is not set here there won't be anything attached to it
+      "Modules": {
+        "assets/content/vehicles/modularcar/module_entities/1module_cockpit.prefab": [
+          {
+            // the prefab that will spawn
+            "Prefab": "assets/prefabs/io/electric/switches/pressbutton/pressbutton.prefab",
+            // the position of that entity
+            "Position": {
+              "x": 0.05,
+              "y": 1.7,
+              "z": 0.78
+            },
+            // the angles of that entity
+            "Angle": {
+              "x": 210.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          },
+          {
+            "Prefab": "assets/prefabs/deployable/playerioents/lights/flasherlight/electric.flasherlight.deployed.prefab",
+            "Position": {
+              "x": -0.4,
+              "y": 1.4,
+              "z": -0.9
+            },
+            "Angle": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          },
+          {
+            "Prefab": "assets/prefabs/deployable/playerioents/lights/flasherlight/electric.flasherlight.deployed.prefab",
+            "Position": {
+              "x": 0.4,
+              "y": 1.4,
+              "z": -0.9
+            },
+            "Angle": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          },
+          {
+            "Prefab": "assets/prefabs/instruments/trumpet/trumpet.weapon.prefab",
+            "Position": {
+              "x": -0.08,
+              "y": 1.4,
+              "z": -0.9
+            },
+            "Angle": {
+              "x": 148.0,
+              "y": 150.0,
+              "z": 30.0
+            }
+          }
+        ],
+        "assets/content/vehicles/modularcar/module_entities/1module_cockpit_armored.prefab": [
+          {
+            "Prefab": "assets/prefabs/io/electric/switches/pressbutton/pressbutton.prefab",
+            "Position": {
+              "x": 0.05,
+              "y": 1.7,
+              "z": 0.78
+            },
+            "Angle": {
+              "x": 210.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          },
+          {
+            "Prefab": "assets/prefabs/deployable/playerioents/lights/flasherlight/electric.flasherlight.deployed.prefab",
+            "Position": {
+              "x": -0.4,
+              "y": 1.4,
+              "z": -0.9
+            },
+            "Angle": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          },
+          {
+            "Prefab": "assets/prefabs/deployable/playerioents/lights/flasherlight/electric.flasherlight.deployed.prefab",
+            "Position": {
+              "x": 0.4,
+              "y": 1.4,
+              "z": -0.9
+            },
+            "Angle": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          },
+          {
+            "Prefab": "assets/prefabs/instruments/trumpet/trumpet.weapon.prefab",
+            "Position": {
+              "x": -0.08,
+              "y": 1.4,
+              "z": -0.9
+            },
+            "Angle": {
+              "x": 148.0,
+              "y": 150.0,
+              "z": 30.0
+            }
+          }
+        ],
+        "assets/content/vehicles/modularcar/module_entities/1module_cockpit_with_engine.prefab": [
+          {
+            "Prefab": "assets/prefabs/io/electric/switches/pressbutton/pressbutton.prefab",
+            "Position": {
+              "x": 0.05,
+              "y": 1.7,
+              "z": 0.78
+            },
+            "Angle": {
+              "x": 210.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          },
+          {
+            "Prefab": "assets/prefabs/deployable/playerioents/lights/flasherlight/electric.flasherlight.deployed.prefab",
+            "Position": {
+              "x": -0.4,
+              "y": 1.4,
+              "z": -0.9
+            },
+            "Angle": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          },
+          {
+            "Prefab": "assets/prefabs/deployable/playerioents/lights/flasherlight/electric.flasherlight.deployed.prefab",
+            "Position": {
+              "x": 0.4,
+              "y": 1.4,
+              "z": -0.9
+            },
+            "Angle": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          },
+          {
+            "Prefab": "assets/prefabs/instruments/trumpet/trumpet.weapon.prefab",
+            "Position": {
+              "x": -0.08,
+              "y": 1.4,
+              "z": -0.9
+            },
+            "Angle": {
+              "x": 148.0,
+              "y": 150.0,
+              "z": 30.0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "Name": "warning-lights",
+      "Tones": [],
+      "Modules": {
+        "assets/content/vehicles/modularcar/module_entities/1module_cockpit.prefab": [
+          {
+            "Prefab": "assets/prefabs/io/electric/switches/pressbutton/pressbutton.prefab",
+            "Position": {
+              "x": 0.05,
+              "y": 1.7,
+              "z": 0.78
+            },
+            "Angle": {
+              "x": 210.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          },
+          {
+            "Prefab": "assets/prefabs/deployable/playerioents/lights/sirenlight/electric.sirenlight.deployed.prefab",
+            "Position": {
+              "x": -0.4,
+              "y": 1.4,
+              "z": -0.9
+            },
+            "Angle": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          },
+          {
+            "Prefab": "assets/prefabs/deployable/playerioents/lights/sirenlight/electric.sirenlight.deployed.prefab",
+            "Position": {
+              "x": 0.4,
+              "y": 1.4,
+              "z": -0.9
+            },
+            "Angle": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          }
+        ],
+        "assets/content/vehicles/modularcar/module_entities/1module_cockpit_armored.prefab": [
+          {
+            "Prefab": "assets/prefabs/io/electric/switches/pressbutton/pressbutton.prefab",
+            "Position": {
+              "x": 0.05,
+              "y": 1.7,
+              "z": 0.78
+            },
+            "Angle": {
+              "x": 210.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          },
+          {
+            "Prefab": "assets/prefabs/deployable/playerioents/lights/sirenlight/electric.sirenlight.deployed.prefab",
+            "Position": {
+              "x": -0.4,
+              "y": 1.4,
+              "z": -0.9
+            },
+            "Angle": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          },
+          {
+            "Prefab": "assets/prefabs/deployable/playerioents/lights/sirenlight/electric.sirenlight.deployed.prefab",
+            "Position": {
+              "x": 0.4,
+              "y": 1.4,
+              "z": -0.9
+            },
+            "Angle": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          }
+        ],
+        "assets/content/vehicles/modularcar/module_entities/1module_cockpit_with_engine.prefab": [
+          {
+            "Prefab": "assets/prefabs/io/electric/switches/pressbutton/pressbutton.prefab",
+            "Position": {
+              "x": 0.05,
+              "y": 1.7,
+              "z": 0.78
+            },
+            "Angle": {
+              "x": 210.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          },
+          {
+            "Prefab": "assets/prefabs/deployable/playerioents/lights/sirenlight/electric.sirenlight.deployed.prefab",
+            "Position": {
+              "x": -0.4,
+              "y": 1.4,
+              "z": -0.9
+            },
+            "Angle": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          },
+          {
+            "Prefab": "assets/prefabs/deployable/playerioents/lights/sirenlight/electric.sirenlight.deployed.prefab",
+            "Position": {
+              "x": 0.4,
+              "y": 1.4,
+              "z": -0.9
+            },
+            "Angle": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          }
+        ]
+      }
     }
-  ],
-  
-  // These are the spawn positions and angles for the siren parts and implictly the supported module list
-  // If there is no position entry for a prefab then no siren will be spawned on that module
-  "LeftSirenPositions": {
-    "assets/content/vehicles/modularcar/module_entities/1module_cockpit.prefab": {
-      "x": -0.4,
-      "y": 1.4,
-      "z": -0.9
-    },
-    "assets/content/vehicles/modularcar/module_entities/1module_cockpit_armored.prefab": {
-      "x": -0.4,
-      "y": 1.4,
-      "z": -0.9
-    },
-    "assets/content/vehicles/modularcar/module_entities/1module_cockpit_with_engine.prefab": {
-      "x": -0.4,
-      "y": 1.4,
-      "z": -0.9
-    }
-  },
-  "LeftSirenAngles": {},
-  "RightSirenPositions": {
-    "assets/content/vehicles/modularcar/module_entities/1module_cockpit.prefab": {
-      "x": 0.4,
-      "y": 1.4,
-      "z": -0.9
-    },
-    "assets/content/vehicles/modularcar/module_entities/1module_cockpit_armored.prefab": {
-      "x": 0.4,
-      "y": 1.4,
-      "z": -0.9
-    },
-    "assets/content/vehicles/modularcar/module_entities/1module_cockpit_with_engine.prefab": {
-      "x": 0.4,
-      "y": 1.4,
-      "z": -0.9
-    }
-  },
-  "RightSirenAngles": {},
-  "TrumpetPositions": {
-    "assets/content/vehicles/modularcar/module_entities/1module_cockpit.prefab": {
-      "x": -0.08,
-      "y": 1.4,
-      "z": -0.9
-    },
-    "assets/content/vehicles/modularcar/module_entities/1module_cockpit_armored.prefab": {
-      "x": -0.08,
-      "y": 1.4,
-      "z": -0.9
-    },
-    "assets/content/vehicles/modularcar/module_entities/1module_cockpit_with_engine.prefab": {
-      "x": -0.08,
-      "y": 1.4,
-      "z": -0.9
-    }
-  },
-  "TrumpetAngles": {
-    "assets/content/vehicles/modularcar/module_entities/1module_cockpit.prefab": {
-      "x": 148.0,
-      "y": 150.0,
-      "z": 30.0
-    },
-    "assets/content/vehicles/modularcar/module_entities/1module_cockpit_armored.prefab": {
-      "x": 148.0,
-      "y": 150.0,
-      "z": 30.0
-    },
-    "assets/content/vehicles/modularcar/module_entities/1module_cockpit_with_engine.prefab": {
-      "x": 148.0,
-      "y": 150.0,
-      "z": 30.0
-    }
-  },
-  "ButtonPositions": {
-    "assets/content/vehicles/modularcar/module_entities/1module_cockpit.prefab": {
-      "x": 0.05,
-      "y": 1.7,
-      "z": 0.78
-    },
-    "assets/content/vehicles/modularcar/module_entities/1module_cockpit_armored.prefab": {
-      "x": 0.05,
-      "y": 1.7,
-      "z": 0.78
-    },
-    "assets/content/vehicles/modularcar/module_entities/1module_cockpit_with_engine.prefab": {
-      "x": 0.05,
-      "y": 1.7,
-      "z": 0.78
-    }
-  },
-  "ButtonAngles": {
-    "assets/content/vehicles/modularcar/module_entities/1module_cockpit.prefab": {
-      "x": 210.0,
-      "y": 0.0,
-      "z": 0.0
-    },
-    "assets/content/vehicles/modularcar/module_entities/1module_cockpit_armored.prefab": {
-      "x": 210.0,
-      "y": 0.0,
-      "z": 0.0
-    },
-    "assets/content/vehicles/modularcar/module_entities/1module_cockpit_with_engine.prefab": {
-      "x": 210.0,
-      "y": 0.0,
-      "z": 0.0
-    }
-  },
-  
-  // These are the used assets from the game and should not be changed unless not working anymore
-  "PrefabFlasherLight": "assets/prefabs/deployable/playerioents/lights/flasherlight/electric.flasherlight.deployed.prefab",
-  "PrefabTrumpet": "assets/prefabs/instruments/trumpet/trumpet.weapon.prefab",
-  "PrefabButton": "assets/prefabs/deployable/playerioents/button/button.prefab"
+  ]
+}
 ```
