@@ -506,7 +506,7 @@ namespace Oxide.Plugins
                 {
                     if (entityPrefabs == null)
                     {
-                        entityPrefabs = Siren.Modules.Values.SelectMany(x => x).Select(x => x.Prefab).Distinct().ToHashSet();
+                        entityPrefabs = new HashSet<string>(Siren.Modules.Values.SelectMany(x => x).Select(x => x.Prefab));
                     }
                     return entityPrefabs;
                 }
