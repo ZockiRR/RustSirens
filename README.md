@@ -10,7 +10,7 @@ Example: /attachsirens police-germany
 ```
 
 #### Syntax - Options
- - **sirenname** - The name of the siren melody which will be used for this car (default: the first in the configlist)
+ - **sirenname** - The name of the siren which will be used for this car (default: the first in the configlist)
 
 ### DetachSirens
 
