@@ -5,12 +5,13 @@ using UnityEngine;
 using System.Linq;
 using static InstrumentKeyController;
 using Oxide.Core;
+using Oxide.Core.Libraries.Covalence;
 
 namespace Oxide.Plugins
 {
-    [Info("Sirens", "ZockiRR", "1.2.0")]
+    [Info("Sirens", "ZockiRR", "2.0.0")]
     [Description("Gives players the ability to attach sirens to modular cars")]
-    class Sirens : RustPlugin
+    class Sirens : CovalencePlugin
     {
         #region variables
         private const string PERMISSION_ATTACHSIRENS = "sirens.attachsirens";
@@ -18,10 +19,6 @@ namespace Oxide.Plugins
         private const string PERMISSION_ATTACHSIRENS_GLOBAL = "sirens.attachallsirens";
         private const string PERMISSION_DETACHSIRENS_GLOBAL = "sirens.detachallsirens";
 
-        private const string I18N_MISSING_PERMISSION_ATTACHSIRENS = "NoPermissionAttachSirens";
-        private const string I18N_MISSING_PERMISSION_DETACHSIRENS = "NoPermissionDetachSirens";
-        private const string I18N_MISSING_PERMISSION_ATTACHSIRENS_GLOBAL = "NoPermissionAttachSirensGlobal";
-        private const string I18N_MISSING_PERMISSION_DETACHSIRENS_GLOBAL = "NoPermissionDetachSirensGlobal";
         private const string I18N_MISSING_SIREN = "NoSirenForName";
         private const string I18N_COULD_NOT_ATTACH = "CouldNotAttach";
         private const string I18N_ATTACHED = "Attached";
@@ -30,6 +27,7 @@ namespace Oxide.Plugins
         private const string I18N_DETACHED_GLOBAL = "DetachedGlobal";
         private const string I18N_NOT_A_CAR = "NotACar";
         private const string I18N_SIRENS = "Sirens";
+        private const string I18N_PLAYERS_ONLY = "PlayersOnly";
 
         // Initial prefabs
         private const string PREFAB_COCKPIT = "assets/content/vehicles/modularcar/module_entities/1module_cockpit.prefab";
@@ -259,10 +257,6 @@ namespace Oxide.Plugins
         {
             lang.RegisterMessages(new Dictionary<string, string>
             {
-                [I18N_MISSING_PERMISSION_ATTACHSIRENS] = "You are not allowed to attach car sirens",
-                [I18N_MISSING_PERMISSION_DETACHSIRENS] = "You are not allowed to detach car sirens",
-                [I18N_MISSING_PERMISSION_ATTACHSIRENS_GLOBAL] = "You are not allowed to attach car sirens globally",
-                [I18N_MISSING_PERMISSION_DETACHSIRENS_GLOBAL] = "You are not allowed to detach car sirens globally",
                 [I18N_MISSING_SIREN] = "No siren was found for the given name (using {0} instead)",
                 [I18N_COULD_NOT_ATTACH] = "Could not attach \"{0}\"",
                 [I18N_ATTACHED] = "Attached siren \"{0}\"",
@@ -270,18 +264,19 @@ namespace Oxide.Plugins
                 [I18N_DETACHED] = "Detached siren",
                 [I18N_DETACHED_GLOBAL] = "Detached all existing sirens",
                 [I18N_NOT_A_CAR] = "This entity is not a car",
-                [I18N_SIRENS] = "Available sirens: {0}"
+                [I18N_SIRENS] = "Available sirens: {0}",
+                [I18N_PLAYERS_ONLY] = "Command '{0}' can only be used by a player"
             }, this);
         }
         #endregion localization
 
         #region chatommands
-        [ChatCommand("attachsirens")]
-        private void AttachCarSirens(BasePlayer aPlayer, string aCommand, string[] someArgs)
+        [Command("attachsirens"), Permission(PERMISSION_ATTACHSIRENS)]
+        private void AttachCarSirens(IPlayer aPlayer, string aCommand, string[] someArgs)
         {
-            if (!permission.UserHasPermission(aPlayer.UserIDString, PERMISSION_ATTACHSIRENS))
+            if (aPlayer.IsServer)
             {
-                aPlayer.ChatMessage(Lang(I18N_MISSING_PERMISSION_ATTACHSIRENS, aPlayer.UserIDString));
+                Message(aPlayer, I18N_PLAYERS_ONLY, aCommand);
                 return;
             }
 
@@ -290,66 +285,51 @@ namespace Oxide.Plugins
             {
                 Siren theSiren = someArgs.Length > 0 ? FindSirenForName(someArgs[0], aPlayer) : SirenMapping.Values.First();
                 AttachCarSirens(aCar, theSiren, config.DefaultState, aPlayer);
-                aPlayer.ChatMessage(Lang(I18N_ATTACHED, aPlayer.UserIDString, theSiren.Name));
+                Message(aPlayer, I18N_ATTACHED, theSiren.Name);
             }
         }
 
-        [ChatCommand("detachsirens")]
-        private void DetachCarSirens(BasePlayer aPlayer, string aCommand, string[] someArgs)
+        [Command("detachsirens"), Permission(PERMISSION_DETACHSIRENS)]
+        private void DetachCarSirens(IPlayer aPlayer, string aCommand, string[] someArgs)
         {
-            if (!permission.UserHasPermission(aPlayer.UserIDString, PERMISSION_DETACHSIRENS))
+            if (aPlayer.IsServer)
             {
-                aPlayer.ChatMessage(Lang(I18N_MISSING_PERMISSION_DETACHSIRENS, aPlayer.UserIDString));
+                Message(aPlayer, I18N_PLAYERS_ONLY, aCommand);
                 return;
             }
 
             ModularCar aCar = RaycastVehicleModule(aPlayer);
-            if (aCar)
+            if (aCar && DetachCarSirens(aCar))
             {
-                if (DetachCarSirens(aCar))
-                {
-                    aPlayer.ChatMessage(Lang(I18N_DETACHED, aPlayer.UserIDString));
-                }
+                Message(aPlayer, I18N_DETACHED);
             }
         }
 
-        [ChatCommand("attachallsirens")]
-        private void AttachAllCarSirens(BasePlayer aPlayer, string aCommand, string[] someArgs)
+        [Command("attachallsirens"), Permission(PERMISSION_ATTACHSIRENS_GLOBAL)]
+        private void AttachAllCarSirens(IPlayer aPlayer, string aCommand, string[] someArgs)
         {
-            if (!permission.UserHasPermission(aPlayer.UserIDString, PERMISSION_ATTACHSIRENS_GLOBAL))
-            {
-                aPlayer.ChatMessage(Lang(I18N_MISSING_PERMISSION_ATTACHSIRENS_GLOBAL, aPlayer.UserIDString));
-                return;
-            }
-
             Siren theSiren = someArgs.Length > 0 ? FindSirenForName(someArgs[0], aPlayer) : SirenMapping.Values.First();
             foreach (ModularCar eachCar in BaseNetworkable.serverEntities.OfType<ModularCar>())
             {
                 AttachCarSirens(eachCar, theSiren, config.DefaultState, aPlayer);
             }
-            aPlayer.ChatMessage(Lang(I18N_ATTACHED_GLOBAL, aPlayer.UserIDString, theSiren.Name));
+            Message(aPlayer, I18N_ATTACHED_GLOBAL, theSiren.Name);
         }
 
-        [ChatCommand("detachallsirens")]
-        private void DetachAllCarSirens(BasePlayer aPlayer, string aCommand, string[] someArgs)
+        [Command("detachallsirens"), Permission(PERMISSION_DETACHSIRENS_GLOBAL)]
+        private void DetachAllCarSirens(IPlayer aPlayer, string aCommand, string[] someArgs)
         {
-            if (!permission.UserHasPermission(aPlayer.UserIDString, PERMISSION_DETACHSIRENS_GLOBAL))
-            {
-                aPlayer.ChatMessage(Lang(I18N_MISSING_PERMISSION_DETACHSIRENS_GLOBAL, aPlayer.UserIDString));
-                return;
-            }
-
             foreach (ModularCar eachCar in BaseNetworkable.serverEntities.OfType<ModularCar>())
             {
                 DetachCarSirens(eachCar);
             }
-            aPlayer.ChatMessage(Lang(I18N_DETACHED_GLOBAL, aPlayer.UserIDString));
+            Message(aPlayer, I18N_DETACHED_GLOBAL);
         }
 
-        [ChatCommand("listsirens")]
-        private void ListSirens(BasePlayer aPlayer, string aCommand, string[] someArgs)
+        [Command("listsirens")]
+        private void ListSirens(IPlayer aPlayer, string aCommand, string[] someArgs)
         {
-            aPlayer.ChatMessage(Lang(I18N_SIRENS, aPlayer.UserIDString, string.Join(", ", SirenMapping.Keys)));
+            Message(aPlayer, I18N_SIRENS, string.Join(", ", SirenMapping.Keys));
         }
         #endregion chatommands
 
@@ -377,11 +357,6 @@ namespace Oxide.Plugins
 
         private void OnServerInitialized(bool anInitialFlag)
         {
-            permission.RegisterPermission(PERMISSION_ATTACHSIRENS, this);
-            permission.RegisterPermission(PERMISSION_DETACHSIRENS, this);
-            permission.RegisterPermission(PERMISSION_ATTACHSIRENS_GLOBAL, this);
-            permission.RegisterPermission(PERMISSION_DETACHSIRENS_GLOBAL, this);
-
             // Reattach on server restart
             DataContainer thePersistentData = Interface.Oxide.DataFileSystem.ReadObject<DataContainer>(Name);
             foreach (ModularCar eachCar in BaseNetworkable.serverEntities.OfType<ModularCar>())
@@ -448,7 +423,7 @@ namespace Oxide.Plugins
         #endregion hooks
 
         #region methods
-        private void AttachCarSirens(ModularCar aCar, Siren aSiren, SirenController.States anInitialState, BasePlayer aPlayer = null)
+        private void AttachCarSirens(ModularCar aCar, Siren aSiren, SirenController.States anInitialState, IPlayer aPlayer = null)
         {
             DetachCarSirens(aCar);
             SirenController theController = CreateSirenController(aCar, aSiren);
@@ -462,7 +437,10 @@ namespace Oxide.Plugins
                         BaseEntity theNewEntity = AttachEntityToModule(eachModule, eachAttachment.Prefab, eachAttachment.Position, eachAttachment.Angle);
                         if (!theNewEntity)
                         {
-                            aPlayer?.ChatMessage(Lang(I18N_COULD_NOT_ATTACH, aPlayer.UserIDString, eachAttachment.Prefab));
+                            if (aPlayer != null)
+                            {
+                                Message(aPlayer, I18N_COULD_NOT_ATTACH, eachAttachment.Prefab);
+                            }
                         }
                     }
                 }
@@ -551,10 +529,10 @@ namespace Oxide.Plugins
         #endregion methods
 
         #region helpers
-        private ModularCar RaycastVehicleModule(BasePlayer aPlayer)
+        private ModularCar RaycastVehicleModule(IPlayer aPlayer)
         {
             RaycastHit theHit;
-            if (!Physics.Raycast(aPlayer.eyes.HeadRay(), out theHit, 5f))
+            if (!Physics.Raycast((aPlayer.Object as BasePlayer).eyes.HeadRay(), out theHit, 5f))
             {
                 return null;
             }
@@ -562,23 +540,41 @@ namespace Oxide.Plugins
             ModularCar theCar = theHit.GetEntity()?.GetComponentInParent<ModularCar>();
             if (!theCar)
             {
-                aPlayer.ChatMessage(Lang(I18N_NOT_A_CAR, aPlayer.UserIDString));
+                Message(aPlayer, I18N_NOT_A_CAR);
             }
             return theCar;
         }
 
-        private Siren FindSirenForName(string aName, BasePlayer aPlayer)
+        private Siren FindSirenForName(string aName, IPlayer aPlayer)
         {
             Siren theSiren;
             if (!SirenMapping.TryGetValue(aName, out theSiren))
             {
                 theSiren = SirenMapping.Values.First();
-                aPlayer.ChatMessage(Lang(I18N_MISSING_SIREN, aPlayer.UserIDString, theSiren.Name));
+                Message(aPlayer, I18N_MISSING_SIREN, theSiren.Name);
             }
             return theSiren;
         }
 
-        private string Lang(string aKey, string aUserID = null, params object[] someArgs) => string.Format(lang.GetMessage(aKey, this, aUserID), someArgs);
+        private string GetText(string aKey, string aPlayerId = null, params object[] someArgs) => string.Format(lang.GetMessage(aKey, this, aPlayerId), someArgs);
+
+        private void Message(IPlayer aPlayer, string anI18nKey, params object[] someArgs)
+        {
+            if (aPlayer.IsConnected)
+            {
+                string theText = GetText(anI18nKey, aPlayer.Id, someArgs);
+                aPlayer.Reply(theText != anI18nKey ? theText : anI18nKey);
+            }
+        }
+
+        private void Message(BasePlayer aPlayer, string anI18nKey, params object[] someArgs)
+        {
+            if (aPlayer.IsConnected)
+            {
+                string theText = GetText(anI18nKey, aPlayer.UserIDString, someArgs);
+                aPlayer.ChatMessage(theText != anI18nKey ? theText : anI18nKey);
+            }
+        }
         #endregion helpers
 
         #region controllers
