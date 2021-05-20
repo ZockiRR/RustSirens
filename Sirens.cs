@@ -357,6 +357,11 @@ namespace Oxide.Plugins
 
         private void OnServerInitialized(bool anInitialFlag)
         {
+            if (config.SirenSpawnProbability <= 0f)
+            {
+                Unsubscribe("OnEntitySpawned");
+            }
+
             // Reattach on server restart
             DataContainer thePersistentData = Interface.Oxide.DataFileSystem.ReadObject<DataContainer>(Name);
             foreach (ModularCar eachCar in BaseNetworkable.serverEntities.OfType<ModularCar>())
@@ -403,20 +408,16 @@ namespace Oxide.Plugins
 
         private void OnEntitySpawned(BaseNetworkable anEntity)
         {
-            if (config.SirenSpawnProbability > 0f)
+            ModularCar theCar = anEntity.GetComponent<ModularCar>();
+            if (theCar)
             {
-                ModularCar theCar = anEntity.GetComponent<ModularCar>();
-                if (theCar)
+                SirenController theController = theCar.GetComponent<SirenController>();
+                if (!theController)
                 {
-                    SirenController theController = theCar.GetComponent<SirenController>();
-                    if (!theController)
+                    if (Core.Random.Range(0f, 1f) < config.SirenSpawnProbability)
                     {
-                        if (Core.Random.Range(0f, 1f) < config.SirenSpawnProbability)
-                        {
-                            AttachCarSirens(theCar, SirenMapping.Values.First(), config.DefaultState);
-                        }
+                        AttachCarSirens(theCar, SirenMapping.Values.First(), config.DefaultState);
                     }
-
                 }
             }
         }
