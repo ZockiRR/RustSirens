@@ -437,6 +437,7 @@ namespace Oxide.Plugins
                         BaseEntity theNewEntity = AttachEntityToModule(eachModule, eachAttachment.Prefab, eachAttachment.Position, eachAttachment.Angle);
                         if (!theNewEntity)
                         {
+                            theController.NetIDs.Add(theNewEntity.net.ID);
                             if (aPlayer != null)
                             {
                                 Message(aPlayer, I18N_COULD_NOT_ATTACH, eachAttachment.Prefab);
@@ -468,7 +469,7 @@ namespace Oxide.Plugins
             {
                 foreach (BaseEntity eachEntity in aCar.GetComponentsInChildren<BaseEntity>())
                 {
-                    if (theController.EntityPrefabs.Contains(eachEntity.PrefabName))
+                    if (theController.NetIDs.Contains(eachEntity.net.ID))
                     {
                         Destroy(eachEntity);
                     }
@@ -588,24 +589,10 @@ namespace Oxide.Plugins
 
             private ModularCar car;
             private InstrumentTool trumpet;
-            private HashSet<string> entityPrefabs;
-            private Siren siren;
             public Configuration Config { get; set; }
             public States State { get; private set; }
-            public Siren Siren {
-                get { return siren; }
-                set { entityPrefabs = null; siren = value; }
-            }
-            public HashSet<string> EntityPrefabs {
-                get
-                {
-                    if (entityPrefabs == null)
-                    {
-                        entityPrefabs = new HashSet<string>(Siren?.Modules?.Values.SelectMany(x => x).Select(x => x.Prefab) ?? new string[0]);
-                    }
-                    return entityPrefabs;
-                }
-            }
+            public Siren Siren { get; set; }
+            public HashSet<uint> NetIDs { get; } = new HashSet<uint>();
 
             public States ChangeState()
             {
@@ -631,7 +618,7 @@ namespace Oxide.Plugins
                 bool theLightsOnFlag = State > States.OFF;
                 foreach (IOEntity eachEntity in GetCar().GetComponentsInChildren<IOEntity>())
                 {
-                    if (EntityPrefabs.Contains(eachEntity.PrefabName) && !(eachEntity is PressButton))
+                    if (NetIDs.Contains(eachEntity.net.ID) && !(eachEntity is PressButton))
                     {
                         ToogleSirens(eachEntity, theLightsOnFlag);
                     }
