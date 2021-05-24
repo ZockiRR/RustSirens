@@ -80,9 +80,6 @@ namespace Oxide.Plugins
                     new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.4f, 1.4f, -0.9f))
                 }
             });
-
-        // Siren-Name-Mapping
-        private readonly Dictionary<string, Siren> SirenMapping = new Dictionary<string, Siren>();
         #endregion variables
 
         #region Data
@@ -94,13 +91,15 @@ namespace Oxide.Plugins
 
         private class CarContainer
         {
-            public Siren Siren = SIREN_DEFAULT;
+            public string SirenName = SIREN_DEFAULT.Name;
             public SirenController.States State = SirenController.States.OFF;
+            public ISet<uint> NetIDs = new HashSet<uint>();
 
-            public CarContainer(Siren aSiren, SirenController.States aState)
+            public CarContainer(string aSirenName, SirenController.States aState, IEnumerable<uint> someNetIDs)
             {
-                Siren = aSiren;
+                SirenName = aSirenName;
                 State = aState;
+                NetIDs.UnionWith(someNetIDs);
             }
         }
         #endregion Data
@@ -108,6 +107,7 @@ namespace Oxide.Plugins
         #region Configuration
 
         private Configuration config;
+        private IDictionary<string, Siren> SirenDictionary { get; } = new Dictionary<string, Siren>();
 
         private class Configuration
         {
@@ -122,9 +122,6 @@ namespace Oxide.Plugins
 
             [JsonProperty("DefaultState")]
             public SirenController.States DefaultState = SirenController.States.OFF;
-
-            [JsonProperty("Sirens")]
-            public Siren[] Sirens = { SIREN_DEFAULT, SIREN_SILENT };
 
             public string ToJson() => JsonConvert.SerializeObject(this);
 
@@ -204,7 +201,13 @@ namespace Oxide.Plugins
             public Dictionary<string, object> ToDictionary() => JsonConvert.DeserializeObject<Dictionary<string, object>>(ToJson());
         }
 
-        protected override void LoadDefaultConfig() => config = new Configuration();
+        protected override void LoadDefaultConfig()
+        {
+            config = new Configuration();
+            SirenDictionary.Clear();
+            SirenDictionary.Add(SIREN_DEFAULT.Name, SIREN_DEFAULT);
+            SirenDictionary.Add(SIREN_SILENT.Name, SIREN_SILENT);
+        }
 
         protected override void LoadConfig()
         {
@@ -217,25 +220,25 @@ namespace Oxide.Plugins
                     throw new JsonException();
                 }
 
+                foreach (string eachSirenFile in Interface.Oxide.DataFileSystem.GetFiles("sirens", "*.json"))
+                {
+                    Siren theSiren = Interface.Oxide.DataFileSystem.ReadObject<Siren>(eachSirenFile);
+                    SirenDictionary.Add(theSiren.Name, theSiren);
+                }
+
+                if (SirenDictionary.IsEmpty())
+                {
+                    PrintWarning("Configuration appears to be missing sirens; using defaults");
+                    SirenDictionary.Add(SIREN_DEFAULT.Name, SIREN_DEFAULT);
+                    SirenDictionary.Add(SIREN_SILENT.Name, SIREN_SILENT);
+                }
+
                 if (!config.ToDictionary().Keys.SequenceEqual(Config.ToDictionary(x => x.Key, x => x.Value).Keys))
                 {
                     PrintWarning("Configuration appears to be outdated; updating and saving");
                     SaveConfig();
                 }
 
-                foreach (Siren eachSiren in config.Sirens)
-                {
-                    if (!SirenMapping.ContainsKey(eachSiren.Name))
-                    {
-                        SirenMapping.Add(eachSiren.Name, eachSiren);
-                    }
-                }
-                if (SirenMapping.IsEmpty())
-                {
-                    PrintWarning("Configuration appears to be missing sirens; using defaults");
-                    SirenMapping.Add(SIREN_DEFAULT.Name, SIREN_DEFAULT);
-                    SirenMapping.Add(SIREN_SILENT.Name, SIREN_SILENT);
-                }
             }
             catch
             {
@@ -248,8 +251,12 @@ namespace Oxide.Plugins
         {
             PrintWarning($"Configuration changes saved to {Name}.json");
             Config.WriteObject(config, true);
-        }
 
+            foreach (Siren eachSiren in SirenDictionary.Values)
+            {
+                Interface.Oxide.DataFileSystem.WriteObject("sirens/" + eachSiren.Name, eachSiren);
+            }
+        }
         #endregion Configuration
 
         #region localization
@@ -283,7 +290,7 @@ namespace Oxide.Plugins
             ModularCar aCar = RaycastVehicleModule(aPlayer);
             if (aCar)
             {
-                Siren theSiren = someArgs.Length > 0 ? FindSirenForName(someArgs[0], aPlayer) : SirenMapping.Values.First();
+                Siren theSiren = someArgs.Length > 0 ? FindSirenForName(someArgs[0], aPlayer) : SirenDictionary.Values.First();
                 AttachCarSirens(aCar, theSiren, config.DefaultState, aPlayer);
                 Message(aPlayer, I18N_ATTACHED, theSiren.Name);
             }
@@ -308,7 +315,7 @@ namespace Oxide.Plugins
         [Command("attachallsirens"), Permission(PERMISSION_ATTACHSIRENS_GLOBAL)]
         private void AttachAllCarSirens(IPlayer aPlayer, string aCommand, string[] someArgs)
         {
-            Siren theSiren = someArgs.Length > 0 ? FindSirenForName(someArgs[0], aPlayer) : SirenMapping.Values.First();
+            Siren theSiren = someArgs.Length > 0 ? FindSirenForName(someArgs[0], aPlayer) : SirenDictionary.Values.First();
             foreach (ModularCar eachCar in BaseNetworkable.serverEntities.OfType<ModularCar>())
             {
                 AttachCarSirens(eachCar, theSiren, config.DefaultState, aPlayer);
@@ -329,7 +336,7 @@ namespace Oxide.Plugins
         [Command("listsirens")]
         private void ListSirens(IPlayer aPlayer, string aCommand, string[] someArgs)
         {
-            Message(aPlayer, I18N_SIRENS, string.Join(", ", SirenMapping.Keys));
+            Message(aPlayer, I18N_SIRENS, string.Join(", ", SirenDictionary.Keys));
         }
         #endregion chatommands
 
@@ -350,7 +357,7 @@ namespace Oxide.Plugins
             foreach (ModularCar eachCar in BaseNetworkable.serverEntities.OfType<ModularCar>())
             {
                 SirenController theController = eachCar.GetComponent<SirenController>();
-                thePersistentData.CarSirenMap.Add(eachCar.net.ID, theController ? new CarContainer(theController.Siren, theController.State) : null);
+                thePersistentData.CarSirenMap.Add(eachCar.net.ID, theController ? new CarContainer(theController.Siren.Name, theController.State, theController.NetIDs) : null);
             }
             Interface.Oxide.DataFileSystem.WriteObject(Name, thePersistentData);
         }
@@ -371,8 +378,17 @@ namespace Oxide.Plugins
                 {
                     if (theContainer != null)
                     {
-                        CreateSirenController(eachCar, theContainer.Siren);
-                        AttachCarSirens(eachCar, theContainer.Siren, theContainer.State);
+                        Siren theSiren;
+                        if (SirenDictionary.TryGetValue(theContainer.SirenName, out theSiren))
+                        {
+                            CreateSirenController(eachCar, theSiren, theContainer.NetIDs);
+                            AttachCarSirens(eachCar, theSiren, theContainer.State);
+                        } else
+                        {
+                            CreateSirenController(eachCar, null, theContainer.NetIDs);
+                            DetachCarSirens(eachCar);
+                            Puts($"Missing siren for name \"{theContainer.SirenName}\". Ignoring...");
+                        }
                     }
                 } else if (config.SirenSpawnProbability > 0f)
                 {
@@ -381,7 +397,7 @@ namespace Oxide.Plugins
                     {
                         if (Core.Random.Range(0f, 1f) < config.SirenSpawnProbability)
                         {
-                            AttachCarSirens(eachCar, SirenMapping.Values.First(), config.DefaultState);
+                            AttachCarSirens(eachCar, SirenDictionary.Values.First(), config.DefaultState);
                         }
                     }
                 }
@@ -416,7 +432,7 @@ namespace Oxide.Plugins
                 {
                     if (Core.Random.Range(0f, 1f) < config.SirenSpawnProbability)
                     {
-                        AttachCarSirens(theCar, SirenMapping.Values.First(), config.DefaultState);
+                        AttachCarSirens(theCar, SirenDictionary.Values.First(), config.DefaultState);
                     }
                 }
             }
@@ -450,7 +466,7 @@ namespace Oxide.Plugins
             theController.SetState(anInitialState);
         }
 
-        private SirenController CreateSirenController(ModularCar aCar, Siren aSiren)
+        private SirenController CreateSirenController(ModularCar aCar, Siren aSiren, IEnumerable<uint> someNetIDs = null)
         {
             SirenController theController = aCar.GetComponent<SirenController>();
             if (theController)
@@ -460,6 +476,10 @@ namespace Oxide.Plugins
             theController = aCar.gameObject.AddComponent<SirenController>();
             theController.Config = config;
             theController.Siren = aSiren;
+            if (someNetIDs != null)
+            {
+                theController.NetIDs.UnionWith(someNetIDs);
+            }
             return theController;
         }
 
@@ -550,9 +570,9 @@ namespace Oxide.Plugins
         private Siren FindSirenForName(string aName, IPlayer aPlayer)
         {
             Siren theSiren;
-            if (!SirenMapping.TryGetValue(aName, out theSiren))
+            if (!SirenDictionary.TryGetValue(aName, out theSiren))
             {
-                theSiren = SirenMapping.Values.First();
+                theSiren = SirenDictionary.Values.First();
                 Message(aPlayer, I18N_MISSING_SIREN, theSiren.Name);
             }
             return theSiren;
@@ -593,7 +613,7 @@ namespace Oxide.Plugins
             public Configuration Config { get; set; }
             public States State { get; private set; }
             public Siren Siren { get; set; }
-            public HashSet<uint> NetIDs { get; } = new HashSet<uint>();
+            public ISet<uint> NetIDs { get; } = new HashSet<uint>();
 
             public States ChangeState()
             {
