@@ -6,6 +6,7 @@ using System.Linq;
 using static InstrumentKeyController;
 using Oxide.Core;
 using Oxide.Core.Libraries.Covalence;
+using Newtonsoft.Json.Converters;
 
 namespace Oxide.Plugins
 {
@@ -120,6 +121,7 @@ namespace Oxide.Plugins
             [JsonProperty("SirenSpawnProbability")]
             public float SirenSpawnProbability = 0f;
 
+            [JsonConverter(typeof(StringEnumConverter))]
             [JsonProperty("DefaultState")]
             public SirenController.States DefaultState = SirenController.States.OFF;
 
@@ -138,9 +140,11 @@ namespace Oxide.Plugins
                 Duration = aDuration;
             }
 
+            [JsonConverter(typeof(StringEnumConverter))]
             [JsonProperty("Note")]
             public Notes Note;
 
+            [JsonConverter(typeof(StringEnumConverter))]
             [JsonProperty("NoteType")]
             public NoteType NoteType;
 
