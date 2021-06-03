@@ -7,11 +7,12 @@ using static InstrumentKeyController;
 using Oxide.Core;
 using Oxide.Core.Libraries.Covalence;
 using Newtonsoft.Json.Converters;
+using System;
 
 namespace Oxide.Plugins
 {
     [Info("Sirens", "ZockiRR", "2.0.0")]
-    [Description("Gives players the ability to attach sirens to modular cars")]
+    [Description("Gives players the ability to attach sirens to vehicles")]
     class Sirens : CovalencePlugin
     {
         #region variables
@@ -22,11 +23,12 @@ namespace Oxide.Plugins
 
         private const string I18N_MISSING_SIREN = "NoSirenForName";
         private const string I18N_COULD_NOT_ATTACH = "CouldNotAttach";
+        private const string I18N_NOT_SUPPORTED = "NotSupported";
         private const string I18N_ATTACHED = "Attached";
         private const string I18N_ATTACHED_GLOBAL = "AttachedGlobal";
         private const string I18N_DETACHED = "Detached";
         private const string I18N_DETACHED_GLOBAL = "DetachedGlobal";
-        private const string I18N_NOT_A_CAR = "NotACar";
+        private const string I18N_NOT_A_VEHICLE = "NotAVehicle";
         private const string I18N_SIRENS = "Sirens";
         private const string I18N_PLAYERS_ONLY = "PlayersOnly";
 
@@ -38,6 +40,16 @@ namespace Oxide.Plugins
         private const string PREFAB_FLASHERLIGHT = "assets/prefabs/deployable/playerioents/lights/flasherlight/electric.flasherlight.deployed.prefab";
         private const string PREFAB_SIRENLIGHT = "assets/prefabs/deployable/playerioents/lights/sirenlight/electric.sirenlight.deployed.prefab";
         private const string PREFAB_TRUMPET = "assets/prefabs/instruments/trumpet/trumpet.weapon.prefab";
+
+        private const string PREFAB_SEDAN = "assets/content/vehicles/sedan_a/sedantest.entity.prefab";
+        private const string PREFAB_MINICOPTER = "assets/content/vehicles/minicopter/minicopter.entity.prefab";
+        private const string PREFAB_TRANSPORTHELI = "assets/content/vehicles/scrap heli carrier/scraptransporthelicopter.prefab";
+        private const string PREFAB_RHIB = "assets/content/vehicles/boats/rhib/rhib.prefab";
+        private const string PREFAB_ROWBOAT = "assets/content/vehicles/boats/rowboat/rowboat.prefab";
+        private const string PREFAB_WORKCART = "assets/content/vehicles/workcart/workcart.entity.prefab";
+        private const string PREFAB_MAGNETCRANE = "assets/content/vehicles/crane_magnet/magnetcrane.entity.prefab";
+
+        private const string KEY_MODULAR_CAR = "KEY_MODULAR_CAR";
 
         // Preconfigured sirens
         private static readonly Siren SIREN_DEFAULT = new Siren("police-germany",
@@ -56,6 +68,51 @@ namespace Oxide.Plugins
                     new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 1.4f, -0.9f), new Vector3(148f, 150f, 30f))
                 },
                 [PREFAB_COCKPIT_WITH_ENGINE] = new Attachment[] {
+                    new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 1.7f, 0.78f), new Vector3(210f, 0f, 0f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.4f, 1.4f, -0.9f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.4f, 1.4f, -0.9f)),
+                    new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 1.4f, -0.9f), new Vector3(148f, 150f, 30f))
+                }
+            },
+            new Dictionary<string, Attachment[]>
+            {
+                [PREFAB_SEDAN] = new Attachment[] {
+                    new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 1.7f, 0.78f), new Vector3(210f, 0f, 0f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.4f, 1.4f, -0.9f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.4f, 1.4f, -0.9f)),
+                    new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 1.4f, -0.9f), new Vector3(148f, 150f, 30f))
+                },
+                [PREFAB_MINICOPTER] = new Attachment[] {
+                    new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 1.7f, 0.78f), new Vector3(210f, 0f, 0f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.4f, 1.4f, -0.9f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.4f, 1.4f, -0.9f)),
+                    new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 1.4f, -0.9f), new Vector3(148f, 150f, 30f))
+                },
+                [PREFAB_TRANSPORTHELI] = new Attachment[] {
+                    new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 1.7f, 0.78f), new Vector3(210f, 0f, 0f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.4f, 1.4f, -0.9f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.4f, 1.4f, -0.9f)),
+                    new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 1.4f, -0.9f), new Vector3(148f, 150f, 30f))
+                },
+                [PREFAB_RHIB] = new Attachment[] {
+                    new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 1.7f, 0.78f), new Vector3(210f, 0f, 0f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.4f, 1.4f, -0.9f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.4f, 1.4f, -0.9f)),
+                    new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 1.4f, -0.9f), new Vector3(148f, 150f, 30f))
+                },
+                [PREFAB_ROWBOAT] = new Attachment[] {
+                    new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 1.7f, 0.78f), new Vector3(210f, 0f, 0f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.4f, 1.4f, -0.9f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.4f, 1.4f, -0.9f)),
+                    new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 1.4f, -0.9f), new Vector3(148f, 150f, 30f))
+                },
+                [PREFAB_WORKCART] = new Attachment[] {
+                    new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 1.7f, 0.78f), new Vector3(210f, 0f, 0f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.4f, 1.4f, -0.9f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.4f, 1.4f, -0.9f)),
+                    new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 1.4f, -0.9f), new Vector3(148f, 150f, 30f))
+                },
+                [PREFAB_MAGNETCRANE] = new Attachment[] {
                     new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 1.7f, 0.78f), new Vector3(210f, 0f, 0f)),
                     new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.4f, 1.4f, -0.9f)),
                     new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.4f, 1.4f, -0.9f)),
@@ -80,32 +137,34 @@ namespace Oxide.Plugins
                     new Attachment(PREFAB_SIRENLIGHT, new Vector3(-0.4f, 1.4f, -0.9f)),
                     new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.4f, 1.4f, -0.9f))
                 }
-            });
+            },
+            new Dictionary<string, Attachment[]>
+            { });
         #endregion variables
 
-        #region Data
+        #region data
         private class DataContainer
         {
-            // Map ModularCar.net.ID -> Siren
-            public Dictionary<uint, CarContainer> CarSirenMap = new Dictionary<uint, CarContainer>();
+            // Map BaseVehicle.net.ID -> SirenInfos
+            public Dictionary<uint, VehicleContainer> VehicleSirenMap = new Dictionary<uint, VehicleContainer>();
         }
 
-        private class CarContainer
+        private class VehicleContainer
         {
             public string SirenName = SIREN_DEFAULT.Name;
             public SirenController.States State = SirenController.States.OFF;
             public ISet<uint> NetIDs = new HashSet<uint>();
 
-            public CarContainer(string aSirenName, SirenController.States aState, IEnumerable<uint> someNetIDs)
+            public VehicleContainer(string aSirenName, SirenController.States aState, IEnumerable<uint> someNetIDs)
             {
                 SirenName = aSirenName;
                 State = aState;
                 NetIDs.UnionWith(someNetIDs);
             }
         }
-        #endregion Data
+        #endregion data
 
-        #region Configuration
+        #region configuration
 
         private Configuration config;
         private IDictionary<string, Siren> SirenDictionary { get; } = new Dictionary<string, Siren>();
@@ -119,7 +178,17 @@ namespace Oxide.Plugins
             public bool SoundEnabled = true;
 
             [JsonProperty("SirenSpawnProbability")]
-            public float SirenSpawnProbability = 0f;
+            public Dictionary<string, float> SirenSpawnProbability = new Dictionary<string, float>
+            {
+                [KEY_MODULAR_CAR] = 0f,
+                [PREFAB_SEDAN] = 0f,
+                [PREFAB_MINICOPTER] = 0f,
+                [PREFAB_TRANSPORTHELI] = 0f,
+                [PREFAB_RHIB] = 0f,
+                [PREFAB_ROWBOAT] = 0f,
+                [PREFAB_WORKCART] = 0f,
+                [PREFAB_MAGNETCRANE] = 0f
+            };
 
             [JsonConverter(typeof(StringEnumConverter))]
             [JsonProperty("DefaultState")]
@@ -161,10 +230,11 @@ namespace Oxide.Plugins
 
         private class Siren
         {
-            public Siren(string aName, Dictionary<string, Attachment[]> someModules, params Tone[] someTones)
+            public Siren(string aName, Dictionary<string, Attachment[]> someModules, Dictionary<string, Attachment[]> someVehicles, params Tone[] someTones)
             {
                 Name = aName;
                 Modules = someModules;
+                Vehicles = someVehicles;
                 Tones = someTones;
             }
 
@@ -176,6 +246,9 @@ namespace Oxide.Plugins
 
             [JsonProperty("Modules")]
             public Dictionary<string, Attachment[]> Modules;
+
+            [JsonProperty("Vehicles")]
+            public Dictionary<string, Attachment[]> Vehicles;
 
             public string ToJson() => JsonConvert.SerializeObject(this);
 
@@ -261,7 +334,7 @@ namespace Oxide.Plugins
                 Interface.Oxide.DataFileSystem.WriteObject("sirens/" + eachSiren.Name, eachSiren);
             }
         }
-        #endregion Configuration
+        #endregion configuration
 
         #region localization
         protected override void LoadDefaultMessages()
@@ -269,19 +342,20 @@ namespace Oxide.Plugins
             lang.RegisterMessages(new Dictionary<string, string>
             {
                 [I18N_MISSING_SIREN] = "No siren was found for the given name (using {0} instead)",
-                [I18N_COULD_NOT_ATTACH] = "Could not attach \"{0}\"",
-                [I18N_ATTACHED] = "Attached siren \"{0}\"",
-                [I18N_ATTACHED_GLOBAL] = "Attached siren \"{0}\" to all existing cars",
+                [I18N_COULD_NOT_ATTACH] = "Could not attach '{0}'",
+                [I18N_ATTACHED] = "Attached siren '{0}'",
+                [I18N_ATTACHED_GLOBAL] = "Attached siren '{0}' to all existing cars",
                 [I18N_DETACHED] = "Detached siren",
                 [I18N_DETACHED_GLOBAL] = "Detached all existing sirens",
-                [I18N_NOT_A_CAR] = "This entity is not a car",
+                [I18N_NOT_A_VEHICLE] = "This entity is not a (supported) vehicle",
                 [I18N_SIRENS] = "Available sirens: {0}",
-                [I18N_PLAYERS_ONLY] = "Command '{0}' can only be used by a player"
+                [I18N_PLAYERS_ONLY] = "Command '{0}' can only be used by a player",
+                [I18N_NOT_SUPPORTED] = "The siren '{0}' has no configuration for '{1}'"
             }, this);
         }
         #endregion localization
 
-        #region chatommands
+        #region commands
         [Command("attachsirens"), Permission(PERMISSION_ATTACHSIRENS)]
         private void AttachCarSirens(IPlayer aPlayer, string aCommand, string[] someArgs)
         {
@@ -291,11 +365,11 @@ namespace Oxide.Plugins
                 return;
             }
 
-            ModularCar aCar = RaycastVehicleModule(aPlayer);
-            if (aCar)
+            BaseVehicle theVehicle = RaycastVehicle(aPlayer);
+            if (theVehicle)
             {
                 Siren theSiren = someArgs.Length > 0 ? FindSirenForName(someArgs[0], aPlayer) : SirenDictionary.Values.First();
-                AttachCarSirens(aCar, theSiren, config.DefaultState, aPlayer);
+                AttachSirens(theVehicle, theSiren, config.DefaultState, aPlayer);
                 Message(aPlayer, I18N_ATTACHED, theSiren.Name);
             }
         }
@@ -309,8 +383,8 @@ namespace Oxide.Plugins
                 return;
             }
 
-            ModularCar aCar = RaycastVehicleModule(aPlayer);
-            if (aCar && DetachCarSirens(aCar))
+            BaseVehicle theVehicle = RaycastVehicle(aPlayer);
+            if (theVehicle && DetachSirens(theVehicle))
             {
                 Message(aPlayer, I18N_DETACHED);
             }
@@ -320,9 +394,9 @@ namespace Oxide.Plugins
         private void AttachAllCarSirens(IPlayer aPlayer, string aCommand, string[] someArgs)
         {
             Siren theSiren = someArgs.Length > 0 ? FindSirenForName(someArgs[0], aPlayer) : SirenDictionary.Values.First();
-            foreach (ModularCar eachCar in BaseNetworkable.serverEntities.OfType<ModularCar>())
+            foreach (BaseVehicle eachVehicle in BaseNetworkable.serverEntities.OfType<BaseVehicle>())
             {
-                AttachCarSirens(eachCar, theSiren, config.DefaultState, aPlayer);
+                AttachSirens(eachVehicle, theSiren, config.DefaultState, aPlayer);
             }
             Message(aPlayer, I18N_ATTACHED_GLOBAL, theSiren.Name);
         }
@@ -330,9 +404,9 @@ namespace Oxide.Plugins
         [Command("detachallsirens"), Permission(PERMISSION_DETACHSIRENS_GLOBAL)]
         private void DetachAllCarSirens(IPlayer aPlayer, string aCommand, string[] someArgs)
         {
-            foreach (ModularCar eachCar in BaseNetworkable.serverEntities.OfType<ModularCar>())
+            foreach (BaseVehicle eachVehicle in BaseNetworkable.serverEntities.OfType<BaseVehicle>())
             {
-                DetachCarSirens(eachCar);
+                DetachSirens(eachVehicle);
             }
             Message(aPlayer, I18N_DETACHED_GLOBAL);
         }
@@ -342,66 +416,68 @@ namespace Oxide.Plugins
         {
             Message(aPlayer, I18N_SIRENS, string.Join(", ", SirenDictionary.Keys));
         }
-        #endregion chatommands
+        #endregion commands
 
         #region hooks
         private void Unload()
         {
             OnServerSave();
 
-            foreach (ModularCar eachCar in BaseNetworkable.serverEntities.OfType<ModularCar>())
+            foreach (BaseVehicle eachVehicle in BaseNetworkable.serverEntities.OfType<BaseVehicle>())
             {
-                DetachCarSirens(eachCar);
+                DetachSirens(eachVehicle);
             }
         }
 
         private void OnServerSave()
         {
             DataContainer thePersistentData = new DataContainer();
-            foreach (ModularCar eachCar in BaseNetworkable.serverEntities.OfType<ModularCar>())
+            foreach (BaseVehicle eachCar in BaseNetworkable.serverEntities.OfType<BaseVehicle>())
             {
                 SirenController theController = eachCar.GetComponent<SirenController>();
-                thePersistentData.CarSirenMap.Add(eachCar.net.ID, theController ? new CarContainer(theController.Siren.Name, theController.State, theController.NetIDs) : null);
+                thePersistentData.VehicleSirenMap.Add(eachCar.net.ID, theController ? new VehicleContainer(theController.Siren.Name, theController.State, theController.NetIDs) : null);
             }
             Interface.Oxide.DataFileSystem.WriteObject(Name, thePersistentData);
         }
 
         private void OnServerInitialized(bool anInitialFlag)
         {
-            if (config.SirenSpawnProbability <= 0f)
+            bool theSpawnRandomlyFlag = config.SirenSpawnProbability.Any(entry => entry.Value > 0f);
+            if (!theSpawnRandomlyFlag)
             {
                 Unsubscribe("OnEntitySpawned");
             }
 
             // Reattach on server restart
             DataContainer thePersistentData = Interface.Oxide.DataFileSystem.ReadObject<DataContainer>(Name);
-            foreach (ModularCar eachCar in BaseNetworkable.serverEntities.OfType<ModularCar>())
+            foreach (BaseVehicle eachVehicle in BaseNetworkable.serverEntities.OfType<BaseVehicle>())
             {
-                CarContainer theContainer;
-                if (thePersistentData.CarSirenMap.TryGetValue(eachCar.net.ID, out theContainer))
+                VehicleContainer theContainer;
+                if (thePersistentData.VehicleSirenMap.TryGetValue(eachVehicle.net.ID, out theContainer))
                 {
                     if (theContainer != null)
                     {
                         Siren theSiren;
                         if (SirenDictionary.TryGetValue(theContainer.SirenName, out theSiren))
                         {
-                            CreateSirenController(eachCar, theSiren, theContainer.NetIDs);
-                            AttachCarSirens(eachCar, theSiren, theContainer.State);
+                            CreateSirenController(eachVehicle, theSiren, theContainer.NetIDs);
+                            AttachSirens(eachVehicle, theSiren, theContainer.State);
                         } else
                         {
-                            CreateSirenController(eachCar, null, theContainer.NetIDs);
-                            DetachCarSirens(eachCar);
+                            CreateSirenController(eachVehicle, null, theContainer.NetIDs);
+                            DetachSirens(eachVehicle);
                             Puts($"Missing siren for name \"{theContainer.SirenName}\". Ignoring...");
                         }
                     }
-                } else if (config.SirenSpawnProbability > 0f)
+                } else if (theSpawnRandomlyFlag)
                 {
-                    SirenController theController = eachCar.GetComponent<SirenController>();
+                    SirenController theController = eachVehicle.GetComponent<SirenController>();
                     if (!theController)
                     {
-                        if (Core.Random.Range(0f, 1f) < config.SirenSpawnProbability)
+                        float theProbability;
+                        if (config.SirenSpawnProbability.TryGetValue(eachVehicle is BaseVehicle ? KEY_MODULAR_CAR : eachVehicle.PrefabName, out theProbability) && Core.Random.Range(0f, 1f) < theProbability)
                         {
-                            AttachCarSirens(eachCar, SirenDictionary.Values.First(), config.DefaultState);
+                            AttachSirens(eachVehicle, SirenDictionary.Values.First(), config.DefaultState);
                         }
                     }
                 }
@@ -410,13 +486,13 @@ namespace Oxide.Plugins
 
         private object OnButtonPress(PressButton aButton, BasePlayer aPlayer)
         {
-            ModularCar theCar = aButton.GetComponentInParent<ModularCar>();
-            if (theCar)
+            BaseVehicle theVehicle = aButton.GetComponentInParent<BaseVehicle>();
+            if (theVehicle)
             {
-                SirenController theController = theCar.GetComponent<SirenController>();
+                SirenController theController = theVehicle.GetComponent<SirenController>();
                 if (theController)
                 {
-                    if (config.MountNeeded && aPlayer.GetMountedVehicle() != theCar)
+                    if ((config.MountNeeded && aPlayer.GetMountedVehicle() != theVehicle) || !theController.NetIDs.Contains(aButton.net.ID))
                     {
                         return false;
                     }
@@ -428,15 +504,16 @@ namespace Oxide.Plugins
 
         private void OnEntitySpawned(BaseNetworkable anEntity)
         {
-            ModularCar theCar = anEntity.GetComponent<ModularCar>();
-            if (theCar)
+            BaseVehicle theVehicle = anEntity as BaseVehicle;
+            if (theVehicle)
             {
-                SirenController theController = theCar.GetComponent<SirenController>();
+                SirenController theController = theVehicle.GetComponent<SirenController>();
                 if (!theController)
                 {
-                    if (Core.Random.Range(0f, 1f) < config.SirenSpawnProbability)
+                    float theProbability;
+                    if (config.SirenSpawnProbability.TryGetValue(theVehicle is BaseVehicle ? KEY_MODULAR_CAR : theVehicle.PrefabName, out theProbability) && Core.Random.Range(0f, 1f) < theProbability)
                     {
-                        AttachCarSirens(theCar, SirenDictionary.Values.First(), config.DefaultState);
+                        AttachSirens(theVehicle, SirenDictionary.Values.First(), config.DefaultState);
                     }
                 }
             }
@@ -444,40 +521,70 @@ namespace Oxide.Plugins
         #endregion hooks
 
         #region methods
-        private void AttachCarSirens(ModularCar aCar, Siren aSiren, SirenController.States anInitialState, IPlayer aPlayer = null)
+        /// <summary>
+        /// Tries to attach the given siren to the given vehicle.
+        /// </summary>
+        /// <param name="aVehicle">The vehicle.</param>
+        /// <param name="aSiren">The siren.</param>
+        /// <param name="anInitialState">The initial siren state.</param>
+        /// <param name="aPlayer">The calling player.</param>
+        private void AttachSirens(BaseVehicle aVehicle, Siren aSiren, SirenController.States anInitialState, IPlayer aPlayer = null)
         {
-            DetachCarSirens(aCar);
-            SirenController theController = CreateSirenController(aCar, aSiren);
-            foreach (BaseVehicleModule eachModule in aCar.GetComponentsInChildren<BaseVehicleModule>())
+            DetachSirens(aVehicle);
+            SirenController theController = CreateSirenController(aVehicle, aSiren);
+            if (aVehicle as ModularCar)
             {
-                Attachment[] theAttachments;
-                if (aSiren.Modules.TryGetValue(eachModule.PrefabName, out theAttachments))
+                foreach (BaseVehicleModule eachModule in aVehicle.GetComponentsInChildren<BaseVehicleModule>())
                 {
-                    foreach (Attachment eachAttachment in theAttachments)
-                    {
-                        BaseEntity theNewEntity = AttachEntityToModule(eachModule, eachAttachment.Prefab, eachAttachment.Position, eachAttachment.Angle);
-                        if (!theNewEntity)
-                        {
-                            theController.NetIDs.Add(theNewEntity.net.ID);
-                            if (aPlayer != null)
-                            {
-                                Message(aPlayer, I18N_COULD_NOT_ATTACH, eachAttachment.Prefab);
-                            }
-                        }
-                    }
+                    SpawnAttachments(aSiren.Modules, aPlayer, theController, eachModule);
                 }
+            } else if (!SpawnAttachments(aSiren.Vehicles, aPlayer, theController, aVehicle))
+            {
+                Message(aPlayer, I18N_NOT_SUPPORTED, aSiren.Name, aVehicle.PrefabName);
+                DetachSirens(aVehicle);
+                return;
             }
             theController.SetState(anInitialState);
         }
 
-        private SirenController CreateSirenController(ModularCar aCar, Siren aSiren, IEnumerable<uint> someNetIDs = null)
+        /// <summary>
+        /// Spawns the attachments for the given dictionary for the given parent entity.
+        /// </summary>
+        /// <param name="someAttachments">The dictionary.</param>
+        /// <param name="aPlayer">The calling player.</param>
+        /// <param name="theController">The SirenController of the Parent.</param>
+        /// <param name="aParent">The Parent.</param>
+        /// <returns>True, if the parent has an entry in the dictionary with at least one Attachment.</returns>
+        private bool SpawnAttachments(IDictionary<string, Attachment[]> someAttachments, IPlayer aPlayer, SirenController theController, BaseEntity aParent)
         {
-            SirenController theController = aCar.GetComponent<SirenController>();
+            Attachment[] theAttachments;
+            if (someAttachments.TryGetValue(aParent.PrefabName, out theAttachments))
+            {
+                foreach (Attachment eachAttachment in theAttachments)
+                {
+                    BaseEntity theNewEntity = AttachEntity(aParent, eachAttachment.Prefab, eachAttachment.Position, eachAttachment.Angle);
+                    if (!theNewEntity)
+                    {
+                        theController.NetIDs.Add(theNewEntity.net.ID);
+                        if (aPlayer != null)
+                        {
+                            Message(aPlayer, I18N_COULD_NOT_ATTACH, eachAttachment.Prefab);
+                        }
+                    }
+                }
+                return !theAttachments.IsEmpty();
+            }
+            return false;
+        }
+
+        private SirenController CreateSirenController(BaseVehicle aVehicle, Siren aSiren, IEnumerable<uint> someNetIDs = null)
+        {
+            SirenController theController = aVehicle.GetComponent<SirenController>();
             if (theController)
             {
                 UnityEngine.Object.DestroyImmediate(theController);
             }
-            theController = aCar.gameObject.AddComponent<SirenController>();
+            theController = aVehicle.gameObject.AddComponent<SirenController>();
             theController.Config = config;
             theController.Siren = aSiren;
             if (someNetIDs != null)
@@ -487,12 +594,12 @@ namespace Oxide.Plugins
             return theController;
         }
 
-        private bool DetachCarSirens(ModularCar aCar)
+        private bool DetachSirens(BaseVehicle aVehicle)
         {
-            SirenController theController = aCar.GetComponent<SirenController>();
+            SirenController theController = aVehicle.GetComponent<SirenController>();
             if (theController)
             {
-                foreach (BaseEntity eachEntity in aCar.GetComponentsInChildren<BaseEntity>())
+                foreach (BaseEntity eachEntity in aVehicle.GetComponentsInChildren<BaseEntity>())
                 {
                     if (theController.NetIDs.Contains(eachEntity.net.ID))
                     {
@@ -513,16 +620,16 @@ namespace Oxide.Plugins
             }
         }
 
-        private BaseEntity AttachEntityToModule(BaseVehicleModule aModule, string aPrefab, Vector3 aPosition, Vector3 anAngle = new Vector3())
+        private BaseEntity AttachEntity(BaseEntity aParent, string aPrefab, Vector3 aPosition, Vector3 anAngle = new Vector3())
         {
-            BaseEntity theNewEntity = GameManager.server.CreateEntity(aPrefab, aModule.transform.position);
+            BaseEntity theNewEntity = GameManager.server.CreateEntity(aPrefab, aParent.transform.position);
             if (!theNewEntity)
             {
                 return null;
             }
 
             theNewEntity.Spawn();
-            theNewEntity.SetParent(aModule);
+            theNewEntity.SetParent(aParent);
             theNewEntity.transform.localEulerAngles = anAngle;
             theNewEntity.transform.localPosition = aPosition;
             UnityEngine.Object.DestroyImmediate(theNewEntity.GetComponent<DestroyOnGroundMissing>());
@@ -555,7 +662,7 @@ namespace Oxide.Plugins
         #endregion methods
 
         #region helpers
-        private ModularCar RaycastVehicleModule(IPlayer aPlayer)
+        private BaseVehicle RaycastVehicle(IPlayer aPlayer)
         {
             RaycastHit theHit;
             if (!Physics.Raycast((aPlayer.Object as BasePlayer).eyes.HeadRay(), out theHit, 5f))
@@ -563,12 +670,12 @@ namespace Oxide.Plugins
                 return null;
             }
 
-            ModularCar theCar = theHit.GetEntity()?.GetComponentInParent<ModularCar>();
-            if (!theCar)
+            BaseVehicle theVehicle = theHit.GetEntity()?.GetComponentInParent<BaseVehicle>();
+            if (!theVehicle)
             {
-                Message(aPlayer, I18N_NOT_A_CAR);
+                Message(aPlayer, I18N_NOT_A_VEHICLE);
             }
-            return theCar;
+            return theVehicle;
         }
 
         private Siren FindSirenForName(string aName, IPlayer aPlayer)
@@ -612,7 +719,7 @@ namespace Oxide.Plugins
                 LIGHTS_ONLY
             }
 
-            private ModularCar car;
+            private BaseVehicle vehicle;
             private InstrumentTool trumpet;
             public Configuration Config { get; set; }
             public States State { get; private set; }
@@ -641,7 +748,7 @@ namespace Oxide.Plugins
                     PlayTone(0);
                 }
                 bool theLightsOnFlag = State > States.OFF;
-                foreach (IOEntity eachEntity in GetCar().GetComponentsInChildren<IOEntity>())
+                foreach (IOEntity eachEntity in GetVehicle().GetComponentsInChildren<IOEntity>())
                 {
                     if (NetIDs.Contains(eachEntity.net.ID) && !(eachEntity is PressButton))
                     {
@@ -654,18 +761,18 @@ namespace Oxide.Plugins
             {
                 if (trumpet == null || trumpet.IsDestroyed)
                 {
-                    trumpet = GetCar().GetComponentInChildren<InstrumentTool>();
+                    trumpet = GetVehicle().GetComponentInChildren<InstrumentTool>();
                 }
                 return trumpet;
             }
 
-            private ModularCar GetCar()
+            private BaseVehicle GetVehicle()
             {
-                if (car == null)
+                if (vehicle == null)
                 {
-                    car = GetComponentInParent<ModularCar>();
+                    vehicle = GetComponentInParent<BaseVehicle>();
                 }
-                return car;
+                return vehicle;
             }
 
             private void PlayTone(int anIndex)
