@@ -7,7 +7,6 @@ using static InstrumentKeyController;
 using Oxide.Core;
 using Oxide.Core.Libraries.Covalence;
 using Newtonsoft.Json.Converters;
-using System;
 
 namespace Oxide.Plugins
 {
@@ -51,6 +50,8 @@ namespace Oxide.Plugins
 
         private const string KEY_MODULAR_CAR = "KEY_MODULAR_CAR";
 
+        private const string DATAPATH_SIRENS = "sirens/";
+
         // Preconfigured sirens
         private static readonly Siren SIREN_DEFAULT = new Siren("police-germany",
             new Dictionary<string, Attachment[]>
@@ -77,46 +78,47 @@ namespace Oxide.Plugins
             new Dictionary<string, Attachment[]>
             {
                 [PREFAB_SEDAN] = new Attachment[] {
-                    new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 1.7f, 0.78f), new Vector3(210f, 0f, 0f)),
-                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.4f, 1.4f, -0.9f)),
-                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.4f, 1.4f, -0.9f)),
-                    new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 1.4f, -0.9f), new Vector3(148f, 150f, 30f))
+                    new Attachment(PREFAB_BUTTON, new Vector3(0.0f, 2.05f, 1.9f), new Vector3(210f, 0f, 0f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.4f, 1.65f, 0.2f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.4f, 1.65f, 0.2f)),
+                    new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 1.68f, 0.2f), new Vector3(148f, 150f, 30f))
                 },
                 [PREFAB_MINICOPTER] = new Attachment[] {
-                    new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 1.7f, 0.78f), new Vector3(210f, 0f, 0f)),
-                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.4f, 1.4f, -0.9f)),
-                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.4f, 1.4f, -0.9f)),
-                    new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 1.4f, -0.9f), new Vector3(148f, 150f, 30f))
+                    new Attachment(PREFAB_BUTTON, new Vector3(-0.1f, 2.0f, 1.0f), new Vector3(180f, 0f, 0f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.0f, 2.235f, -0.025f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.0f, 0.832f, -2.7f), new Vector3(272f, 0f, 0f)),
+                    new Attachment(PREFAB_TRUMPET, new Vector3(0.09f, 0.78f, -0.9f), new Vector3(148f, 330f, 30f))
                 },
                 [PREFAB_TRANSPORTHELI] = new Attachment[] {
-                    new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 1.7f, 0.78f), new Vector3(210f, 0f, 0f)),
-                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.4f, 1.4f, -0.9f)),
-                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.4f, 1.4f, -0.9f)),
-                    new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 1.4f, -0.9f), new Vector3(148f, 150f, 30f))
+                    new Attachment(PREFAB_BUTTON, new Vector3(-0.1f, 2.68f, 3.865f), new Vector3(205f, 0f, 0f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.3f, 3.15f, -7.65f), new Vector3(0f, 0f, 90f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.1f, 3.15f, -7.65f), new Vector3(0f, 0f, 270f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.0f, 0.55f, 3.6f), new Vector3(180f, 0f, 0f)),
+                    new Attachment(PREFAB_TRUMPET, new Vector3(0.0f, 0.58f, 2.5f), new Vector3(328f, 30f, 30f))
                 },
                 [PREFAB_RHIB] = new Attachment[] {
-                    new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 1.7f, 0.78f), new Vector3(210f, 0f, 0f)),
-                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.4f, 1.4f, -0.9f)),
-                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.4f, 1.4f, -0.9f)),
-                    new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 1.4f, -0.9f), new Vector3(148f, 150f, 30f))
+                    new Attachment(PREFAB_BUTTON, new Vector3(-0.4f, 3.0f, 0.25f), new Vector3(180f, 0f, 0f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.55f, 2.83f, 0.62f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.55f, 2.83f, 0.62f)),
+                    new Attachment(PREFAB_TRUMPET, new Vector3(0.8f, 1.16f, 0.5f), new Vector3(148f, 150f, 30f))
                 },
                 [PREFAB_ROWBOAT] = new Attachment[] {
-                    new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 1.7f, 0.78f), new Vector3(210f, 0f, 0f)),
-                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.4f, 1.4f, -0.9f)),
-                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.4f, 1.4f, -0.9f)),
-                    new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 1.4f, -0.9f), new Vector3(148f, 150f, 30f))
+                    new Attachment(PREFAB_BUTTON, new Vector3(-1.7f, 0.5f, -1.8f), new Vector3(270f, 270f, 0f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.0f, 0.8f, 2.18f)),
+                    new Attachment(PREFAB_TRUMPET, new Vector3(0.5f, 0.1f, -0.4f), new Vector3(148f, 150f, 30f))
                 },
                 [PREFAB_WORKCART] = new Attachment[] {
-                    new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 1.7f, 0.78f), new Vector3(210f, 0f, 0f)),
-                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.4f, 1.4f, -0.9f)),
-                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.4f, 1.4f, -0.9f)),
-                    new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 1.4f, -0.9f), new Vector3(148f, 150f, 30f))
+                    new Attachment(PREFAB_BUTTON, new Vector3(0.19f, 3.13f, 4.95f), new Vector3(235f, 0f, 0f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.1f, 3.95f, 4.13f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.25f, 3.95f, 4.13f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-1.49f, 2.52f, -4.58f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(1.51f, 2.52f, -4.55f)),
+                    new Attachment(PREFAB_TRUMPET, new Vector3(0.59f, 3.85f, 4.13f), new Vector3(148f, 150f, 30f))
                 },
                 [PREFAB_MAGNETCRANE] = new Attachment[] {
-                    new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 1.7f, 0.78f), new Vector3(210f, 0f, 0f)),
-                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.4f, 1.4f, -0.9f)),
-                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.4f, 1.4f, -0.9f)),
-                    new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 1.4f, -0.9f), new Vector3(148f, 150f, 30f))
+                    new Attachment(PREFAB_BUTTON, new Vector3(-0.61f, 4.0f, 2.3f), new Vector3(230f, 0f, 0f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.95f, 4.25f, 0.5f)),
+                    new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 1.4f, 0.0f), new Vector3(148f, 150f, 30f))
                 }
             }, new Tone(Notes.A, NoteType.Regular, 4, 1f), new Tone(Notes.D, NoteType.Regular, 5, 1f));
         private static readonly Siren SIREN_SILENT = new Siren("warning-lights",
@@ -153,7 +155,11 @@ namespace Oxide.Plugins
         {
             public string SirenName = SIREN_DEFAULT.Name;
             public SirenController.States State = SirenController.States.OFF;
-            public ISet<uint> NetIDs = new HashSet<uint>();
+            public HashSet<uint> NetIDs = new HashSet<uint>();
+
+            public VehicleContainer()
+            {
+            }
 
             public VehicleContainer(string aSirenName, SirenController.States aState, IEnumerable<uint> someNetIDs)
             {
@@ -297,11 +303,19 @@ namespace Oxide.Plugins
                     throw new JsonException();
                 }
 
-                foreach (string eachSirenFile in Interface.Oxide.DataFileSystem.GetFiles("sirens", "*.json"))
+                foreach (string eachSirenFile in Interface.Oxide.DataFileSystem.GetFiles(DATAPATH_SIRENS, "*.json"))
                 {
-                    Siren theSiren = Interface.Oxide.DataFileSystem.ReadObject<Siren>(eachSirenFile);
-                    SirenDictionary.Add(theSiren.Name, theSiren);
+                    string theFilename = eachSirenFile.Basename(".json");
+                    try
+                    {
+                        Siren theSiren = Interface.Oxide.DataFileSystem.ReadObject<Siren>(DATAPATH_SIRENS + theFilename);
+                        SirenDictionary.Add(theSiren.Name, theSiren);
+                    } catch
+                    {
+                        PrintWarning($"Siren file {theFilename}.json is invalid; ignoring");
+                    }
                 }
+                Puts("Loaded sirens: " + string.Join(", ", SirenDictionary.Keys));
 
                 if (SirenDictionary.IsEmpty())
                 {
@@ -331,7 +345,7 @@ namespace Oxide.Plugins
 
             foreach (Siren eachSiren in SirenDictionary.Values)
             {
-                Interface.Oxide.DataFileSystem.WriteObject("sirens/" + eachSiren.Name, eachSiren);
+                Interface.Oxide.DataFileSystem.WriteObject(DATAPATH_SIRENS + eachSiren.Name, eachSiren);
             }
         }
         #endregion configuration
@@ -466,7 +480,7 @@ namespace Oxide.Plugins
                         {
                             CreateSirenController(eachVehicle, null, theContainer.NetIDs);
                             DetachSirens(eachVehicle);
-                            Puts($"Missing siren for name \"{theContainer.SirenName}\". Ignoring...");
+                            PrintWarning($"Missing siren for name \"{theContainer.SirenName}\". Ignoring...");
                         }
                     }
                 } else if (theSpawnRandomlyFlag)
@@ -563,13 +577,12 @@ namespace Oxide.Plugins
                 foreach (Attachment eachAttachment in theAttachments)
                 {
                     BaseEntity theNewEntity = AttachEntity(aParent, eachAttachment.Prefab, eachAttachment.Position, eachAttachment.Angle);
-                    if (!theNewEntity)
+                    if (theNewEntity)
                     {
                         theController.NetIDs.Add(theNewEntity.net.ID);
-                        if (aPlayer != null)
-                        {
-                            Message(aPlayer, I18N_COULD_NOT_ATTACH, eachAttachment.Prefab);
-                        }
+                    } else if (aPlayer != null)
+                    {
+                        Message(aPlayer, I18N_COULD_NOT_ATTACH, eachAttachment.Prefab);
                     }
                 }
                 return !theAttachments.IsEmpty();
