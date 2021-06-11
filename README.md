@@ -44,10 +44,10 @@ Example: /listsirens
 ```
 
 ## Permissions
- - sirens.attachsirens
- - sirens.detachsirens
- - sirens.attachallsirens
- - sirens.detachallsirens
+ - `sirens.attachsirens` -- Allows the player to attach sirens
+ - `sirens.detachsirens` -- Allows the player to detach sirens
+ - `sirens.attachallsirens` -- Allows the player to attach sirens globally
+ - `sirens.detachallsirens` -- Allows the player to detach all sirens globally
 
 ## Configuration
 ```
