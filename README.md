@@ -75,6 +75,7 @@ Example: /listsirens
 
 ## Sirens
 The folder '/data/sirens/' contains the available sirens. Existing ones can be edited or new ones can be created.
+To find correct positions I suggest to edit the siren file directly on the server (via winscp, filezilla or whatever you use). You can attach the siren to the vehicle you plan to configure, change the config file as you want and type `oxide.reload Sirens` in the console to reload and directly apply the changes. Repeat the last two steps until it fits your needs. You don't need to reattach the siren. This is the way I used to preconfigure the default sirens.
 As an example the police-germany.json file with some additional comments:
 ```
 {
@@ -109,8 +110,11 @@ As an example the police-germany.json file with some additional comments:
         "Prefab": "assets/prefabs/io/electric/switches/pressbutton/pressbutton.prefab",
         // the local position of that entity
         "Position": {
+          // Left/Right
           "x": 0.05,
+          // Up/Down
           "y": 1.7,
+          // Forward/Backward
           "z": 0.78
         },
         // the local angles of that entity
@@ -279,8 +283,11 @@ As an example the police-germany.json file with some additional comments:
         "Prefab": "assets/prefabs/io/electric/switches/pressbutton/pressbutton.prefab",
         // the local position of that entity
         "Position": {
+          // Left/Right
           "x": 0.0,
+          // Up/Down
           "y": 2.05,
+          // Forward/Backward
           "z": 1.9
         },
         // the local angles of that entity
