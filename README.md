@@ -56,7 +56,8 @@ Example: /listsirens
   "MountNeeded": true,
   // Global config for enabling the usage of sounds for sirens
   "SoundEnabled": true,
-  // Sets the probability of newly spawning vehicles (or existing ones when loading the plugin) having a siren attached to [0.0; 1.0]
+  // Sets the probability of newly spawning vehicles (or existing ones when loading the plugin)
+  // having a siren attached to [0.0; 1.0]
   // MODULAR_CAR is a special key for the modular car vehicle type.
   "SirenSpawnProbability": {
     "MODULAR_CAR": 0.0,
@@ -75,8 +76,7 @@ Example: /listsirens
 
 ## Sirens
 The folder '/data/sirens/' contains the available sirens. Existing ones can be edited or new ones can be created.
-To find correct positions I suggest to edit the siren file directly on the server (via winscp, filezilla or whatever you use). You can attach the siren to the vehicle you plan to configure, change the config file as you want and type `oxide.reload Sirens` in the console to reload and directly apply the changes. Repeat the last two steps until it fits your needs. You don't need to reattach the siren. This is the way I used to preconfigure the default sirens.
-As an example the police-germany.json file with some additional comments:
+To find correct positions I suggest to edit the siren file directly on the server (via winscp, filezilla or whatever you use). You can attach the siren to the vehicle you plan to configure, change the config file as you want and type `oxide.reload Sirens` in the console to reload and directly apply the changes. Repeat the last two steps until it fits your needs. You don't need to reattach the siren. This is the way I used to preconfigure the default sirens. As an example the police-germany.json file with some additional comments:
 ```
 {
   // Mapping name to identify the siren while attaching
@@ -274,7 +274,7 @@ As an example the police-germany.json file with some additional comments:
     ]
   },
   / These are the configs for all other vehicles (BaseVehicle entity) relevant for this siren,
-  // if a vehicle is not set here it will not be supported by the siren andthere won't be anything attached to it
+  // if a vehicle is not set here it will not be supported by the siren and there won't be anything attached to it
   "Vehicles": {
     // The module which is described
     "assets/content/vehicles/sedan_a/sedantest.entity.prefab": [
