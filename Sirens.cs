@@ -10,7 +10,7 @@ using Newtonsoft.Json.Converters;
 
 namespace Oxide.Plugins
 {
-    [Info("Sirens", "ZockiRR", "2.0.0")]
+    [Info("Sirens", "ZockiRR", "2.0.1")]
     [Description("Gives players the ability to attach sirens to vehicles")]
     class Sirens : CovalencePlugin
     {
@@ -713,7 +713,6 @@ namespace Oxide.Plugins
             if (theCombatEntity)
             {
                 theCombatEntity.pickup.enabled = false;
-                theCombatEntity.diesAtZeroHealth = false;
             }
             PressButton theButton = theNewEntity as PressButton;
             if (theButton)
