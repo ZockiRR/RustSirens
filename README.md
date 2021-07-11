@@ -257,7 +257,7 @@ To find correct positions I suggest to edit the siren file directly on the serve
           "z": 0.0
         },
         // the bone that entity will be parented to, so that it moves with that bone
-	      "Bone": "head"
+        "Bone": "head"
       },
       {
         "Prefab": "assets/prefabs/instruments/trumpet/trumpet.weapon.prefab",
@@ -271,7 +271,7 @@ To find correct positions I suggest to edit the siren file directly on the serve
           "y": 150.0,
           "z": 90.0
         },
-	      "Bone": "lip_lower"
+        "Bone": "lip_lower"
       }
     ],
     ...
