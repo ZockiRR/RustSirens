@@ -10,7 +10,7 @@ using Newtonsoft.Json.Converters;
 
 namespace Oxide.Plugins
 {
-    [Info("Sirens", "ZockiRR", "2.0.1")]
+    [Info("Sirens", "ZockiRR", "2.1.0")]
     [Description("Gives players the ability to attach sirens to vehicles")]
     class Sirens : CovalencePlugin
     {
@@ -47,6 +47,7 @@ namespace Oxide.Plugins
         private const string PREFAB_ROWBOAT = "assets/content/vehicles/boats/rowboat/rowboat.prefab";
         private const string PREFAB_WORKCART = "assets/content/vehicles/workcart/workcart.entity.prefab";
         private const string PREFAB_MAGNETCRANE = "assets/content/vehicles/crane_magnet/magnetcrane.entity.prefab";
+        private const string PREFAB_HORSE = "assets/rust.ai/nextai/testridablehorse.prefab";
 
         private const string KEY_MODULAR_CAR = "MODULAR_CAR";
 
@@ -116,9 +117,12 @@ namespace Oxide.Plugins
                     new Attachment(PREFAB_TRUMPET, new Vector3(0.59f, 3.85f, 4.13f), new Vector3(148f, 150f, 30f))
                 },
                 [PREFAB_MAGNETCRANE] = new Attachment[] {
-                    new Attachment(PREFAB_BUTTON, new Vector3(-0.61f, 4.11f, 2.2f), new Vector3(225f, 0f, 0f)),
                     new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.95f, 4.25f, 0.5f)),
                     new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 1.4f, 0.0f), new Vector3(148f, 150f, 30f))
+                },
+                [PREFAB_HORSE] = new Attachment[] {
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.0f, 1.7f, 1.2f), new Vector3(25f, 0f, 0f), "head"),
+                    new Attachment(PREFAB_TRUMPET, new Vector3(-0.06f, 1.15f, 1.3f), new Vector3(90f, 150f, 90f), "lip_lower")
                 }
             }, new Tone(Notes.A, NoteType.Regular, 4, 1f), new Tone(Notes.D, NoteType.Regular, 5, 1f));
         private static readonly Siren SIREN_SILENT = new Siren("warning-lights",
@@ -173,8 +177,11 @@ namespace Oxide.Plugins
                     new Attachment(PREFAB_SIRENLIGHT, new Vector3(1.51f, 2.52f, -4.55f))
                 },
                 [PREFAB_MAGNETCRANE] = new Attachment[] {
-                    new Attachment(PREFAB_BUTTON, new Vector3(-0.61f, 4.11f, 2.2f), new Vector3(225f, 0f, 0f)),
                     new Attachment(PREFAB_SIRENLIGHT, new Vector3(-0.95f, 4.25f, 0.5f))
+                },
+                [PREFAB_HORSE] = new Attachment[] {
+                    new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.0f, 1.7f, 1.2f), new Vector3(25f, 0f, 0f), "head"),
+                    new Attachment(PREFAB_TRUMPET, new Vector3(-0.06f, 1.15f, 1.3f), new Vector3(90f, 150f, 90f), "lip_lower")
                 }
             });
         #endregion variables
@@ -298,11 +305,12 @@ namespace Oxide.Plugins
 
         private class Attachment
         {
-            public Attachment(string aPrefab, Vector3 aPosition, Vector3 anAngle = new Vector3())
+            public Attachment(string aPrefab, Vector3 aPosition, Vector3 anAngle = new Vector3(), string aBone = null)
             {
                 Prefab = aPrefab;
                 Position = aPosition;
                 Angle = anAngle;
+                Bone = aBone;
             }
 
             [JsonProperty("Prefab")]
@@ -313,6 +321,9 @@ namespace Oxide.Plugins
 
             [JsonProperty("Angle")]
             public Vector3 Angle;
+
+            [JsonProperty("Bone")]
+            public string Bone;
 
             public string ToJson() => JsonConvert.SerializeObject(this);
 
@@ -465,6 +476,26 @@ namespace Oxide.Plugins
         {
             Message(aPlayer, I18N_SIRENS, string.Join(", ", SirenDictionary.Keys));
         }
+
+        [Command("togglesirens")]
+        private void ToggleSirens(IPlayer aPlayer, string aCommand, string[] someArgs)
+        {
+            if (aPlayer.IsServer)
+            {
+                Message(aPlayer, I18N_PLAYERS_ONLY, aCommand);
+                return;
+            }
+
+            BasePlayer thePlayer = aPlayer.Object as BasePlayer;
+            BaseVehicle theVehicle = thePlayer?.GetMountedVehicle();
+            if (theVehicle)
+            {
+                theVehicle.GetComponent<SirenController>()?.ChangeState();
+            } else if (!config.MountNeeded)
+            {
+                RaycastVehicle(aPlayer)?.GetComponent<SirenController>()?.ChangeState(); ;
+            }
+        }
         #endregion commands
 
         #region hooks
@@ -583,6 +614,12 @@ namespace Oxide.Plugins
             SirenController theController = CreateSirenController(aVehicle, aSiren);
             if (aVehicle as ModularCar)
             {
+                if (aSiren.Modules == null)
+                {
+                    Message(aPlayer, I18N_NOT_SUPPORTED, aSiren.Name, KEY_MODULAR_CAR);
+                    DetachSirens(aVehicle);
+                    return;
+                }
                 foreach (BaseVehicleModule eachModule in aVehicle.GetComponentsInChildren<BaseVehicleModule>())
                 {
                     SpawnAttachments(aSiren.Modules, aPlayer, theController, eachModule);
@@ -606,12 +643,17 @@ namespace Oxide.Plugins
         /// <returns>True, if the parent has an entry in the dictionary with at least one Attachment.</returns>
         private bool SpawnAttachments(IDictionary<string, Attachment[]> someAttachments, IPlayer aPlayer, SirenController theController, BaseEntity aParent)
         {
+            if (someAttachments == null)
+            {
+                return false;
+            }
+
             Attachment[] theAttachments;
             if (someAttachments.TryGetValue(aParent.PrefabName, out theAttachments))
             {
                 foreach (Attachment eachAttachment in theAttachments)
                 {
-                    BaseEntity theNewEntity = AttachEntity(aParent, eachAttachment.Prefab, eachAttachment.Position, eachAttachment.Angle);
+                    BaseEntity theNewEntity = AttachEntity(aParent, eachAttachment.Prefab, eachAttachment.Position, eachAttachment.Angle, eachAttachment.Bone);
                     if (theNewEntity)
                     {
                         theController.NetIDs.Add(theNewEntity.net.ID);
@@ -692,7 +734,7 @@ namespace Oxide.Plugins
         /// <param name="aPosition">The local position.</param>
         /// <param name="anAngle">The local angles.</param>
         /// <returns></returns>
-        private BaseEntity AttachEntity(BaseEntity aParent, string aPrefab, Vector3 aPosition, Vector3 anAngle = new Vector3())
+        private BaseEntity AttachEntity(BaseEntity aParent, string aPrefab, Vector3 aPosition, Vector3 anAngle = new Vector3(), string aBone = null)
         {
             BaseEntity theNewEntity = GameManager.server.CreateEntity(aPrefab, aParent.transform.position);
             if (!theNewEntity)
@@ -701,9 +743,25 @@ namespace Oxide.Plugins
             }
 
             theNewEntity.Spawn();
-            theNewEntity.SetParent(aParent);
-            theNewEntity.transform.localEulerAngles = anAngle;
-            theNewEntity.transform.localPosition = aPosition;
+            Transform theBone = aParent.FindBone(aBone);
+            if (theBone == null && aBone != null)
+            {
+                PrintWarning($"No bone found for name '{aBone}'");
+                PrintWarning("Valid bone names: " + string.Join(", ", aParent.GetBones().Select(eachBone => eachBone.name)));
+            }
+
+            if (theBone != null && theBone != aParent.transform)
+            {
+                theNewEntity.SetParent(aParent, theBone.name);
+                theNewEntity.transform.localPosition = theBone.InverseTransformPoint(aParent.transform.TransformPoint(aPosition));
+                theNewEntity.transform.localRotation = Quaternion.Inverse(theBone.rotation) * (aParent.transform.rotation * Quaternion.Euler(anAngle));
+            } else
+            {
+                theNewEntity.transform.localPosition = aPosition;
+                theNewEntity.transform.localEulerAngles = anAngle;
+                theNewEntity.SetParent(aParent);
+            }
+            //Puts(theNewEntity.ShortPrefabName + ": (" + theNewEntity.GetComponents<Component>().Length + ") " + string.Join(", ", theNewEntity.GetComponents<Component>().Select(eachComp => eachComp.GetType().Name)));
             UnityEngine.Object.DestroyImmediate(theNewEntity.GetComponent<DestroyOnGroundMissing>());
             UnityEngine.Object.DestroyImmediate(theNewEntity.GetComponent<GroundWatch>());
             UnityEngine.Object.DestroyImmediate(theNewEntity.GetComponent<BoxCollider>());
