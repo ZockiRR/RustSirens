@@ -50,7 +50,7 @@ This will toggle the siren state of the vehicle the player is mounted to. If the
 Example: /togglesirens
 ```
 
-Paste `bind h togglesirens` into the ingame console to bind that command to the H key as an example.
+Paste `bind j togglesirens` into the ingame console to bind that command to the H key as an example.
 
 ## Permissions
  - `sirens.attachsirens` -- Allows the player to attach sirens
