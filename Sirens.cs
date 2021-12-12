@@ -7,10 +7,11 @@ using static InstrumentKeyController;
 using Oxide.Core;
 using Oxide.Core.Libraries.Covalence;
 using Newtonsoft.Json.Converters;
+using System;
 
 namespace Oxide.Plugins
 {
-    [Info("Sirens", "ZockiRR", "2.1.0")]
+    [Info("Sirens", "ZockiRR", "2.1.1")]
     [Description("Gives players the ability to attach sirens to vehicles")]
     class Sirens : CovalencePlugin
     {
@@ -35,7 +36,7 @@ namespace Oxide.Plugins
         private const string PREFAB_COCKPIT = "assets/content/vehicles/modularcar/module_entities/1module_cockpit.prefab";
         private const string PREFAB_COCKPIT_ARMORED = "assets/content/vehicles/modularcar/module_entities/1module_cockpit_armored.prefab";
         private const string PREFAB_COCKPIT_WITH_ENGINE = "assets/content/vehicles/modularcar/module_entities/1module_cockpit_with_engine.prefab";
-        private const string PREFAB_BUTTON = "assets/prefabs/io/electric/switches/pressbutton/pressbutton.prefab";
+        private const string PREFAB_BUTTON = "assets/prefabs/deployable/playerioents/button/button.prefab";
         private const string PREFAB_FLASHERLIGHT = "assets/prefabs/deployable/playerioents/lights/flasherlight/electric.flasherlight.deployed.prefab";
         private const string PREFAB_SIRENLIGHT = "assets/prefabs/deployable/playerioents/lights/sirenlight/electric.sirenlight.deployed.prefab";
         private const string PREFAB_TRUMPET = "assets/prefabs/instruments/trumpet/trumpet.weapon.prefab";
@@ -349,16 +350,20 @@ namespace Oxide.Plugins
                     throw new JsonException();
                 }
 
-                foreach (string eachSirenFile in Interface.Oxide.DataFileSystem.GetFiles(DATAPATH_SIRENS, "*.json"))
+                if (Interface.Oxide.DataFileSystem.ExistsDatafile(DATAPATH_SIRENS))
                 {
-                    string theFilename = eachSirenFile.Basename(".json");
-                    try
+                    foreach (string eachSirenFile in Interface.Oxide.DataFileSystem.GetFiles(DATAPATH_SIRENS, "*.json"))
                     {
-                        Siren theSiren = Interface.Oxide.DataFileSystem.ReadObject<Siren>(DATAPATH_SIRENS + theFilename);
-                        SirenDictionary.Add(theSiren.Name, theSiren);
-                    } catch
-                    {
-                        PrintWarning($"Siren file {theFilename}.json is invalid; ignoring");
+                        string theFilename = eachSirenFile.Basename(".json");
+                        try
+                        {
+                            Siren theSiren = Interface.Oxide.DataFileSystem.ReadObject<Siren>(DATAPATH_SIRENS + theFilename);
+                            SirenDictionary.Add(theSiren.Name, theSiren);
+                        }
+                        catch
+                        {
+                            PrintWarning($"Siren file {theFilename}.json is invalid; ignoring");
+                        }
                     }
                 }
                 Puts("Loaded sirens: " + string.Join(", ", SirenDictionary.Keys));
@@ -368,6 +373,7 @@ namespace Oxide.Plugins
                     PrintWarning("Configuration appears to be missing sirens; using defaults");
                     SirenDictionary.Add(SIREN_DEFAULT.Name, SIREN_DEFAULT);
                     SirenDictionary.Add(SIREN_SILENT.Name, SIREN_SILENT);
+                    SaveConfig();
                 }
 
                 if (!config.ToDictionary().Keys.SequenceEqual(Config.ToDictionary(x => x.Key, x => x.Value).Keys))
@@ -491,7 +497,8 @@ namespace Oxide.Plugins
             if (theVehicle)
             {
                 theVehicle.GetComponent<SirenController>()?.ChangeState();
-            } else if (!config.MountNeeded)
+            }
+            else if (!config.MountNeeded)
             {
                 RaycastVehicle(aPlayer)?.GetComponent<SirenController>()?.ChangeState(); ;
             }
@@ -542,14 +549,16 @@ namespace Oxide.Plugins
                         {
                             CreateSirenController(eachVehicle, theSiren, theContainer.NetIDs);
                             AttachSirens(eachVehicle, theSiren, theContainer.State);
-                        } else
+                        }
+                        else
                         {
                             CreateSirenController(eachVehicle, null, theContainer.NetIDs);
                             DetachSirens(eachVehicle);
                             PrintWarning($"Missing siren for name \"{theContainer.SirenName}\". Ignoring...");
                         }
                     }
-                } else if (theSpawnRandomlyFlag)
+                }
+                else if (theSpawnRandomlyFlag)
                 {
                     SirenController theController = eachVehicle.GetComponent<SirenController>();
                     if (!theController)
@@ -566,7 +575,8 @@ namespace Oxide.Plugins
 
         private object OnButtonPress(PressButton aButton, BasePlayer aPlayer)
         {
-            BaseVehicle theVehicle = aButton.GetComponentInParent<BaseVehicle>();
+            BaseVehicle theVehicle = aButton.GetComponentInParent<BaseVehicle>()?.VehicleParent();
+            theVehicle = theVehicle ? theVehicle : aButton.GetComponentInParent<BaseVehicle>();
             if (theVehicle)
             {
                 SirenController theController = theVehicle.GetComponent<SirenController>();
@@ -624,7 +634,8 @@ namespace Oxide.Plugins
                 {
                     SpawnAttachments(aSiren.Modules, aPlayer, theController, eachModule);
                 }
-            } else if (!SpawnAttachments(aSiren.Vehicles, aPlayer, theController, aVehicle))
+            }
+            else if (!SpawnAttachments(aSiren.Vehicles, aPlayer, theController, aVehicle))
             {
                 Message(aPlayer, I18N_NOT_SUPPORTED, aSiren.Name, aVehicle.PrefabName);
                 DetachSirens(aVehicle);
@@ -657,7 +668,8 @@ namespace Oxide.Plugins
                     if (theNewEntity)
                     {
                         theController.NetIDs.Add(theNewEntity.net.ID);
-                    } else if (aPlayer != null)
+                    }
+                    else if (aPlayer != null)
                     {
                         Message(aPlayer, I18N_COULD_NOT_ATTACH, eachAttachment.Prefab);
                     }
@@ -755,7 +767,8 @@ namespace Oxide.Plugins
                 theNewEntity.SetParent(aParent, theBone.name);
                 theNewEntity.transform.localPosition = theBone.InverseTransformPoint(aParent.transform.TransformPoint(aPosition));
                 theNewEntity.transform.localRotation = Quaternion.Inverse(theBone.rotation) * (aParent.transform.rotation * Quaternion.Euler(anAngle));
-            } else
+            }
+            else
             {
                 theNewEntity.transform.localPosition = aPosition;
                 theNewEntity.transform.localEulerAngles = anAngle;
@@ -847,7 +860,8 @@ namespace Oxide.Plugins
         #region controllers
         private class SirenController : FacepunchBehaviour
         {
-            public enum States {
+            public enum States
+            {
                 OFF,
                 ON,
                 LIGHTS_ONLY
@@ -878,7 +892,8 @@ namespace Oxide.Plugins
 
             public void RefreshSirenState()
             {
-                if (State == States.ON) {
+                if (State == States.ON)
+                {
                     PlayTone(0);
                 }
                 bool theLightsOnFlag = State > States.OFF;
@@ -920,7 +935,7 @@ namespace Oxide.Plugins
                     anIndex = 0;
                 }
                 Tone theTone = Siren.Tones[anIndex];
-                GetTrumpet().ClientRPC(null, "Client_PlayNote", (int) theTone.Note, (int) theTone.NoteType, theTone.Octave, 1f);
+                GetTrumpet().ClientRPC(null, "Client_PlayNote", (int)theTone.Note, (int)theTone.NoteType, theTone.Octave, 1f);
                 Invoke(() => GetTrumpet().ClientRPC(null, "Client_StopNote", (int)theTone.Note, (int)theTone.NoteType, theTone.Octave), theTone.Duration);
                 Invoke(() => PlayTone(++anIndex), theTone.Duration);
             }

@@ -239,7 +239,7 @@ To find correct positions I suggest to edit the siren file directly on the serve
         }
       }
     ],
-    // the horse that is described (acutally this is for all ridable horses)
+    // the horse that is described (actually this is for all ridable horses)
     "assets/rust.ai/nextai/testridablehorse.prefab": [
       {
         // the prefab that will be spawned
