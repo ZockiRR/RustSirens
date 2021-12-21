@@ -1,17 +1,16 @@
 using Newtonsoft.Json;
-using Rust.Instruments;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Linq;
-using static InstrumentKeyController;
+using Newtonsoft.Json.Converters;
 using Oxide.Core;
 using Oxide.Core.Libraries.Covalence;
-using Newtonsoft.Json.Converters;
-using System;
+using Rust.Instruments;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using static InstrumentKeyController;
 
 namespace Oxide.Plugins
 {
-    [Info("Sirens", "ZockiRR", "2.1.1")]
+    [Info("Sirens", "ZockiRR", "2.1.2")]
     [Description("Gives players the ability to attach sirens to vehicles")]
     class Sirens : CovalencePlugin
     {
@@ -230,13 +229,14 @@ namespace Oxide.Plugins
             public Dictionary<string, float> SirenSpawnProbability = new Dictionary<string, float>
             {
                 [KEY_MODULAR_CAR] = 0f,
-                [PREFAB_SEDAN] = 0f,
+                [PREFAB_HORSE] = 0f,
+                [PREFAB_MAGNETCRANE] = 0f,
                 [PREFAB_MINICOPTER] = 0f,
-                [PREFAB_TRANSPORTHELI] = 0f,
                 [PREFAB_RHIB] = 0f,
                 [PREFAB_ROWBOAT] = 0f,
-                [PREFAB_WORKCART] = 0f,
-                [PREFAB_MAGNETCRANE] = 0f
+                [PREFAB_SEDAN] = 0f,
+                [PREFAB_TRANSPORTHELI] = 0f,
+                [PREFAB_WORKCART] = 0f
             };
 
             [JsonConverter(typeof(StringEnumConverter))]
@@ -350,7 +350,7 @@ namespace Oxide.Plugins
                     throw new JsonException();
                 }
 
-                if (Interface.Oxide.DataFileSystem.ExistsDatafile(DATAPATH_SIRENS))
+                try
                 {
                     foreach (string eachSirenFile in Interface.Oxide.DataFileSystem.GetFiles(DATAPATH_SIRENS, "*.json"))
                     {
@@ -365,6 +365,10 @@ namespace Oxide.Plugins
                             PrintWarning($"Siren file {theFilename}.json is invalid; ignoring");
                         }
                     }
+                }
+                catch
+                {
+
                 }
                 Puts("Loaded sirens: " + string.Join(", ", SirenDictionary.Keys));
 
@@ -564,7 +568,7 @@ namespace Oxide.Plugins
                     if (!theController)
                     {
                         float theProbability;
-                        if (config.SirenSpawnProbability.TryGetValue(eachVehicle is BaseVehicle ? KEY_MODULAR_CAR : eachVehicle.PrefabName, out theProbability) && Core.Random.Range(0f, 1f) < theProbability)
+                        if (config.SirenSpawnProbability.TryGetValue(eachVehicle is ModularCar ? KEY_MODULAR_CAR : eachVehicle.PrefabName, out theProbability) && Core.Random.Range(0f, 1f) < theProbability)
                         {
                             AttachSirens(eachVehicle, SirenDictionary.Values.First(), config.DefaultState);
                         }
@@ -592,19 +596,15 @@ namespace Oxide.Plugins
             return null;
         }
 
-        private void OnEntitySpawned(BaseNetworkable anEntity)
+        private void OnEntitySpawned(BaseVehicle aVehicle)
         {
-            BaseVehicle theVehicle = anEntity as BaseVehicle;
-            if (theVehicle)
+            SirenController theController = aVehicle.GetComponent<SirenController>();
+            if (!theController)
             {
-                SirenController theController = theVehicle.GetComponent<SirenController>();
-                if (!theController)
+                float theProbability;
+                if (config.SirenSpawnProbability.TryGetValue(aVehicle is ModularCar ? KEY_MODULAR_CAR : aVehicle.PrefabName, out theProbability) && Core.Random.Range(0f, 1f) < theProbability)
                 {
-                    float theProbability;
-                    if (config.SirenSpawnProbability.TryGetValue(theVehicle is BaseVehicle ? KEY_MODULAR_CAR : theVehicle.PrefabName, out theProbability) && Core.Random.Range(0f, 1f) < theProbability)
-                    {
-                        AttachSirens(theVehicle, SirenDictionary.Values.First(), config.DefaultState);
-                    }
+                    AttachSirens(aVehicle, SirenDictionary.Values.First(), config.DefaultState);
                 }
             }
         }

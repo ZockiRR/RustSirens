@@ -70,13 +70,14 @@ Paste `bind j togglesirens` into the ingame console to bind that command to the 
   // MODULAR_CAR is a special key for the modular car vehicle type.
   "SirenSpawnProbability": {
     "MODULAR_CAR": 0.0,
-    "assets/content/vehicles/sedan_a/sedantest.entity.prefab": 0.0,
+    "assets/rust.ai/nextai/testridablehorse.prefab": 0.0,
+    "assets/content/vehicles/crane_magnet/magnetcrane.entity.prefab": 0.0,
     "assets/content/vehicles/minicopter/minicopter.entity.prefab": 0.0,
-    "assets/content/vehicles/scrap heli carrier/scraptransporthelicopter.prefab": 0.0,
     "assets/content/vehicles/boats/rhib/rhib.prefab": 0.0,
     "assets/content/vehicles/boats/rowboat/rowboat.prefab": 0.0,
-    "assets/content/vehicles/workcart/workcart.entity.prefab": 0.0,
-    "assets/content/vehicles/crane_magnet/magnetcrane.entity.prefab": 0.0
+    "assets/content/vehicles/sedan_a/sedantest.entity.prefab": 0.0,
+    "assets/content/vehicles/scrap heli carrier/scraptransporthelicopter.prefab": 0.0,
+    "assets/content/vehicles/workcart/workcart.entity.prefab": 0.0
   },
   // Sets the default state (OFF, ON, LIGHTS_ONLY) which a newly attached siren will have
   "DefaultState": "OFF"
