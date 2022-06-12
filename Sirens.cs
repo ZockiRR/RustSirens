@@ -10,7 +10,7 @@ using static InstrumentKeyController;
 
 namespace Oxide.Plugins
 {
-    [Info("Sirens", "ZockiRR", "2.1.2")]
+    [Info("Sirens", "ZockiRR", "2.1.3")]
     [Description("Gives players the ability to attach sirens to vehicles")]
     class Sirens : CovalencePlugin
     {
@@ -41,11 +41,14 @@ namespace Oxide.Plugins
         private const string PREFAB_TRUMPET = "assets/prefabs/instruments/trumpet/trumpet.weapon.prefab";
 
         private const string PREFAB_SEDAN = "assets/content/vehicles/sedan_a/sedantest.entity.prefab";
+        private const string PREFAB_SEDAN_RAIL = "assets/content/vehicles/sedan_a/sedanrail.entity.prefab";
         private const string PREFAB_MINICOPTER = "assets/content/vehicles/minicopter/minicopter.entity.prefab";
         private const string PREFAB_TRANSPORTHELI = "assets/content/vehicles/scrap heli carrier/scraptransporthelicopter.prefab";
         private const string PREFAB_RHIB = "assets/content/vehicles/boats/rhib/rhib.prefab";
         private const string PREFAB_ROWBOAT = "assets/content/vehicles/boats/rowboat/rowboat.prefab";
         private const string PREFAB_WORKCART = "assets/content/vehicles/workcart/workcart.entity.prefab";
+        private const string PREFAB_WORKCART_ABOVE_GROUND = "assets/content/vehicles/workcart/workcart_aboveground.entity.prefab";
+        private const string PREFAB_WORKCART_COVERED = "assets/content/vehicles/workcart/workcart_aboveground2.entity.prefab";
         private const string PREFAB_MAGNETCRANE = "assets/content/vehicles/crane_magnet/magnetcrane.entity.prefab";
         private const string PREFAB_HORSE = "assets/rust.ai/nextai/testridablehorse.prefab";
 
@@ -79,13 +82,18 @@ namespace Oxide.Plugins
             new Dictionary<string, Attachment[]>
             {
                 [PREFAB_SEDAN] = new Attachment[] {
-                    new Attachment(PREFAB_BUTTON, new Vector3(0.0f, 2.05f, 1.9f), new Vector3(210f, 0f, 0f)),
+                    new Attachment(PREFAB_BUTTON, new Vector3(0.0f, 2.05f, 1.92f), new Vector3(210f, 0f, 0f)),
                     new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.4f, 1.65f, 0.2f)),
                     new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.4f, 1.65f, 0.2f)),
                     new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 1.68f, 0.2f), new Vector3(148f, 150f, 30f))
                 },
+                [PREFAB_SEDAN_RAIL] = new Attachment[] {
+                    new Attachment(PREFAB_BUTTON, new Vector3(0.0f, 2.3f, 1.175f), new Vector3(210f, 0f, 0f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.4f, 1.9f, -0.555f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.4f, 1.9f, -0.555f)),
+                    new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 1.92f, -0.555f), new Vector3(148f, 150f, 30f))
+                },
                 [PREFAB_MINICOPTER] = new Attachment[] {
-                    new Attachment(PREFAB_BUTTON, new Vector3(-0.1f, 2.0f, 1.0f), new Vector3(180f, 0f, 0f)),
                     new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.0f, 2.235f, -0.025f)),
                     new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.0f, 0.832f, -2.7f), new Vector3(272f, 0f, 0f)),
                     new Attachment(PREFAB_TRUMPET, new Vector3(0.09f, 0.78f, -0.9f), new Vector3(148f, 330f, 30f))
@@ -98,7 +106,7 @@ namespace Oxide.Plugins
                     new Attachment(PREFAB_TRUMPET, new Vector3(0.0f, 0.58f, 2.5f), new Vector3(328f, 30f, 30f))
                 },
                 [PREFAB_RHIB] = new Attachment[] {
-                    new Attachment(PREFAB_BUTTON, new Vector3(-0.4f, 3.0f, 0.25f), new Vector3(180f, 0f, 0f)),
+                    new Attachment(PREFAB_BUTTON, new Vector3(-0.18f, 3.15f, 1.15f), new Vector3(210f, 0f, 0f)),
                     new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.55f, 2.83f, 0.62f)),
                     new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.55f, 2.83f, 0.62f)),
                     new Attachment(PREFAB_TRUMPET, new Vector3(0.8f, 1.16f, 0.5f), new Vector3(148f, 150f, 30f))
@@ -109,12 +117,26 @@ namespace Oxide.Plugins
                     new Attachment(PREFAB_TRUMPET, new Vector3(0.5f, 0.1f, -0.4f), new Vector3(148f, 150f, 30f))
                 },
                 [PREFAB_WORKCART] = new Attachment[] {
-                    new Attachment(PREFAB_BUTTON, new Vector3(0.19f, 3.13f, 4.95f), new Vector3(235f, 0f, 0f)),
-                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.1f, 3.95f, 4.13f)),
-                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(1.25f, 3.95f, 4.13f)),
-                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-1.49f, 2.52f, -4.58f)),
-                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(1.51f, 2.52f, -4.55f)),
-                    new Attachment(PREFAB_TRUMPET, new Vector3(0.59f, 3.85f, 4.13f), new Vector3(148f, 150f, 30f))
+                    new Attachment(PREFAB_BUTTON, new Vector3(0.19f, 3.105f, 4.95f), new Vector3(235f, 0f, 0f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.1f, 3.93f, 4.13f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(1.25f, 3.93f, 4.13f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-1.49f, 2.5f, -4.58f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(1.51f, 2.5f, -4.58f)),
+                    new Attachment(PREFAB_TRUMPET, new Vector3(0.59f, 3.82f, 4.13f), new Vector3(148f, 150f, 30f))
+                },
+                [PREFAB_WORKCART_ABOVE_GROUND] = new Attachment[] {
+                    new Attachment(PREFAB_BUTTON, new Vector3(0.19f, 3.105f, 4.95f), new Vector3(235f, 0f, 0f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.1f, 3.93f, 4.13f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(1.25f, 3.93f, 4.13f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-1.49f, 2.5f, -4.58f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(1.51f, 2.5f, -4.58f)),
+                    new Attachment(PREFAB_TRUMPET, new Vector3(0.59f, 3.82f, 4.13f), new Vector3(148f, 150f, 30f))
+                },
+                [PREFAB_WORKCART_COVERED] = new Attachment[] {
+                    new Attachment(PREFAB_BUTTON, new Vector3(0.19f, 3.105f, 4.95f), new Vector3(235f, 0f, 0f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.1f, 3.93f, 4.13f)),
+                    new Attachment(PREFAB_FLASHERLIGHT, new Vector3(1.25f, 3.93f, 4.13f)),
+                    new Attachment(PREFAB_TRUMPET, new Vector3(0.59f, 3.82f, 4.13f), new Vector3(148f, 150f, 30f))
                 },
                 [PREFAB_MAGNETCRANE] = new Attachment[] {
                     new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.95f, 4.25f, 0.5f)),
@@ -147,12 +169,16 @@ namespace Oxide.Plugins
             new Dictionary<string, Attachment[]>
             {
                 [PREFAB_SEDAN] = new Attachment[] {
-                    new Attachment(PREFAB_BUTTON, new Vector3(0.0f, 2.05f, 1.9f), new Vector3(210f, 0f, 0f)),
+                    new Attachment(PREFAB_BUTTON, new Vector3(0.0f, 2.05f, 1.92f), new Vector3(210f, 0f, 0f)),
                     new Attachment(PREFAB_SIRENLIGHT, new Vector3(-0.4f, 1.64f, 0.2f), new Vector3(0f, 0f, 3f)),
                     new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.4f, 1.64f, 0.2f), new Vector3(0f, 0f, 357f))
                 },
+                [PREFAB_SEDAN_RAIL] = new Attachment[] {
+                    new Attachment(PREFAB_BUTTON, new Vector3(0.0f, 2.3f, 1.175f), new Vector3(210f, 0f, 0f)),
+                    new Attachment(PREFAB_SIRENLIGHT, new Vector3(-0.4f, 1.885f, -0.555f), new Vector3(0f, 0f, 3f)),
+                    new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.4f, 1.885f, -0.555f), new Vector3(0f, 0f, 357f))
+                },
                 [PREFAB_MINICOPTER] = new Attachment[] {
-                    new Attachment(PREFAB_BUTTON, new Vector3(-0.1f, 2.0f, 1.0f), new Vector3(180f, 0f, 0f)),
                     new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.0f, 2.235f, -0.025f)),
                     new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.0f, 0.832f, -2.7f), new Vector3(272f, 0f, 0f))
                 },
@@ -163,7 +189,7 @@ namespace Oxide.Plugins
                     new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.0f, 0.55f, 3.6f), new Vector3(180f, 0f, 0f))
                 },
                 [PREFAB_RHIB] = new Attachment[] {
-                    new Attachment(PREFAB_BUTTON, new Vector3(-0.4f, 3.0f, 0.25f), new Vector3(180f, 0f, 0f)),
+                    new Attachment(PREFAB_BUTTON, new Vector3(-0.18f, 3.15f, 1.15f), new Vector3(210f, 0f, 0f)),
                     new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.0f, 1.55f, 4.15f))
                 },
                 [PREFAB_ROWBOAT] = new Attachment[] {
@@ -171,10 +197,20 @@ namespace Oxide.Plugins
                     new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.0f, 0.8f, 2.18f))
                 },
                 [PREFAB_WORKCART] = new Attachment[] {
-                    new Attachment(PREFAB_BUTTON, new Vector3(0.19f, 3.13f, 4.95f), new Vector3(235f, 0f, 0f)),
-                    new Attachment(PREFAB_SIRENLIGHT, new Vector3(1.24f, 3.8f, 4.13f)),
-                    new Attachment(PREFAB_SIRENLIGHT, new Vector3(-1.49f, 2.52f, -4.58f)),
-                    new Attachment(PREFAB_SIRENLIGHT, new Vector3(1.51f, 2.52f, -4.55f))
+                    new Attachment(PREFAB_BUTTON, new Vector3(0.19f, 3.105f, 4.95f), new Vector3(235f, 0f, 0f)),
+                    new Attachment(PREFAB_SIRENLIGHT, new Vector3(1.24f, 3.78f, 4.13f)),
+                    new Attachment(PREFAB_SIRENLIGHT, new Vector3(-1.49f, 2.5f, -4.58f)),
+                    new Attachment(PREFAB_SIRENLIGHT, new Vector3(1.51f, 2.5f, -4.58f))
+                },
+                [PREFAB_WORKCART_ABOVE_GROUND] = new Attachment[] {
+                    new Attachment(PREFAB_BUTTON, new Vector3(0.19f, 3.105f, 4.95f), new Vector3(235f, 0f, 0f)),
+                    new Attachment(PREFAB_SIRENLIGHT, new Vector3(1.24f, 3.78f, 4.13f)),
+                    new Attachment(PREFAB_SIRENLIGHT, new Vector3(-1.49f, 2.5f, -4.58f)),
+                    new Attachment(PREFAB_SIRENLIGHT, new Vector3(1.51f, 2.5f, -4.58f))
+                },
+                [PREFAB_WORKCART_COVERED] = new Attachment[] {
+                    new Attachment(PREFAB_BUTTON, new Vector3(0.19f, 3.105f, 4.95f), new Vector3(235f, 0f, 0f)),
+                    new Attachment(PREFAB_SIRENLIGHT, new Vector3(1.24f, 3.78f, 4.13f))
                 },
                 [PREFAB_MAGNETCRANE] = new Attachment[] {
                     new Attachment(PREFAB_SIRENLIGHT, new Vector3(-0.95f, 4.25f, 0.5f))
@@ -235,8 +271,11 @@ namespace Oxide.Plugins
                 [PREFAB_RHIB] = 0f,
                 [PREFAB_ROWBOAT] = 0f,
                 [PREFAB_SEDAN] = 0f,
+                [PREFAB_SEDAN_RAIL] = 0f,
                 [PREFAB_TRANSPORTHELI] = 0f,
-                [PREFAB_WORKCART] = 0f
+                [PREFAB_WORKCART] = 0f,
+                [PREFAB_WORKCART_ABOVE_GROUND] = 0f,
+                [PREFAB_WORKCART_COVERED] = 0f
             };
 
             [JsonConverter(typeof(StringEnumConverter))]
@@ -439,8 +478,10 @@ namespace Oxide.Plugins
             if (theVehicle)
             {
                 Siren theSiren = someArgs.Length > 0 ? FindSirenForName(someArgs[0], aPlayer) : SirenDictionary.Values.First();
-                AttachSirens(theVehicle, theSiren, config.DefaultState, aPlayer);
-                Message(aPlayer, I18N_ATTACHED, theSiren.Name);
+                if (AttachSirens(theVehicle, theSiren, config.DefaultState, aPlayer))
+                {
+                    Message(aPlayer, I18N_ATTACHED, theSiren.Name);
+                }
             }
         }
 
@@ -464,11 +505,15 @@ namespace Oxide.Plugins
         private void AttachAllCarSirens(IPlayer aPlayer, string aCommand, string[] someArgs)
         {
             Siren theSiren = someArgs.Length > 0 ? FindSirenForName(someArgs[0], aPlayer) : SirenDictionary.Values.First();
+            bool theAtLeastOneSuccessful = false;
             foreach (BaseVehicle eachVehicle in BaseNetworkable.serverEntities.OfType<BaseVehicle>())
             {
-                AttachSirens(eachVehicle, theSiren, config.DefaultState, aPlayer);
+                theAtLeastOneSuccessful |= AttachSirens(eachVehicle, theSiren, config.DefaultState, aPlayer);
             }
-            Message(aPlayer, I18N_ATTACHED_GLOBAL, theSiren.Name);
+            if (theAtLeastOneSuccessful)
+            {
+                Message(aPlayer, I18N_ATTACHED_GLOBAL, theSiren.Name);
+            }
         }
 
         [Command("detachallsirens"), Permission(PERMISSION_DETACHSIRENS_GLOBAL)]
@@ -579,7 +624,7 @@ namespace Oxide.Plugins
 
         private object OnButtonPress(PressButton aButton, BasePlayer aPlayer)
         {
-            BaseVehicle theVehicle = aButton.GetComponentInParent<BaseVehicle>()?.VehicleParent();
+            BaseVehicle theVehicle = aButton.GetComponentInParent<BaseVehicleModule>()?.Vehicle;
             theVehicle = theVehicle ? theVehicle : aButton.GetComponentInParent<BaseVehicle>();
             if (theVehicle)
             {
@@ -618,7 +663,8 @@ namespace Oxide.Plugins
         /// <param name="aSiren">The siren.</param>
         /// <param name="anInitialState">The initial siren state.</param>
         /// <param name="aPlayer">The calling player.</param>
-        private void AttachSirens(BaseVehicle aVehicle, Siren aSiren, SirenController.States anInitialState, IPlayer aPlayer = null)
+        /// <returns>True, if successful.</returns>
+        private bool AttachSirens(BaseVehicle aVehicle, Siren aSiren, SirenController.States anInitialState, IPlayer aPlayer = null)
         {
             DetachSirens(aVehicle);
             SirenController theController = CreateSirenController(aVehicle, aSiren);
@@ -628,7 +674,7 @@ namespace Oxide.Plugins
                 {
                     Message(aPlayer, I18N_NOT_SUPPORTED, aSiren.Name, KEY_MODULAR_CAR);
                     DetachSirens(aVehicle);
-                    return;
+                    return false;
                 }
                 foreach (BaseVehicleModule eachModule in aVehicle.GetComponentsInChildren<BaseVehicleModule>())
                 {
@@ -639,9 +685,10 @@ namespace Oxide.Plugins
             {
                 Message(aPlayer, I18N_NOT_SUPPORTED, aSiren.Name, aVehicle.PrefabName);
                 DetachSirens(aVehicle);
-                return;
+                return false;
             }
             theController.SetState(anInitialState);
+            return true;
         }
 
         /// <summary>
@@ -936,7 +983,7 @@ namespace Oxide.Plugins
                 }
                 Tone theTone = Siren.Tones[anIndex];
                 GetTrumpet().ClientRPC(null, "Client_PlayNote", (int)theTone.Note, (int)theTone.NoteType, theTone.Octave, 1f);
-                Invoke(() => GetTrumpet().ClientRPC(null, "Client_StopNote", (int)theTone.Note, (int)theTone.NoteType, theTone.Octave), theTone.Duration);
+                Invoke(() => GetTrumpet().ClientRPC(null, "Client_StopNote", (int)theTone.Note, (int)theTone.NoteType, theTone.Octave), theTone.Duration - 0.1f);
                 Invoke(() => PlayTone(++anIndex), theTone.Duration);
             }
         }
