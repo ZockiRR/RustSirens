@@ -10,7 +10,7 @@ using static InstrumentKeyController;
 
 namespace Oxide.Plugins
 {
-    [Info("Sirens", "ZockiRR", "2.1.3")]
+    [Info("Sirens", "ZockiRR", "2.1.4")]
     [Description("Gives players the ability to attach sirens to vehicles")]
     class Sirens : CovalencePlugin
     {
@@ -226,20 +226,20 @@ namespace Oxide.Plugins
         private class DataContainer
         {
             // Map BaseVehicle.net.ID -> SirenInfos
-            public Dictionary<uint, VehicleContainer> VehicleSirenMap = new Dictionary<uint, VehicleContainer>();
+            public Dictionary<NetworkableId, VehicleContainer> VehicleSirenMap = new Dictionary<NetworkableId, VehicleContainer>();
         }
 
         private class VehicleContainer
         {
             public string SirenName = SIREN_DEFAULT.Name;
             public SirenController.States State = SirenController.States.OFF;
-            public HashSet<uint> NetIDs = new HashSet<uint>();
+            public HashSet<NetworkableId> NetIDs = new HashSet<NetworkableId>();
 
             public VehicleContainer()
             {
             }
 
-            public VehicleContainer(string aSirenName, SirenController.States aState, IEnumerable<uint> someNetIDs)
+            public VehicleContainer(string aSirenName, SirenController.States aState, IEnumerable<NetworkableId> someNetIDs)
             {
                 SirenName = aSirenName;
                 State = aState;
@@ -733,7 +733,7 @@ namespace Oxide.Plugins
         /// <param name="aSiren">The Siren.</param>
         /// <param name="someNetIDs">Already existing siren entities.</param>
         /// <returns>The newly created SirenController.</returns>
-        private SirenController CreateSirenController(BaseVehicle aVehicle, Siren aSiren, IEnumerable<uint> someNetIDs = null)
+        private SirenController CreateSirenController(BaseVehicle aVehicle, Siren aSiren, IEnumerable<NetworkableId> someNetIDs = null)
         {
             SirenController theController = aVehicle.GetComponent<SirenController>();
             if (theController)
@@ -919,7 +919,7 @@ namespace Oxide.Plugins
             public Configuration Config { get; set; }
             public States State { get; private set; }
             public Siren Siren { get; set; }
-            public ISet<uint> NetIDs { get; } = new HashSet<uint>();
+            public ISet<NetworkableId> NetIDs { get; } = new HashSet<NetworkableId>();
 
             public States ChangeState()
             {
