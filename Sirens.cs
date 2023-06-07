@@ -10,7 +10,7 @@ using static InstrumentKeyController;
 
 namespace Oxide.Plugins
 {
-    [Info("Sirens", "ZockiRR", "2.1.4")]
+    [Info("Sirens", "ZockiRR", "2.1.5")]
     [Description("Gives players the ability to attach sirens to vehicles")]
     class Sirens : CovalencePlugin
     {
@@ -226,14 +226,14 @@ namespace Oxide.Plugins
         private class DataContainer
         {
             // Map BaseVehicle.net.ID -> SirenInfos
-            public Dictionary<NetworkableId, VehicleContainer> VehicleSirenMap = new Dictionary<NetworkableId, VehicleContainer>();
+            public Dictionary<ulong, VehicleContainer> VehicleSirenMap = new Dictionary<ulong, VehicleContainer>();
         }
 
         private class VehicleContainer
         {
             public string SirenName = SIREN_DEFAULT.Name;
             public SirenController.States State = SirenController.States.OFF;
-            public HashSet<NetworkableId> NetIDs = new HashSet<NetworkableId>();
+            public HashSet<ulong> NetIDs = new HashSet<ulong>();
 
             public VehicleContainer()
             {
@@ -243,13 +243,12 @@ namespace Oxide.Plugins
             {
                 SirenName = aSirenName;
                 State = aState;
-                NetIDs.UnionWith(someNetIDs);
+                NetIDs.UnionWith(someNetIDs.Select(eachNetID => eachNetID.Value));
             }
         }
         #endregion data
 
         #region configuration
-
         private Configuration config;
         private IDictionary<string, Siren> SirenDictionary { get; } = new Dictionary<string, Siren>();
 
@@ -571,7 +570,7 @@ namespace Oxide.Plugins
             foreach (BaseVehicle eachCar in BaseNetworkable.serverEntities.OfType<BaseVehicle>())
             {
                 SirenController theController = eachCar.GetComponent<SirenController>();
-                thePersistentData.VehicleSirenMap.Add(eachCar.net.ID, theController ? new VehicleContainer(theController.Siren.Name, theController.State, theController.NetIDs) : null);
+                thePersistentData.VehicleSirenMap.Add(eachCar.net.ID.Value, theController ? new VehicleContainer(theController.Siren.Name, theController.State, theController.NetIDs) : null);
             }
             Interface.Oxide.DataFileSystem.WriteObject(Name, thePersistentData);
         }
@@ -589,7 +588,7 @@ namespace Oxide.Plugins
             foreach (BaseVehicle eachVehicle in BaseNetworkable.serverEntities.OfType<BaseVehicle>())
             {
                 VehicleContainer theContainer;
-                if (thePersistentData.VehicleSirenMap.TryGetValue(eachVehicle.net.ID, out theContainer))
+                if (thePersistentData.VehicleSirenMap.TryGetValue(eachVehicle.net.ID.Value, out theContainer))
                 {
                     if (theContainer != null)
                     {
@@ -733,7 +732,7 @@ namespace Oxide.Plugins
         /// <param name="aSiren">The Siren.</param>
         /// <param name="someNetIDs">Already existing siren entities.</param>
         /// <returns>The newly created SirenController.</returns>
-        private SirenController CreateSirenController(BaseVehicle aVehicle, Siren aSiren, IEnumerable<NetworkableId> someNetIDs = null)
+        private SirenController CreateSirenController(BaseVehicle aVehicle, Siren aSiren, IEnumerable<ulong> someNetIDs = null)
         {
             SirenController theController = aVehicle.GetComponent<SirenController>();
             if (theController)
@@ -745,7 +744,7 @@ namespace Oxide.Plugins
             theController.Siren = aSiren;
             if (someNetIDs != null)
             {
-                theController.NetIDs.UnionWith(someNetIDs);
+                theController.NetIDs.UnionWith(someNetIDs.Select(eachNetID => new NetworkableId(eachNetID)));
             }
             return theController;
         }
