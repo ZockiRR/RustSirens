@@ -10,7 +10,7 @@ using static InstrumentKeyController;
 
 namespace Oxide.Plugins
 {
-	[Info("Sirens", "ZockiRR", "2.1.6")]
+	[Info("Sirens", "ZockiRR", "2.2.0")]
 	[Description("Gives players the ability to attach sirens to vehicles")]
 	class Sirens : CovalencePlugin
 	{
@@ -38,6 +38,9 @@ namespace Oxide.Plugins
 		private const string PREFAB_BUTTON = "assets/prefabs/deployable/playerioents/button/button.prefab";
 		private const string PREFAB_FLASHERLIGHT = "assets/prefabs/deployable/playerioents/lights/flasherlight/electric.flasherlight.deployed.prefab";
 		private const string PREFAB_SIRENLIGHT = "assets/prefabs/deployable/playerioents/lights/sirenlight/electric.sirenlight.deployed.prefab";
+		private const string PREFAB_SIRENLIGHT_ORANGE = "assets/prefabs/io/electric/lights/sirenlightorange.prefab";
+		private const string PREFAB_SIRENLIGHT_GREEN = "assets/prefabs/io/electric/lights/sirenlightgreen.prefab";
+		private const string PREFAB_SIRENLIGHT_BLUE = "assets/prefabs/io/electric/lights/sirenlightblue.prefab";
 		private const string PREFAB_TRUMPET = "assets/prefabs/instruments/trumpet/trumpet.weapon.prefab";
 
 		private const string PREFAB_SEDAN = "assets/content/vehicles/sedan_a/sedantest.entity.prefab";
@@ -46,9 +49,9 @@ namespace Oxide.Plugins
 		private const string PREFAB_TRANSPORTHELI = "assets/content/vehicles/scrap heli carrier/scraptransporthelicopter.prefab";
 		private const string PREFAB_RHIB = "assets/content/vehicles/boats/rhib/rhib.prefab";
 		private const string PREFAB_ROWBOAT = "assets/content/vehicles/boats/rowboat/rowboat.prefab";
-		private const string PREFAB_WORKCART = "assets/content/vehicles/workcart/workcart.entity.prefab";
-		private const string PREFAB_WORKCART_ABOVE_GROUND = "assets/content/vehicles/workcart/workcart_aboveground.entity.prefab";
-		private const string PREFAB_WORKCART_COVERED = "assets/content/vehicles/workcart/workcart_aboveground2.entity.prefab";
+		private const string PREFAB_WORKCART = "assets/content/vehicles/trains/workcart/workcart.entity.prefab";
+		private const string PREFAB_WORKCART_ABOVE_GROUND = "assets/content/vehicles/trains/workcart/workcart_aboveground.entity.prefab";
+		private const string PREFAB_WORKCART_COVERED = "assets/content/vehicles/trains/workcart/workcart_aboveground2.entity.prefab";
 		private const string PREFAB_MAGNETCRANE = "assets/content/vehicles/crane_magnet/magnetcrane.entity.prefab";
 		private const string PREFAB_HORSE = "assets/rust.ai/nextai/testridablehorse.prefab";
 		private const string PREFAB_ATTACKHELI = "assets/content/vehicles/attackhelicopter/attackhelicopter.entity.prefab";
@@ -63,19 +66,19 @@ namespace Oxide.Plugins
 			new Dictionary<string, Attachment[]>
 			{
 				[PREFAB_COCKPIT] = new Attachment[] {
-					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 1.7f, 0.78f), new Vector3(210f, 0f, 0f)),
+					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 0.68f, 0.2f), new Vector3(200f, 0f, 0f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.4f, 1.4f, -0.9f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.4f, 1.4f, -0.9f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 1.4f, -0.9f), new Vector3(148f, 150f, 30f))
 				},
 				[PREFAB_COCKPIT_ARMORED] = new Attachment[] {
-					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 1.7f, 0.78f), new Vector3(210f, 0f, 0f)),
+					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 0.68f, 0.2f), new Vector3(200f, 0f, 0f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.4f, 1.4f, -0.9f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.4f, 1.4f, -0.9f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 1.4f, -0.9f), new Vector3(148f, 150f, 30f))
 				},
 				[PREFAB_COCKPIT_WITH_ENGINE] = new Attachment[] {
-					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 1.7f, 0.78f), new Vector3(210f, 0f, 0f)),
+					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 0.68f, 0.2f), new Vector3(200f, 0f, 0f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.4f, 1.4f, -0.9f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.4f, 1.4f, -0.9f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 1.4f, -0.9f), new Vector3(148f, 150f, 30f))
@@ -84,13 +87,13 @@ namespace Oxide.Plugins
 			new Dictionary<string, Attachment[]>
 			{
 				[PREFAB_SEDAN] = new Attachment[] {
-					new Attachment(PREFAB_BUTTON, new Vector3(0.0f, 2.05f, 1.92f), new Vector3(210f, 0f, 0f)),
+					new Attachment(PREFAB_BUTTON, new Vector3(0.0f, 1.0f, 1.32f), new Vector3(210f, 0f, 0f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.4f, 1.65f, 0.2f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.4f, 1.65f, 0.2f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 1.68f, 0.2f), new Vector3(148f, 150f, 30f))
 				},
 				[PREFAB_SEDAN_RAIL] = new Attachment[] {
-					new Attachment(PREFAB_BUTTON, new Vector3(0.0f, 2.3f, 1.175f), new Vector3(210f, 0f, 0f)),
+					new Attachment(PREFAB_BUTTON, new Vector3(0.0f, 1.23f, 0.56f), new Vector3(210f, 0f, 0f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.4f, 1.9f, -0.555f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.4f, 1.9f, -0.555f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 1.92f, -0.555f), new Vector3(148f, 150f, 30f))
@@ -101,25 +104,25 @@ namespace Oxide.Plugins
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.09f, 0.78f, -0.9f), new Vector3(148f, 330f, 30f))
 				},
 				[PREFAB_TRANSPORTHELI] = new Attachment[] {
-					new Attachment(PREFAB_BUTTON, new Vector3(-0.1f, 2.68f, 3.865f), new Vector3(205f, 0f, 0f)),
+					new Attachment(PREFAB_BUTTON, new Vector3(0.012f, 1.215f, 2.86f), new Vector3(242f, 0f, 0f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.3f, 3.15f, -7.65f), new Vector3(0f, 0f, 90f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.1f, 3.15f, -7.65f), new Vector3(0f, 0f, 270f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.0f, 0.55f, 3.6f), new Vector3(180f, 0f, 0f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.0f, 0.58f, 2.5f), new Vector3(328f, 30f, 30f))
 				},
 				[PREFAB_RHIB] = new Attachment[] {
-					new Attachment(PREFAB_BUTTON, new Vector3(-0.18f, 3.15f, 1.15f), new Vector3(210f, 0f, 0f)),
+					new Attachment(PREFAB_BUTTON, new Vector3(-0.43f, 2.23f, 0.62f), new Vector3(210f, 0f, 0f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.55f, 2.83f, 0.62f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.55f, 2.83f, 0.62f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.8f, 1.16f, 0.5f), new Vector3(148f, 150f, 30f))
 				},
 				[PREFAB_ROWBOAT] = new Attachment[] {
-					new Attachment(PREFAB_BUTTON, new Vector3(-1.7f, 0.5f, -1.8f), new Vector3(270f, 270f, 0f)),
+					new Attachment(PREFAB_BUTTON, new Vector3(-0.5f, 0.495f, -1.8f), new Vector3(270f, 270f, 0f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.0f, 0.8f, 2.18f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.5f, 0.1f, -0.4f), new Vector3(148f, 150f, 30f))
 				},
 				[PREFAB_WORKCART] = new Attachment[] {
-					new Attachment(PREFAB_BUTTON, new Vector3(0.19f, 3.105f, 4.95f), new Vector3(235f, 0f, 0f)),
+					new Attachment(PREFAB_BUTTON, new Vector3(0.185f, 2.405f, 3.95f), new Vector3(235f, 0f, 0f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.1f, 3.93f, 4.13f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(1.25f, 3.93f, 4.13f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-1.49f, 2.5f, -4.58f)),
@@ -127,7 +130,7 @@ namespace Oxide.Plugins
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.59f, 3.82f, 4.13f), new Vector3(148f, 150f, 30f))
 				},
 				[PREFAB_WORKCART_ABOVE_GROUND] = new Attachment[] {
-					new Attachment(PREFAB_BUTTON, new Vector3(0.19f, 3.105f, 4.95f), new Vector3(235f, 0f, 0f)),
+					new Attachment(PREFAB_BUTTON, new Vector3(0.185f, 2.405f, 3.95f), new Vector3(235f, 0f, 0f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.1f, 3.93f, 4.13f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(1.25f, 3.93f, 4.13f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-1.49f, 2.5f, -4.58f)),
@@ -135,7 +138,7 @@ namespace Oxide.Plugins
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.59f, 3.82f, 4.13f), new Vector3(148f, 150f, 30f))
 				},
 				[PREFAB_WORKCART_COVERED] = new Attachment[] {
-					new Attachment(PREFAB_BUTTON, new Vector3(0.19f, 3.105f, 4.95f), new Vector3(235f, 0f, 0f)),
+					new Attachment(PREFAB_BUTTON, new Vector3(0.185f, 2.405f, 3.95f), new Vector3(235f, 0f, 0f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.1f, 3.93f, 4.13f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(1.25f, 3.93f, 4.13f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.59f, 3.82f, 4.13f), new Vector3(148f, 150f, 30f))
@@ -154,7 +157,7 @@ namespace Oxide.Plugins
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.09f, 0.78f, -0.9f), new Vector3(148f, 330f, 30f))
 				},
 				[PREFAB_TUGBOAT] = new Attachment[] {
-					new Attachment(PREFAB_BUTTON, new Vector3(0.45f, 6.06f, 3.1f), new Vector3(-53f, 225f, 0f)),
+					new Attachment(PREFAB_BUTTON, new Vector3(1.15f, 6.76f, 3.8f), new Vector3(-52f, 222f, 0f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.0f, 8.3f, 4.98f), new Vector3(45f, 0f, 0f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(2.88f, 3.08f, -8.08f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-2.88f, 3.08f, -8.08f)),
@@ -165,17 +168,17 @@ namespace Oxide.Plugins
 			new Dictionary<string, Attachment[]>
 			{
 				[PREFAB_COCKPIT] = new Attachment[] {
-					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 1.7f, 0.78f), new Vector3(210f, 0f, 0f)),
+					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 0.68f, 0.2f), new Vector3(200f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(-0.4f, 1.4f, -0.9f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.4f, 1.4f, -0.9f))
 				},
 				[PREFAB_COCKPIT_ARMORED] = new Attachment[] {
-					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 1.7f, 0.78f), new Vector3(210f, 0f, 0f)),
+					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 0.68f, 0.2f), new Vector3(200f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(-0.4f, 1.4f, -0.9f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.4f, 1.4f, -0.9f))
 				},
 				[PREFAB_COCKPIT_WITH_ENGINE] = new Attachment[] {
-					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 1.7f, 0.78f), new Vector3(210f, 0f, 0f)),
+					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 0.68f, 0.2f), new Vector3(200f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(-0.4f, 1.4f, -0.9f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.4f, 1.4f, -0.9f))
 				}
@@ -183,12 +186,12 @@ namespace Oxide.Plugins
 			new Dictionary<string, Attachment[]>
 			{
 				[PREFAB_SEDAN] = new Attachment[] {
-					new Attachment(PREFAB_BUTTON, new Vector3(0.0f, 2.05f, 1.92f), new Vector3(210f, 0f, 0f)),
+					new Attachment(PREFAB_BUTTON, new Vector3(0.0f, 1.0f, 1.32f), new Vector3(210f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(-0.4f, 1.64f, 0.2f), new Vector3(0f, 0f, 3f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.4f, 1.64f, 0.2f), new Vector3(0f, 0f, 357f))
 				},
 				[PREFAB_SEDAN_RAIL] = new Attachment[] {
-					new Attachment(PREFAB_BUTTON, new Vector3(0.0f, 2.3f, 1.175f), new Vector3(210f, 0f, 0f)),
+					new Attachment(PREFAB_BUTTON, new Vector3(0.0f, 1.23f, 0.56f), new Vector3(210f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(-0.4f, 1.885f, -0.555f), new Vector3(0f, 0f, 3f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.4f, 1.885f, -0.555f), new Vector3(0f, 0f, 357f))
 				},
@@ -197,33 +200,33 @@ namespace Oxide.Plugins
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.0f, 0.832f, -2.7f), new Vector3(272f, 0f, 0f))
 				},
 				[PREFAB_TRANSPORTHELI] = new Attachment[] {
-					new Attachment(PREFAB_BUTTON, new Vector3(-0.1f, 2.68f, 3.865f), new Vector3(205f, 0f, 0f)),
+					new Attachment(PREFAB_BUTTON, new Vector3(0.012f, 1.215f, 2.86f), new Vector3(242f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(-0.3f, 3.15f, -7.65f), new Vector3(0f, 0f, 90f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.1f, 3.15f, -7.65f), new Vector3(0f, 0f, 270f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.0f, 0.55f, 3.6f), new Vector3(180f, 0f, 0f))
 				},
 				[PREFAB_RHIB] = new Attachment[] {
-					new Attachment(PREFAB_BUTTON, new Vector3(-0.18f, 3.15f, 1.15f), new Vector3(210f, 0f, 0f)),
+					new Attachment(PREFAB_BUTTON, new Vector3(-0.43f, 2.23f, 0.62f), new Vector3(210f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.0f, 1.55f, 4.15f))
 				},
 				[PREFAB_ROWBOAT] = new Attachment[] {
-					new Attachment(PREFAB_BUTTON, new Vector3(-1.7f, 0.5f, -1.8f), new Vector3(270f, 270f, 0f)),
+					new Attachment(PREFAB_BUTTON, new Vector3(-0.5f, 0.495f, -1.8f), new Vector3(270f, 270f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.0f, 0.8f, 2.18f))
 				},
 				[PREFAB_WORKCART] = new Attachment[] {
-					new Attachment(PREFAB_BUTTON, new Vector3(0.19f, 3.105f, 4.95f), new Vector3(235f, 0f, 0f)),
+					new Attachment(PREFAB_BUTTON, new Vector3(0.185f, 2.405f, 3.95f), new Vector3(235f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(1.24f, 3.78f, 4.13f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(-1.49f, 2.5f, -4.58f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(1.51f, 2.5f, -4.58f))
 				},
 				[PREFAB_WORKCART_ABOVE_GROUND] = new Attachment[] {
-					new Attachment(PREFAB_BUTTON, new Vector3(0.19f, 3.105f, 4.95f), new Vector3(235f, 0f, 0f)),
+					new Attachment(PREFAB_BUTTON, new Vector3(0.185f, 2.405f, 3.95f), new Vector3(235f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(1.24f, 3.78f, 4.13f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(-1.49f, 2.5f, -4.58f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(1.51f, 2.5f, -4.58f))
 				},
 				[PREFAB_WORKCART_COVERED] = new Attachment[] {
-					new Attachment(PREFAB_BUTTON, new Vector3(0.19f, 3.105f, 4.95f), new Vector3(235f, 0f, 0f)),
+					new Attachment(PREFAB_BUTTON, new Vector3(0.185f, 2.405f, 3.95f), new Vector3(235f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(1.24f, 3.78f, 4.13f))
 				},
 				[PREFAB_MAGNETCRANE] = new Attachment[] {
@@ -239,13 +242,281 @@ namespace Oxide.Plugins
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.09f, 0.78f, -0.9f), new Vector3(148f, 330f, 30f))
 				},
 				[PREFAB_TUGBOAT] = new Attachment[] {
-					new Attachment(PREFAB_BUTTON, new Vector3(0.45f, 6.06f, 3.1f), new Vector3(-53f, 225f, 0f)),
+					new Attachment(PREFAB_BUTTON, new Vector3(1.15f, 6.76f, 3.8f), new Vector3(-52f, 222f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.0f, 8.3f, 4.98f), new Vector3(45f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(2.88f, 3.08f, -8.08f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(-2.88f, 3.08f, -8.08f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.7f, 4.4f, 5.75f), new Vector3(148f, 150f, 30f))
 				}
 			});
+		private static readonly Siren SIREN_ORANGE = new Siren("orange-lights",
+			new Dictionary<string, Attachment[]>
+			{
+				[PREFAB_COCKPIT] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 0.68f, 0.2f), new Vector3(200f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(-0.4f, 1.4f, -0.9f)),
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.4f, 1.4f, -0.9f))
+				},
+				[PREFAB_COCKPIT_ARMORED] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 0.68f, 0.2f), new Vector3(200f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(-0.4f, 1.4f, -0.9f)),
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.4f, 1.4f, -0.9f))
+				},
+				[PREFAB_COCKPIT_WITH_ENGINE] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 0.68f, 0.2f), new Vector3(200f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(-0.4f, 1.4f, -0.9f)),
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.4f, 1.4f, -0.9f))
+				}
+			},
+			new Dictionary<string, Attachment[]>
+			{
+				[PREFAB_SEDAN] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(0.0f, 1.0f, 1.32f), new Vector3(210f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(-0.4f, 1.64f, 0.2f), new Vector3(0f, 0f, 3f)),
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.4f, 1.64f, 0.2f), new Vector3(0f, 0f, 357f))
+				},
+				[PREFAB_SEDAN_RAIL] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(0.0f, 1.23f, 0.56f), new Vector3(210f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(-0.4f, 1.885f, -0.555f), new Vector3(0f, 0f, 3f)),
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.4f, 1.885f, -0.555f), new Vector3(0f, 0f, 357f))
+				},
+				[PREFAB_MINICOPTER] = new Attachment[] {
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.0f, 2.235f, -0.025f)),
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.0f, 0.832f, -2.7f), new Vector3(272f, 0f, 0f))
+				},
+				[PREFAB_TRANSPORTHELI] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(0.012f, 1.215f, 2.86f), new Vector3(242f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(-0.3f, 3.15f, -7.65f), new Vector3(0f, 0f, 90f)),
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.1f, 3.15f, -7.65f), new Vector3(0f, 0f, 270f)),
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.0f, 0.55f, 3.6f), new Vector3(180f, 0f, 0f))
+				},
+				[PREFAB_RHIB] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(-0.43f, 2.23f, 0.62f), new Vector3(210f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.0f, 1.55f, 4.15f))
+				},
+				[PREFAB_ROWBOAT] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(-0.5f, 0.495f, -1.8f), new Vector3(270f, 270f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.0f, 0.8f, 2.18f))
+				},
+				[PREFAB_WORKCART] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(0.185f, 2.405f, 3.95f), new Vector3(235f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(1.24f, 3.78f, 4.13f)),
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(-1.49f, 2.5f, -4.58f)),
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(1.51f, 2.5f, -4.58f))
+				},
+				[PREFAB_WORKCART_ABOVE_GROUND] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(0.185f, 2.405f, 3.95f), new Vector3(235f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(1.24f, 3.78f, 4.13f)),
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(-1.49f, 2.5f, -4.58f)),
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(1.51f, 2.5f, -4.58f))
+				},
+				[PREFAB_WORKCART_COVERED] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(0.185f, 2.405f, 3.95f), new Vector3(235f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(1.24f, 3.78f, 4.13f))
+				},
+				[PREFAB_MAGNETCRANE] = new Attachment[] {
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(-0.95f, 4.25f, 0.5f))
+				},
+				[PREFAB_HORSE] = new Attachment[] {
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.0f, 1.7f, 1.2f), new Vector3(25f, 0f, 0f), "head"),
+					new Attachment(PREFAB_TRUMPET, new Vector3(-0.06f, 1.15f, 1.3f), new Vector3(90f, 150f, 90f), "lip_lower")
+				},
+				[PREFAB_ATTACKHELI] = new Attachment[] {
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.0f, 2.48f, -0.37f)),
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.11f, 2.2f, -6.45f), new Vector3(0f, 0f, -90f)),
+					new Attachment(PREFAB_TRUMPET, new Vector3(0.09f, 0.78f, -0.9f), new Vector3(148f, 330f, 30f))
+				},
+				[PREFAB_TUGBOAT] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(1.15f, 6.76f, 3.8f), new Vector3(-52f, 222f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.0f, 8.3f, 4.98f), new Vector3(45f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(2.88f, 3.08f, -8.08f)),
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(-2.88f, 3.08f, -8.08f)),
+					new Attachment(PREFAB_TRUMPET, new Vector3(0.7f, 4.4f, 5.75f), new Vector3(148f, 150f, 30f))
+				}
+			});
+		private static readonly Siren SIREN_GREEN = new Siren("green-lights",
+			new Dictionary<string, Attachment[]>
+			{
+				[PREFAB_COCKPIT] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 0.68f, 0.2f), new Vector3(200f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(-0.4f, 1.4f, -0.9f)),
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.4f, 1.4f, -0.9f))
+				},
+				[PREFAB_COCKPIT_ARMORED] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 0.68f, 0.2f), new Vector3(200f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(-0.4f, 1.4f, -0.9f)),
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.4f, 1.4f, -0.9f))
+				},
+				[PREFAB_COCKPIT_WITH_ENGINE] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 0.68f, 0.2f), new Vector3(200f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(-0.4f, 1.4f, -0.9f)),
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.4f, 1.4f, -0.9f))
+				}
+			},
+			new Dictionary<string, Attachment[]>
+			{
+				[PREFAB_SEDAN] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(0.0f, 1.0f, 1.32f), new Vector3(210f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(-0.4f, 1.64f, 0.2f), new Vector3(0f, 0f, 3f)),
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.4f, 1.64f, 0.2f), new Vector3(0f, 0f, 357f))
+				},
+				[PREFAB_SEDAN_RAIL] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(0.0f, 1.23f, 0.56f), new Vector3(210f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(-0.4f, 1.885f, -0.555f), new Vector3(0f, 0f, 3f)),
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.4f, 1.885f, -0.555f), new Vector3(0f, 0f, 357f))
+				},
+				[PREFAB_MINICOPTER] = new Attachment[] {
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.0f, 2.235f, -0.025f)),
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.0f, 0.832f, -2.7f), new Vector3(272f, 0f, 0f))
+				},
+				[PREFAB_TRANSPORTHELI] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(0.012f, 1.215f, 2.86f), new Vector3(242f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(-0.3f, 3.15f, -7.65f), new Vector3(0f, 0f, 90f)),
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.1f, 3.15f, -7.65f), new Vector3(0f, 0f, 270f)),
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.0f, 0.55f, 3.6f), new Vector3(180f, 0f, 0f))
+				},
+				[PREFAB_RHIB] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(-0.43f, 2.23f, 0.62f), new Vector3(210f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.0f, 1.55f, 4.15f))
+				},
+				[PREFAB_ROWBOAT] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(-0.5f, 0.495f, -1.8f), new Vector3(270f, 270f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.0f, 0.8f, 2.18f))
+				},
+				[PREFAB_WORKCART] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(0.185f, 2.405f, 3.95f), new Vector3(235f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(1.24f, 3.78f, 4.13f)),
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(-1.49f, 2.5f, -4.58f)),
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(1.51f, 2.5f, -4.58f))
+				},
+				[PREFAB_WORKCART_ABOVE_GROUND] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(0.185f, 2.405f, 3.95f), new Vector3(235f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(1.24f, 3.78f, 4.13f)),
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(-1.49f, 2.5f, -4.58f)),
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(1.51f, 2.5f, -4.58f))
+				},
+				[PREFAB_WORKCART_COVERED] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(0.185f, 2.405f, 3.95f), new Vector3(235f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(1.24f, 3.78f, 4.13f))
+				},
+				[PREFAB_MAGNETCRANE] = new Attachment[] {
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(-0.95f, 4.25f, 0.5f))
+				},
+				[PREFAB_HORSE] = new Attachment[] {
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.0f, 1.7f, 1.2f), new Vector3(25f, 0f, 0f), "head"),
+					new Attachment(PREFAB_TRUMPET, new Vector3(-0.06f, 1.15f, 1.3f), new Vector3(90f, 150f, 90f), "lip_lower")
+				},
+				[PREFAB_ATTACKHELI] = new Attachment[] {
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.0f, 2.48f, -0.37f)),
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.11f, 2.2f, -6.45f), new Vector3(0f, 0f, -90f)),
+					new Attachment(PREFAB_TRUMPET, new Vector3(0.09f, 0.78f, -0.9f), new Vector3(148f, 330f, 30f))
+				},
+				[PREFAB_TUGBOAT] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(1.15f, 6.76f, 3.8f), new Vector3(-52f, 222f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.0f, 8.3f, 4.98f), new Vector3(45f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(2.88f, 3.08f, -8.08f)),
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(-2.88f, 3.08f, -8.08f)),
+					new Attachment(PREFAB_TRUMPET, new Vector3(0.7f, 4.4f, 5.75f), new Vector3(148f, 150f, 30f))
+				}
+			});
+		private static readonly Siren SIREN_BLUE = new Siren("blue-sirens",
+			new Dictionary<string, Attachment[]>
+			{
+				[PREFAB_COCKPIT] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 0.68f, 0.2f), new Vector3(200f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(-0.4f, 1.4f, -0.9f)),
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.4f, 1.4f, -0.9f)),
+					new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 1.4f, -0.9f), new Vector3(148f, 150f, 30f))
+				},
+				[PREFAB_COCKPIT_ARMORED] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 0.68f, 0.2f), new Vector3(200f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(-0.4f, 1.4f, -0.9f)),
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.4f, 1.4f, -0.9f)),
+					new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 1.4f, -0.9f), new Vector3(148f, 150f, 30f))
+				},
+				[PREFAB_COCKPIT_WITH_ENGINE] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 0.68f, 0.2f), new Vector3(200f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(-0.4f, 1.4f, -0.9f)),
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.4f, 1.4f, -0.9f)),
+					new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 1.4f, -0.9f), new Vector3(148f, 150f, 30f))
+				}
+			},
+			new Dictionary<string, Attachment[]>
+			{
+				[PREFAB_SEDAN] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(0.0f, 1.0f, 1.32f), new Vector3(210f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(-0.4f, 1.64f, 0.2f), new Vector3(0f, 0f, 3f)),
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.4f, 1.64f, 0.2f), new Vector3(0f, 0f, 357f)),
+					new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 1.68f, 0.2f), new Vector3(148f, 150f, 30f))
+				},
+				[PREFAB_SEDAN_RAIL] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(0.0f, 1.23f, 0.56f), new Vector3(210f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(-0.4f, 1.885f, -0.555f), new Vector3(0f, 0f, 3f)),
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.4f, 1.885f, -0.555f), new Vector3(0f, 0f, 357f)),
+					new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 1.92f, -0.555f), new Vector3(148f, 150f, 30f))
+				},
+				[PREFAB_MINICOPTER] = new Attachment[] {
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.0f, 2.235f, -0.025f)),
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.0f, 0.832f, -2.7f), new Vector3(272f, 0f, 0f)),
+					new Attachment(PREFAB_TRUMPET, new Vector3(0.09f, 0.78f, -0.9f), new Vector3(148f, 330f, 30f))
+				},
+				[PREFAB_TRANSPORTHELI] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(0.012f, 1.215f, 2.86f), new Vector3(242f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(-0.3f, 3.15f, -7.65f), new Vector3(0f, 0f, 90f)),
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.1f, 3.15f, -7.65f), new Vector3(0f, 0f, 270f)),
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.0f, 0.55f, 3.6f), new Vector3(180f, 0f, 0f)),
+					new Attachment(PREFAB_TRUMPET, new Vector3(0.0f, 0.58f, 2.5f), new Vector3(328f, 30f, 30f))
+				},
+				[PREFAB_RHIB] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(-0.43f, 2.23f, 0.62f), new Vector3(210f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.0f, 1.55f, 4.15f)),
+					new Attachment(PREFAB_TRUMPET, new Vector3(0.8f, 1.16f, 0.5f), new Vector3(148f, 150f, 30f))
+				},
+				[PREFAB_ROWBOAT] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(-0.5f, 0.495f, -1.8f), new Vector3(270f, 270f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.0f, 0.8f, 2.18f)),
+					new Attachment(PREFAB_TRUMPET, new Vector3(0.5f, 0.1f, -0.4f), new Vector3(148f, 150f, 30f))
+				},
+				[PREFAB_WORKCART] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(0.185f, 2.405f, 3.95f), new Vector3(235f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(1.24f, 3.78f, 4.13f)),
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(-1.49f, 2.5f, -4.58f)),
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(1.51f, 2.5f, -4.58f)),
+					new Attachment(PREFAB_TRUMPET, new Vector3(0.59f, 3.82f, 4.13f), new Vector3(148f, 150f, 30f))
+				},
+				[PREFAB_WORKCART_ABOVE_GROUND] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(0.185f, 2.405f, 3.95f), new Vector3(235f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(1.24f, 3.78f, 4.13f)),
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(-1.49f, 2.5f, -4.58f)),
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(1.51f, 2.5f, -4.58f)),
+					new Attachment(PREFAB_TRUMPET, new Vector3(0.59f, 3.82f, 4.13f), new Vector3(148f, 150f, 30f))
+				},
+				[PREFAB_WORKCART_COVERED] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(0.185f, 2.405f, 3.95f), new Vector3(235f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(1.24f, 3.78f, 4.13f)),
+					new Attachment(PREFAB_TRUMPET, new Vector3(0.59f, 3.82f, 4.13f), new Vector3(148f, 150f, 30f))
+				},
+				[PREFAB_MAGNETCRANE] = new Attachment[] {
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(-0.95f, 4.25f, 0.5f)),
+					new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 1.4f, 0.0f), new Vector3(148f, 150f, 30f))
+				},
+				[PREFAB_HORSE] = new Attachment[] {
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.0f, 1.7f, 1.2f), new Vector3(25f, 0f, 0f), "head"),
+					new Attachment(PREFAB_TRUMPET, new Vector3(-0.06f, 1.15f, 1.3f), new Vector3(90f, 150f, 90f), "lip_lower")
+				},
+				[PREFAB_ATTACKHELI] = new Attachment[] {
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.0f, 2.48f, -0.37f)),
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.11f, 2.2f, -6.45f), new Vector3(0f, 0f, -90f)),
+					new Attachment(PREFAB_TRUMPET, new Vector3(0.09f, 0.78f, -0.9f), new Vector3(148f, 330f, 30f))
+				},
+				[PREFAB_TUGBOAT] = new Attachment[] {
+					new Attachment(PREFAB_BUTTON, new Vector3(1.15f, 6.76f, 3.8f), new Vector3(-52f, 222f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.0f, 8.3f, 4.98f), new Vector3(45f, 0f, 0f)),
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(2.88f, 3.08f, -8.08f)),
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(-2.88f, 3.08f, -8.08f)),
+					new Attachment(PREFAB_TRUMPET, new Vector3(0.7f, 4.4f, 5.75f), new Vector3(148f, 150f, 30f))
+				}
+			}, new Tone(Notes.A, NoteType.Regular, 4, 1f), new Tone(Notes.D, NoteType.Regular, 5, 1f));
 		#endregion variables
 
 		#region data
@@ -401,6 +672,9 @@ namespace Oxide.Plugins
 			SirenDictionary.Clear();
 			SirenDictionary.Add(SIREN_DEFAULT.Name, SIREN_DEFAULT);
 			SirenDictionary.Add(SIREN_SILENT.Name, SIREN_SILENT);
+			SirenDictionary.Add(SIREN_ORANGE.Name, SIREN_ORANGE);
+			SirenDictionary.Add(SIREN_GREEN.Name, SIREN_GREEN);
+			SirenDictionary.Add(SIREN_BLUE.Name, SIREN_BLUE);
 		}
 
 		protected override void LoadConfig()
@@ -463,6 +737,9 @@ namespace Oxide.Plugins
 			PrintWarning($"Saved default sirens");
 			Interface.Oxide.DataFileSystem.WriteObject(DATAPATH_SIRENS + SIREN_DEFAULT.Name, SIREN_DEFAULT);
 			Interface.Oxide.DataFileSystem.WriteObject(DATAPATH_SIRENS + SIREN_SILENT.Name, SIREN_SILENT);
+			Interface.Oxide.DataFileSystem.WriteObject(DATAPATH_SIRENS + SIREN_ORANGE.Name, SIREN_ORANGE);
+			Interface.Oxide.DataFileSystem.WriteObject(DATAPATH_SIRENS + SIREN_GREEN.Name, SIREN_GREEN);
+			Interface.Oxide.DataFileSystem.WriteObject(DATAPATH_SIRENS + SIREN_BLUE.Name, SIREN_BLUE);
 		}
 		#endregion configuration
 
@@ -507,7 +784,7 @@ namespace Oxide.Plugins
 		}
 
 		[Command("detachsirens"), Permission(PERMISSION_DETACHSIRENS)]
-		private void DetachCarSirens(IPlayer aPlayer, string aCommand, string[] someArgs)
+		private void DetachCarSirens(IPlayer aPlayer, string aCommand, string[] _)
 		{
 			if (aPlayer.IsServer)
 			{
@@ -523,7 +800,7 @@ namespace Oxide.Plugins
 		}
 
 		[Command("attachallsirens"), Permission(PERMISSION_ATTACHSIRENS_GLOBAL)]
-		private void AttachAllCarSirens(IPlayer aPlayer, string aCommand, string[] someArgs)
+		private void AttachAllCarSirens(IPlayer aPlayer, string _, string[] someArgs)
 		{
 			Siren theSiren = someArgs.Length > 0 ? FindSirenForName(someArgs[0], aPlayer) : SirenDictionary.Values.First();
 			bool theAtLeastOneSuccessful = false;
@@ -538,7 +815,7 @@ namespace Oxide.Plugins
 		}
 
 		[Command("detachallsirens"), Permission(PERMISSION_DETACHSIRENS_GLOBAL)]
-		private void DetachAllCarSirens(IPlayer aPlayer, string aCommand, string[] someArgs)
+		private void DetachAllCarSirens(IPlayer aPlayer, string _, string[] _1)
 		{
 			foreach (BaseVehicle eachVehicle in BaseNetworkable.serverEntities.OfType<BaseVehicle>())
 			{
@@ -548,13 +825,13 @@ namespace Oxide.Plugins
 		}
 
 		[Command("listsirens")]
-		private void ListSirens(IPlayer aPlayer, string aCommand, string[] someArgs)
+		private void ListSirens(IPlayer aPlayer, string _, string[] _1)
 		{
 			Message(aPlayer, I18N_SIRENS, string.Join(", ", SirenDictionary.Keys));
 		}
 
 		[Command("togglesirens")]
-		private void ToggleSirens(IPlayer aPlayer, string aCommand, string[] someArgs)
+		private void ToggleSirens(IPlayer aPlayer, string aCommand, string[] _)
 		{
 			if (aPlayer.IsServer)
 			{
@@ -597,7 +874,7 @@ namespace Oxide.Plugins
 			Interface.Oxide.DataFileSystem.WriteObject(Name, thePersistentData);
 		}
 
-		private void OnServerInitialized(bool anInitialFlag)
+		private void OnServerInitialized(bool _)
 		{
 			bool theSpawnRandomlyFlag = config.SirenSpawnProbability.Any(entry => entry.Value > 0f);
 			if (!theSpawnRandomlyFlag)
@@ -609,13 +886,11 @@ namespace Oxide.Plugins
 			DataContainer thePersistentData = Interface.Oxide.DataFileSystem.ReadObject<DataContainer>(Name);
 			foreach (BaseVehicle eachVehicle in BaseNetworkable.serverEntities.OfType<BaseVehicle>())
 			{
-				VehicleContainer theContainer;
-				if (thePersistentData.VehicleSirenMap.TryGetValue(eachVehicle.net.ID.Value, out theContainer))
+				if (thePersistentData.VehicleSirenMap.TryGetValue(eachVehicle.net.ID.Value, out VehicleContainer theContainer))
 				{
 					if (theContainer != null)
 					{
-						Siren theSiren;
-						if (SirenDictionary.TryGetValue(theContainer.SirenName, out theSiren))
+						if (SirenDictionary.TryGetValue(theContainer.SirenName, out Siren theSiren))
 						{
 							CreateSirenController(eachVehicle, theSiren, theContainer.NetIDs);
 							AttachSirens(eachVehicle, theSiren, theContainer.State);
@@ -633,8 +908,7 @@ namespace Oxide.Plugins
 					SirenController theController = eachVehicle.GetComponent<SirenController>();
 					if (!theController)
 					{
-						float theProbability;
-						if (config.SirenSpawnProbability.TryGetValue(eachVehicle is ModularCar ? KEY_MODULAR_CAR : eachVehicle.PrefabName, out theProbability) && Core.Random.Range(0f, 1f) < theProbability)
+						if (config.SirenSpawnProbability.TryGetValue(eachVehicle is ModularCar ? KEY_MODULAR_CAR : eachVehicle.PrefabName, out float theProbability) && Core.Random.Range(0f, 1f) < theProbability)
 						{
 							AttachSirens(eachVehicle, SirenDictionary.Values.First(), config.DefaultState);
 						}
@@ -667,8 +941,7 @@ namespace Oxide.Plugins
 			SirenController theController = aVehicle.GetComponent<SirenController>();
 			if (!theController)
 			{
-				float theProbability;
-				if (config.SirenSpawnProbability.TryGetValue(aVehicle is ModularCar ? KEY_MODULAR_CAR : aVehicle.PrefabName, out theProbability) && Core.Random.Range(0f, 1f) < theProbability)
+				if (config.SirenSpawnProbability.TryGetValue(aVehicle is ModularCar ? KEY_MODULAR_CAR : aVehicle.PrefabName, out float theProbability) && Core.Random.Range(0f, 1f) < theProbability)
 				{
 					AttachSirens(aVehicle, SirenDictionary.Values.First(), config.DefaultState);
 				}
@@ -727,8 +1000,7 @@ namespace Oxide.Plugins
 				return false;
 			}
 
-			Attachment[] theAttachments;
-			if (someAttachments.TryGetValue(aParent.PrefabName, out theAttachments))
+			if (someAttachments.TryGetValue(aParent.PrefabName, out Attachment[] theAttachments))
 			{
 				foreach (Attachment eachAttachment in theAttachments)
 				{
@@ -879,8 +1151,7 @@ namespace Oxide.Plugins
 		#region helpers
 		private BaseVehicle RaycastVehicle(IPlayer aPlayer)
 		{
-			RaycastHit theHit;
-			if (!Physics.Raycast((aPlayer.Object as BasePlayer).eyes.HeadRay(), out theHit, 5f))
+			if (!Physics.Raycast((aPlayer.Object as BasePlayer).eyes.HeadRay(), out RaycastHit theHit, 5f))
 			{
 				return null;
 			}
@@ -895,8 +1166,7 @@ namespace Oxide.Plugins
 
 		private Siren FindSirenForName(string aName, IPlayer aPlayer)
 		{
-			Siren theSiren;
-			if (!SirenDictionary.TryGetValue(aName, out theSiren))
+			if (!SirenDictionary.TryGetValue(aName, out Siren theSiren))
 			{
 				theSiren = SirenDictionary.Values.First();
 				Message(aPlayer, I18N_MISSING_SIREN, theSiren.Name);
@@ -1003,8 +1273,8 @@ namespace Oxide.Plugins
 					anIndex = 0;
 				}
 				Tone theTone = Siren.Tones[anIndex];
-				GetTrumpet().ClientRPC(null, "Client_PlayNote", (int)theTone.Note, (int)theTone.NoteType, theTone.Octave, 1f);
-				Invoke(() => GetTrumpet().ClientRPC(null, "Client_StopNote", (int)theTone.Note, (int)theTone.NoteType, theTone.Octave), theTone.Duration - 0.1f);
+				GetTrumpet().ClientRPC(RpcTarget.NetworkGroup("Client_PlayNote"), (int)theTone.Note, (int)theTone.NoteType, theTone.Octave, 1f);
+				Invoke(() => GetTrumpet().ClientRPC(RpcTarget.NetworkGroup("Client_StopNote"), (int)theTone.Note, (int)theTone.NoteType, theTone.Octave), theTone.Duration - 0.1f);
 				Invoke(() => PlayTone(++anIndex), theTone.Duration);
 			}
 		}
