@@ -154,7 +154,7 @@ namespace Oxide.Plugins
 				],
 				[PREFAB_HORSE] = [
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.0f, 1.8f, 1.45f), new Vector3(55f, 0f, 0f), "head"),
-					new Attachment(PREFAB_TRUMPET, new Vector3(-0.022f, 1.15f, 1.65f), new Vector3(85f, 170f, 70f), "lip_lower")
+					new Attachment(PREFAB_TRUMPET, new Vector3(0.1f, 1.28f, 1.74f), new Vector3(180f, 120f, 330f), "lip_lower")
 				],
 				[PREFAB_ATTACKHELI] = [
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.0f, 2.48f, -0.3f)),
@@ -264,7 +264,7 @@ namespace Oxide.Plugins
 				],
 				[PREFAB_HORSE] = [
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.0f, 1.7f, 1.2f), new Vector3(25f, 0f, 0f), "head"),
-					new Attachment(PREFAB_TRUMPET, new Vector3(-0.06f, 1.15f, 1.3f), new Vector3(90f, 150f, 90f), "lip_lower")
+					new Attachment(PREFAB_TRUMPET, new Vector3(0.1f, 1.28f, 1.74f), new Vector3(180f, 120f, 330f), "lip_lower")
 				],
 				[PREFAB_ATTACKHELI] = [
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.0f, 2.48f, -0.37f)),
@@ -349,7 +349,7 @@ namespace Oxide.Plugins
 				],
 				[PREFAB_HORSE] = [
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.0f, 1.7f, 1.2f), new Vector3(25f, 0f, 0f), "head"),
-					new Attachment(PREFAB_TRUMPET, new Vector3(-0.06f, 1.15f, 1.3f), new Vector3(90f, 150f, 90f), "lip_lower")
+					new Attachment(PREFAB_TRUMPET, new Vector3(0.1f, 1.28f, 1.74f), new Vector3(180f, 120f, 330f), "lip_lower")
 				],
 				[PREFAB_ATTACKHELI] = [
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.0f, 2.48f, -0.37f)),
@@ -434,7 +434,7 @@ namespace Oxide.Plugins
 				],
 				[PREFAB_HORSE] = [
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.0f, 1.7f, 1.2f), new Vector3(25f, 0f, 0f), "head"),
-					new Attachment(PREFAB_TRUMPET, new Vector3(-0.06f, 1.15f, 1.3f), new Vector3(90f, 150f, 90f), "lip_lower")
+					new Attachment(PREFAB_TRUMPET, new Vector3(0.1f, 1.28f, 1.74f), new Vector3(180f, 120f, 330f), "lip_lower")
 				],
 				[PREFAB_ATTACKHELI] = [
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.0f, 2.48f, -0.37f)),
@@ -532,7 +532,7 @@ namespace Oxide.Plugins
 				],
 				[PREFAB_HORSE] = [
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.0f, 1.7f, 1.2f), new Vector3(25f, 0f, 0f), "head"),
-					new Attachment(PREFAB_TRUMPET, new Vector3(-0.06f, 1.15f, 1.3f), new Vector3(90f, 150f, 90f), "lip_lower")
+					new Attachment(PREFAB_TRUMPET, new Vector3(0.1f, 1.28f, 1.74f), new Vector3(180f, 120f, 330f), "lip_lower")
 				],
 				[PREFAB_ATTACKHELI] = [
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.0f, 2.48f, -0.37f)),
