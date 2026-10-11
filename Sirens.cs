@@ -73,539 +73,539 @@ namespace Oxide.Plugins
 		private static readonly Siren SIREN_DEFAULT = new("police-germany",
 			new Dictionary<string, Attachment[]>
 			{
-				[PREFAB_COCKPIT] = [
+				[PREFAB_COCKPIT] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 0.68f, 0.2f), new Vector3(200f, 0f, 0f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.4f, 1.4f, -0.9f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.4f, 1.4f, -0.9f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.0f, 1.46f, -0.9f), new Vector3(180f, 90f, 0f))
-				],
-				[PREFAB_COCKPIT_ARMORED] = [
+				},
+				[PREFAB_COCKPIT_ARMORED] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 0.68f, 0.2f), new Vector3(200f, 0f, 0f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.4f, 1.4f, -0.9f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.4f, 1.4f, -0.9f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.0f, 1.46f, -0.9f), new Vector3(180f, 90f, 0f))
-				],
-				[PREFAB_COCKPIT_WITH_ENGINE] = [
+				},
+				[PREFAB_COCKPIT_WITH_ENGINE] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 0.68f, 0.2f), new Vector3(200f, 0f, 0f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.4f, 1.4f, -0.9f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.4f, 1.4f, -0.9f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.0f, 1.46f, -0.9f), new Vector3(180f, 90f, 0f))
-				]
+				}
 			},
 			new Dictionary<string, Attachment[]>
 			{
-				[PREFAB_SEDAN] = [
+				[PREFAB_SEDAN] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.0f, 1.0f, 1.32f), new Vector3(210f, 0f, 0f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.4f, 1.65f, 0.2f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.4f, 1.65f, 0.2f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.0f, 1.72f, 0.2f), new Vector3(180f, 90f, 0f))
-				],
-				[PREFAB_SEDAN_RAIL] = [
+				},
+				[PREFAB_SEDAN_RAIL] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.0f, 1.23f, 0.56f), new Vector3(210f, 0f, 0f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.4f, 1.9f, -0.555f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.4f, 1.9f, -0.555f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.0f, 1.96f, -0.555f), new Vector3(180f, 90f, 0f))
-				],
-				[PREFAB_MINICOPTER] = [
+				},
+				[PREFAB_MINICOPTER] = new Attachment[] {
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.0f, 2.235f, -0.025f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.0f, 0.832f, -2.7f), new Vector3(272f, 0f, 0f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.01f, 0.82f, -0.9f), new Vector3(180f, 270f, 0f))
-				],
-				[PREFAB_TRANSPORTHELI] = [
+				},
+				[PREFAB_TRANSPORTHELI] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.012f, 1.215f, 2.86f), new Vector3(242f, 0f, 0f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.3f, 3.15f, -7.65f), new Vector3(0f, 0f, 90f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.1f, 3.15f, -7.65f), new Vector3(0f, 0f, 270f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.0f, 0.55f, 3.6f), new Vector3(180f, 0f, 0f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 0.53f, 2.5f), new Vector3(0f, 90f, 0f))
-				],
-				[PREFAB_RHIB] = [
+				},
+				[PREFAB_RHIB] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(-0.43f, 2.23f, 0.62f), new Vector3(210f, 0f, 0f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.55f, 2.83f, 0.62f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.55f, 2.83f, 0.62f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.88f, 1.22f, 0.5f), new Vector3(180f, 90f, 0f))
-				],
-				[PREFAB_ROWBOAT] = [
+				},
+				[PREFAB_ROWBOAT] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(-0.5f, 0.495f, -1.8f), new Vector3(270f, 270f, 0f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.0f, 0.8f, 2.18f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.58f, 0.16f, -0.4f), new Vector3(180f, 90f, 0f))
-				],
-				[PREFAB_WORKCART] = [
+				},
+				[PREFAB_WORKCART] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.185f, 2.405f, 3.95f), new Vector3(235f, 0f, 0f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.1f, 3.93f, 4.13f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(1.25f, 3.93f, 4.13f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-1.49f, 2.5f, -4.58f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(1.51f, 2.5f, -4.58f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.67f, 3.88f, 4.13f), new Vector3(180f, 90f, 0f))
-				],
-				[PREFAB_WORKCART_ABOVE_GROUND] = [
+				},
+				[PREFAB_WORKCART_ABOVE_GROUND] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.185f, 2.405f, 3.95f), new Vector3(235f, 0f, 0f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.1f, 3.93f, 4.13f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(1.25f, 3.93f, 4.13f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-1.49f, 2.5f, -4.58f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(1.51f, 2.5f, -4.58f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.67f, 3.88f, 4.13f), new Vector3(180f, 90f, 0f))
-				],
-				[PREFAB_WORKCART_COVERED] = [
+				},
+				[PREFAB_WORKCART_COVERED] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.185f, 2.405f, 3.95f), new Vector3(235f, 0f, 0f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.1f, 3.93f, 4.13f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(1.25f, 3.93f, 4.13f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.67f, 3.88f, 4.13f), new Vector3(180f, 90f, 0f))
-				],
-				[PREFAB_MAGNETCRANE] = [
+				},
+				[PREFAB_MAGNETCRANE] = new Attachment[] {
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.95f, 4.25f, 0.5f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.0f, 1.46f, 0.0f), new Vector3(180f, 90f, 0f))
-				],
-				[PREFAB_HORSE] = [
+				},
+				[PREFAB_HORSE] = new Attachment[] {
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.0f, 1.8f, 1.45f), new Vector3(55f, 0f, 0f), "head"),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.1f, 1.28f, 1.74f), new Vector3(180f, 120f, 330f), "lip_lower")
-				],
-				[PREFAB_ATTACKHELI] = [
+				},
+				[PREFAB_ATTACKHELI] = new Attachment[] {
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.0f, 2.48f, -0.3f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.1f, 2.3f, -6.5f), new Vector3(0f, 0f, 90f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.01f, 0.84f, -0.9f), new Vector3(180f, 270f, 0f))
-				],
-				[PREFAB_MOTORBIKE] = [
+				},
+				[PREFAB_MOTORBIKE] = new Attachment[] {
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.1f, 1.13f, 0.34f), new Vector3(0f, 0f, 90f), "FrontBar"),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.1f, 1.13f, 0.34f), new Vector3(0f, 0f, 270f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.0f, 0.95f, -0.8f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(-0.014f, 0.95f, 0.26f), new Vector3(186f, 89.5f, 10.4f))
-				],
-				[PREFAB_MOTORBIKE_SIDECAR] = [
+				},
+				[PREFAB_MOTORBIKE_SIDECAR] = new Attachment[] {
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.1f, 1.13f, 0.34f), new Vector3(0f, 0f, 90f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.1f, 1.13f, 0.34f), new Vector3(0f, 0f, 270f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.0f, 0.95f, -0.8f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(1.1f, 0.64f, -0.25f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(-0.014f, 0.95f, 0.26f), new Vector3(186f, 89.5f, 10.4f))
-				],
-				[PREFAB_PEDALBIKE] = [
+				},
+				[PREFAB_PEDALBIKE] = new Attachment[] {
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.0f, 0.85f, 0.46f), new Vector3(0f, 0f, 90f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.0f, 0.85f, 0.46f), new Vector3(0f, 0f, 270f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.0f, 0.7f, -0.275f), new Vector3(315f, 0f, 0f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(-0.016f, 0.905f, 0.264f), new Vector3(183.5f, 89.8f, 6.1f))
-				],
-				[PREFAB_PEDALTRIKE] = [
+				},
+				[PREFAB_PEDALTRIKE] = new Attachment[] {
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.0f, 0.85f, 0.46f), new Vector3(0f, 0f, 90f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.0f, 0.85f, 0.46f), new Vector3(0f, 0f, 270f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.0f, 0.8f, -1.16f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(-0.016f, 0.905f, 0.264f), new Vector3(183.5f, 89.8f, 6.1f))
-				],
-				[PREFAB_TUGBOAT] = [
+				},
+				[PREFAB_TUGBOAT] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(1.15f, 6.76f, 3.8f), new Vector3(-52f, 222f, 0f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.0f, 8.3f, 4.98f), new Vector3(45f, 0f, 0f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(2.88f, 3.08f, -8.08f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-2.88f, 3.08f, -8.08f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.78f, 4.46f, 5.75f), new Vector3(180f, 90f, 0f))
-				],
-				[PREFAB_PTBOAT] = [
+				},
+				[PREFAB_PTBOAT] = new Attachment[] {
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-1.48f, 2.88f, 0.69f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(1.48f, 2.88f, 0.69f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.0f, 1.65f, 4.8f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-1.42f, 1.65f, -4.66f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.0f, 3.06f, 0.615f), new Vector3(180f, 90f, 0f))
-				],
-				[PREFAB_SNOWMOBILE] = [
+				},
+				[PREFAB_SNOWMOBILE] = new Attachment[] {
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.0f, 0.74f, 0.6f), new Vector3(18f, 0f, 0f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.0f, 0.6f, 0.62f), new Vector3(180f, 90f, 0f))
-				],
-				[PREFAB_SNOWMOBILE_TOMAHA] = [
+				},
+				[PREFAB_SNOWMOBILE_TOMAHA] = new Attachment[] {
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.08f, 0.66f, 0.45f), new Vector3(8f, 0f, 0f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.0f, 0.34f, 0.65f), new Vector3(180f, 90f, 0f))
-				]
+				}
 			}, new Tone(Notes.A, NoteType.Regular, 4, 1f), new Tone(Notes.D, NoteType.Regular, 5, 1f));
 		private static readonly Siren SIREN_SILENT = new("warning-lights",
 			new Dictionary<string, Attachment[]>
 			{
-				[PREFAB_COCKPIT] = [
+				[PREFAB_COCKPIT] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 0.68f, 0.2f), new Vector3(200f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(-0.4f, 1.4f, -0.9f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.4f, 1.4f, -0.9f))
-				],
-				[PREFAB_COCKPIT_ARMORED] = [
+				},
+				[PREFAB_COCKPIT_ARMORED] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 0.68f, 0.2f), new Vector3(200f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(-0.4f, 1.4f, -0.9f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.4f, 1.4f, -0.9f))
-				],
-				[PREFAB_COCKPIT_WITH_ENGINE] = [
+				},
+				[PREFAB_COCKPIT_WITH_ENGINE] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 0.68f, 0.2f), new Vector3(200f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(-0.4f, 1.4f, -0.9f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.4f, 1.4f, -0.9f))
-				]
+				}
 			},
 			new Dictionary<string, Attachment[]>
 			{
-				[PREFAB_SEDAN] = [
+				[PREFAB_SEDAN] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.0f, 1.0f, 1.32f), new Vector3(210f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(-0.4f, 1.64f, 0.2f), new Vector3(0f, 0f, 3f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.4f, 1.64f, 0.2f), new Vector3(0f, 0f, 357f))
-				],
-				[PREFAB_SEDAN_RAIL] = [
+				},
+				[PREFAB_SEDAN_RAIL] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.0f, 1.23f, 0.56f), new Vector3(210f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(-0.4f, 1.885f, -0.555f), new Vector3(0f, 0f, 3f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.4f, 1.885f, -0.555f), new Vector3(0f, 0f, 357f))
-				],
-				[PREFAB_MINICOPTER] = [
+				},
+				[PREFAB_MINICOPTER] = new Attachment[] {
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.0f, 2.235f, -0.025f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.0f, 0.832f, -2.7f), new Vector3(272f, 0f, 0f))
-				],
-				[PREFAB_TRANSPORTHELI] = [
+				},
+				[PREFAB_TRANSPORTHELI] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.012f, 1.215f, 2.86f), new Vector3(242f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(-0.3f, 3.15f, -7.65f), new Vector3(0f, 0f, 90f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.1f, 3.15f, -7.65f), new Vector3(0f, 0f, 270f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.0f, 0.55f, 3.6f), new Vector3(180f, 0f, 0f))
-				],
-				[PREFAB_RHIB] = [
+				},
+				[PREFAB_RHIB] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(-0.43f, 2.23f, 0.62f), new Vector3(210f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.0f, 1.55f, 4.15f))
-				],
-				[PREFAB_ROWBOAT] = [
+				},
+				[PREFAB_ROWBOAT] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(-0.5f, 0.495f, -1.8f), new Vector3(270f, 270f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.0f, 0.8f, 2.18f))
-				],
-				[PREFAB_WORKCART] = [
+				},
+				[PREFAB_WORKCART] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.185f, 2.405f, 3.95f), new Vector3(235f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(1.24f, 3.78f, 4.13f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(-1.49f, 2.5f, -4.58f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(1.51f, 2.5f, -4.58f))
-				],
-				[PREFAB_WORKCART_ABOVE_GROUND] = [
+				},
+				[PREFAB_WORKCART_ABOVE_GROUND] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.185f, 2.405f, 3.95f), new Vector3(235f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(1.24f, 3.78f, 4.13f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(-1.49f, 2.5f, -4.58f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(1.51f, 2.5f, -4.58f))
-				],
-				[PREFAB_WORKCART_COVERED] = [
+				},
+				[PREFAB_WORKCART_COVERED] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.185f, 2.405f, 3.95f), new Vector3(235f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(1.24f, 3.78f, 4.13f))
-				],
-				[PREFAB_MAGNETCRANE] = [
+				},
+				[PREFAB_MAGNETCRANE] = new Attachment[] {
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(-0.95f, 4.25f, 0.5f))
-				],
-				[PREFAB_HORSE] = [
+				},
+				[PREFAB_HORSE] = new Attachment[] {
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.0f, 1.7f, 1.2f), new Vector3(25f, 0f, 0f), "head")
-				],
-				[PREFAB_ATTACKHELI] = [
+				},
+				[PREFAB_ATTACKHELI] = new Attachment[] {
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.0f, 2.48f, -0.37f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.11f, 2.2f, -6.45f), new Vector3(0f, 0f, -90f))
-				],
-				[PREFAB_TUGBOAT] = [
+				},
+				[PREFAB_TUGBOAT] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(1.15f, 6.76f, 3.8f), new Vector3(-52f, 222f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.0f, 8.3f, 4.98f), new Vector3(45f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(2.88f, 3.08f, -8.08f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(-2.88f, 3.08f, -8.08f))
-				],
-				[PREFAB_PTBOAT] = [
+				},
+				[PREFAB_PTBOAT] = new Attachment[] {
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(-1.48f, 2.88f, 0.69f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(1.48f, 2.88f, 0.69f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.0f, 1.65f, 4.8f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(-1.42f, 1.65f, -4.66f))
-				],
-				[PREFAB_SNOWMOBILE] = [
+				},
+				[PREFAB_SNOWMOBILE] = new Attachment[] {
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.0f, 0.74f, 0.6f), new Vector3(18f, 0f, 0f))
-				],
-				[PREFAB_SNOWMOBILE_TOMAHA] = [
+				},
+				[PREFAB_SNOWMOBILE_TOMAHA] = new Attachment[] {
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(-0.08f, 0.66f, 0.45f), new Vector3(8f, 0f, 0f))
-				]
+				}
 			});
 		private static readonly Siren SIREN_ORANGE = new("orange-lights",
 			new Dictionary<string, Attachment[]>
 			{
-				[PREFAB_COCKPIT] = [
+				[PREFAB_COCKPIT] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 0.68f, 0.2f), new Vector3(200f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(-0.4f, 1.4f, -0.9f)),
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.4f, 1.4f, -0.9f))
-				],
-				[PREFAB_COCKPIT_ARMORED] = [
+				},
+				[PREFAB_COCKPIT_ARMORED] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 0.68f, 0.2f), new Vector3(200f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(-0.4f, 1.4f, -0.9f)),
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.4f, 1.4f, -0.9f))
-				],
-				[PREFAB_COCKPIT_WITH_ENGINE] = [
+				},
+				[PREFAB_COCKPIT_WITH_ENGINE] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 0.68f, 0.2f), new Vector3(200f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(-0.4f, 1.4f, -0.9f)),
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.4f, 1.4f, -0.9f))
-				]
+				}
 			},
 			new Dictionary<string, Attachment[]>
 			{
-				[PREFAB_SEDAN] = [
+				[PREFAB_SEDAN] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.0f, 1.0f, 1.32f), new Vector3(210f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(-0.4f, 1.64f, 0.2f), new Vector3(0f, 0f, 3f)),
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.4f, 1.64f, 0.2f), new Vector3(0f, 0f, 357f))
-				],
-				[PREFAB_SEDAN_RAIL] = [
+				},
+				[PREFAB_SEDAN_RAIL] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.0f, 1.23f, 0.56f), new Vector3(210f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(-0.4f, 1.885f, -0.555f), new Vector3(0f, 0f, 3f)),
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.4f, 1.885f, -0.555f), new Vector3(0f, 0f, 357f))
-				],
-				[PREFAB_MINICOPTER] = [
+				},
+				[PREFAB_MINICOPTER] = new Attachment[] {
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.0f, 2.235f, -0.025f)),
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.0f, 0.832f, -2.7f), new Vector3(272f, 0f, 0f))
-				],
-				[PREFAB_TRANSPORTHELI] = [
+				},
+				[PREFAB_TRANSPORTHELI] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.012f, 1.215f, 2.86f), new Vector3(242f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(-0.3f, 3.15f, -7.65f), new Vector3(0f, 0f, 90f)),
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.1f, 3.15f, -7.65f), new Vector3(0f, 0f, 270f)),
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.0f, 0.55f, 3.6f), new Vector3(180f, 0f, 0f))
-				],
-				[PREFAB_RHIB] = [
+				},
+				[PREFAB_RHIB] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(-0.43f, 2.23f, 0.62f), new Vector3(210f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.0f, 1.55f, 4.15f))
-				],
-				[PREFAB_ROWBOAT] = [
+				},
+				[PREFAB_ROWBOAT] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(-0.5f, 0.495f, -1.8f), new Vector3(270f, 270f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.0f, 0.8f, 2.18f))
-				],
-				[PREFAB_WORKCART] = [
+				},
+				[PREFAB_WORKCART] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.185f, 2.405f, 3.95f), new Vector3(235f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(1.24f, 3.78f, 4.13f)),
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(-1.49f, 2.5f, -4.58f)),
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(1.51f, 2.5f, -4.58f))
-				],
-				[PREFAB_WORKCART_ABOVE_GROUND] = [
+				},
+				[PREFAB_WORKCART_ABOVE_GROUND] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.185f, 2.405f, 3.95f), new Vector3(235f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(1.24f, 3.78f, 4.13f)),
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(-1.49f, 2.5f, -4.58f)),
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(1.51f, 2.5f, -4.58f))
-				],
-				[PREFAB_WORKCART_COVERED] = [
+				},
+				[PREFAB_WORKCART_COVERED] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.185f, 2.405f, 3.95f), new Vector3(235f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(1.24f, 3.78f, 4.13f))
-				],
-				[PREFAB_MAGNETCRANE] = [
+				},
+				[PREFAB_MAGNETCRANE] = new Attachment[] {
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(-0.95f, 4.25f, 0.5f))
-				],
-				[PREFAB_HORSE] = [
+				},
+				[PREFAB_HORSE] = new Attachment[] {
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.0f, 1.7f, 1.2f), new Vector3(25f, 0f, 0f), "head")
-				],
-				[PREFAB_ATTACKHELI] = [
+				},
+				[PREFAB_ATTACKHELI] = new Attachment[] {
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.0f, 2.48f, -0.37f)),
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.11f, 2.2f, -6.45f), new Vector3(0f, 0f, -90f))
-				],
-				[PREFAB_TUGBOAT] = [
+				},
+				[PREFAB_TUGBOAT] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(1.15f, 6.76f, 3.8f), new Vector3(-52f, 222f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.0f, 8.3f, 4.98f), new Vector3(45f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(2.88f, 3.08f, -8.08f)),
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(-2.88f, 3.08f, -8.08f))
-				],
-				[PREFAB_PTBOAT] = [
+				},
+				[PREFAB_PTBOAT] = new Attachment[] {
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(-1.48f, 2.88f, 0.69f)),
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(1.48f, 2.88f, 0.69f)),
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.0f, 1.65f, 4.8f)),
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(-1.42f, 1.65f, -4.66f))
-				],
-				[PREFAB_SNOWMOBILE] = [
+				},
+				[PREFAB_SNOWMOBILE] = new Attachment[] {
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.0f, 0.74f, 0.6f), new Vector3(18f, 0f, 0f))
-				],
-				[PREFAB_SNOWMOBILE_TOMAHA] = [
+				},
+				[PREFAB_SNOWMOBILE_TOMAHA] = new Attachment[] {
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(-0.08f, 0.66f, 0.45f), new Vector3(8f, 0f, 0f))
-				]
+				}
 			});
 		private static readonly Siren SIREN_GREEN = new("green-lights",
 			new Dictionary<string, Attachment[]>
 			{
-				[PREFAB_COCKPIT] = [
+				[PREFAB_COCKPIT] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 0.68f, 0.2f), new Vector3(200f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(-0.4f, 1.4f, -0.9f)),
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.4f, 1.4f, -0.9f))
-				],
-				[PREFAB_COCKPIT_ARMORED] = [
+				},
+				[PREFAB_COCKPIT_ARMORED] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 0.68f, 0.2f), new Vector3(200f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(-0.4f, 1.4f, -0.9f)),
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.4f, 1.4f, -0.9f))
-				],
-				[PREFAB_COCKPIT_WITH_ENGINE] = [
+				},
+				[PREFAB_COCKPIT_WITH_ENGINE] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 0.68f, 0.2f), new Vector3(200f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(-0.4f, 1.4f, -0.9f)),
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.4f, 1.4f, -0.9f))
-				]
+				}
 			},
 			new Dictionary<string, Attachment[]>
 			{
-				[PREFAB_SEDAN] = [
+				[PREFAB_SEDAN] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.0f, 1.0f, 1.32f), new Vector3(210f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(-0.4f, 1.64f, 0.2f), new Vector3(0f, 0f, 3f)),
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.4f, 1.64f, 0.2f), new Vector3(0f, 0f, 357f))
-				],
-				[PREFAB_SEDAN_RAIL] = [
+				},
+				[PREFAB_SEDAN_RAIL] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.0f, 1.23f, 0.56f), new Vector3(210f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(-0.4f, 1.885f, -0.555f), new Vector3(0f, 0f, 3f)),
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.4f, 1.885f, -0.555f), new Vector3(0f, 0f, 357f))
-				],
-				[PREFAB_MINICOPTER] = [
+				},
+				[PREFAB_MINICOPTER] = new Attachment[] {
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.0f, 2.235f, -0.025f)),
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.0f, 0.832f, -2.7f), new Vector3(272f, 0f, 0f))
-				],
-				[PREFAB_TRANSPORTHELI] = [
+				},
+				[PREFAB_TRANSPORTHELI] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.012f, 1.215f, 2.86f), new Vector3(242f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(-0.3f, 3.15f, -7.65f), new Vector3(0f, 0f, 90f)),
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.1f, 3.15f, -7.65f), new Vector3(0f, 0f, 270f)),
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.0f, 0.55f, 3.6f), new Vector3(180f, 0f, 0f))
-				],
-				[PREFAB_RHIB] = [
+				},
+				[PREFAB_RHIB] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(-0.43f, 2.23f, 0.62f), new Vector3(210f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.0f, 1.55f, 4.15f))
-				],
-				[PREFAB_ROWBOAT] = [
+				},
+				[PREFAB_ROWBOAT] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(-0.5f, 0.495f, -1.8f), new Vector3(270f, 270f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.0f, 0.8f, 2.18f))
-				],
-				[PREFAB_WORKCART] = [
+				},
+				[PREFAB_WORKCART] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.185f, 2.405f, 3.95f), new Vector3(235f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(1.24f, 3.78f, 4.13f)),
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(-1.49f, 2.5f, -4.58f)),
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(1.51f, 2.5f, -4.58f))
-				],
-				[PREFAB_WORKCART_ABOVE_GROUND] = [
+				},
+				[PREFAB_WORKCART_ABOVE_GROUND] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.185f, 2.405f, 3.95f), new Vector3(235f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(1.24f, 3.78f, 4.13f)),
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(-1.49f, 2.5f, -4.58f)),
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(1.51f, 2.5f, -4.58f))
-				],
-				[PREFAB_WORKCART_COVERED] = [
+				},
+				[PREFAB_WORKCART_COVERED] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.185f, 2.405f, 3.95f), new Vector3(235f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(1.24f, 3.78f, 4.13f))
-				],
-				[PREFAB_MAGNETCRANE] = [
+				},
+				[PREFAB_MAGNETCRANE] = new Attachment[] {
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(-0.95f, 4.25f, 0.5f))
-				],
-				[PREFAB_HORSE] = [
+				},
+				[PREFAB_HORSE] = new Attachment[] {
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.0f, 1.7f, 1.2f), new Vector3(25f, 0f, 0f), "head")
-				],
-				[PREFAB_ATTACKHELI] = [
+				},
+				[PREFAB_ATTACKHELI] = new Attachment[] {
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.0f, 2.48f, -0.37f)),
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.11f, 2.2f, -6.45f), new Vector3(0f, 0f, -90f))
-				],
-				[PREFAB_TUGBOAT] = [
+				},
+				[PREFAB_TUGBOAT] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(1.15f, 6.76f, 3.8f), new Vector3(-52f, 222f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.0f, 8.3f, 4.98f), new Vector3(45f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(2.88f, 3.08f, -8.08f)),
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(-2.88f, 3.08f, -8.08f))
-				],
-				[PREFAB_PTBOAT] = [
+				},
+				[PREFAB_PTBOAT] = new Attachment[] {
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(-1.48f, 2.88f, 0.69f)),
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(1.48f, 2.88f, 0.69f)),
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.0f, 1.65f, 4.8f)),
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(-1.42f, 1.65f, -4.66f))
-				],
-				[PREFAB_SNOWMOBILE] = [
+				},
+				[PREFAB_SNOWMOBILE] = new Attachment[] {
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.0f, 0.74f, 0.6f), new Vector3(18f, 0f, 0f))
-				],
-				[PREFAB_SNOWMOBILE_TOMAHA] = [
+				},
+				[PREFAB_SNOWMOBILE_TOMAHA] = new Attachment[] {
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(-0.08f, 0.66f, 0.45f), new Vector3(8f, 0f, 0f))
-				]
+				}
 			});
 		private static readonly Siren SIREN_BLUE = new("blue-sirens",
 			new Dictionary<string, Attachment[]>
 			{
-				[PREFAB_COCKPIT] = [
+				[PREFAB_COCKPIT] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 0.68f, 0.2f), new Vector3(200f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(-0.4f, 1.4f, -0.9f)),
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.4f, 1.4f, -0.9f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.0f, 1.46f, -0.9f), new Vector3(180f, 90f, 0f))
-				],
-				[PREFAB_COCKPIT_ARMORED] = [
+				},
+				[PREFAB_COCKPIT_ARMORED] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 0.68f, 0.2f), new Vector3(200f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(-0.4f, 1.4f, -0.9f)),
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.4f, 1.4f, -0.9f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.0f, 1.46f, -0.9f), new Vector3(180f, 90f, 0f))
-				],
-				[PREFAB_COCKPIT_WITH_ENGINE] = [
+				},
+				[PREFAB_COCKPIT_WITH_ENGINE] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.05f, 0.68f, 0.2f), new Vector3(200f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(-0.4f, 1.4f, -0.9f)),
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.4f, 1.4f, -0.9f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.0f, 1.46f, -0.9f), new Vector3(180f, 90f, 0f))
-				]
+				}
 			},
 			new Dictionary<string, Attachment[]>
 			{
-				[PREFAB_SEDAN] = [
+				[PREFAB_SEDAN] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.0f, 1.0f, 1.32f), new Vector3(210f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(-0.4f, 1.64f, 0.2f), new Vector3(0f, 0f, 3f)),
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.4f, 1.64f, 0.2f), new Vector3(0f, 0f, 357f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.0f, 1.72f, 0.2f), new Vector3(180f, 90f, 0f))
-				],
-				[PREFAB_SEDAN_RAIL] = [
+				},
+				[PREFAB_SEDAN_RAIL] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.0f, 1.23f, 0.56f), new Vector3(210f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(-0.4f, 1.885f, -0.555f), new Vector3(0f, 0f, 3f)),
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.4f, 1.885f, -0.555f), new Vector3(0f, 0f, 357f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.0f, 1.96f, -0.555f), new Vector3(180f, 90f, 0f))
-				],
-				[PREFAB_MINICOPTER] = [
+				},
+				[PREFAB_MINICOPTER] = new Attachment[] {
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.0f, 2.235f, -0.025f)),
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.0f, 0.832f, -2.7f), new Vector3(272f, 0f, 0f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.01f, 0.82f, -0.9f), new Vector3(180f, 270f, 0f))
-				],
-				[PREFAB_TRANSPORTHELI] = [
+				},
+				[PREFAB_TRANSPORTHELI] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.012f, 1.215f, 2.86f), new Vector3(242f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(-0.3f, 3.15f, -7.65f), new Vector3(0f, 0f, 90f)),
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.1f, 3.15f, -7.65f), new Vector3(0f, 0f, 270f)),
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.0f, 0.55f, 3.6f), new Vector3(180f, 0f, 0f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(-0.08f, 0.53f, 2.5f), new Vector3(0f, 90f, 0f))
-				],
-				[PREFAB_RHIB] = [
+				},
+				[PREFAB_RHIB] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(-0.43f, 2.23f, 0.62f), new Vector3(210f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.0f, 1.55f, 4.15f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.88f, 1.22f, 0.5f), new Vector3(180f, 90f, 0f))
-				],
-				[PREFAB_ROWBOAT] = [
+				},
+				[PREFAB_ROWBOAT] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(-0.5f, 0.495f, -1.8f), new Vector3(270f, 270f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.0f, 0.8f, 2.18f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.58f, 0.16f, -0.4f), new Vector3(180f, 90f, 0f))
-				],
-				[PREFAB_WORKCART] = [
+				},
+				[PREFAB_WORKCART] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.185f, 2.405f, 3.95f), new Vector3(235f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(1.24f, 3.78f, 4.13f)),
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(-1.49f, 2.5f, -4.58f)),
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(1.51f, 2.5f, -4.58f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.67f, 3.88f, 4.13f), new Vector3(180f, 90f, 0f))
-				],
-				[PREFAB_WORKCART_ABOVE_GROUND] = [
+				},
+				[PREFAB_WORKCART_ABOVE_GROUND] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.185f, 2.405f, 3.95f), new Vector3(235f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(1.24f, 3.78f, 4.13f)),
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(-1.49f, 2.5f, -4.58f)),
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(1.51f, 2.5f, -4.58f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.67f, 3.88f, 4.13f), new Vector3(180f, 90f, 0f))
-				],
-				[PREFAB_WORKCART_COVERED] = [
+				},
+				[PREFAB_WORKCART_COVERED] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(0.185f, 2.405f, 3.95f), new Vector3(235f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(1.24f, 3.78f, 4.13f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.67f, 3.88f, 4.13f), new Vector3(180f, 90f, 0f))
-				],
-				[PREFAB_MAGNETCRANE] = [
+				},
+				[PREFAB_MAGNETCRANE] = new Attachment[] {
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(-0.95f, 4.25f, 0.5f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.0f, 1.46f, 0.0f), new Vector3(180f, 90f, 0f))
-				],
-				[PREFAB_HORSE] = [
+				},
+				[PREFAB_HORSE] = new Attachment[] {
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.0f, 1.7f, 1.2f), new Vector3(25f, 0f, 0f), "head"),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.1f, 1.28f, 1.74f), new Vector3(180f, 120f, 330f), "lip_lower")
-				],
-				[PREFAB_ATTACKHELI] = [
+				},
+				[PREFAB_ATTACKHELI] = new Attachment[] {
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.0f, 2.48f, -0.37f)),
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.11f, 2.2f, -6.45f), new Vector3(0f, 0f, -90f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.01f, 0.84f, -0.9f), new Vector3(180f, 270f, 0f))
-				],
-				[PREFAB_TUGBOAT] = [
+				},
+				[PREFAB_TUGBOAT] = new Attachment[] {
 					new Attachment(PREFAB_BUTTON, new Vector3(1.15f, 6.76f, 3.8f), new Vector3(-52f, 222f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.0f, 8.3f, 4.98f), new Vector3(45f, 0f, 0f)),
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(2.88f, 3.08f, -8.08f)),
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(-2.88f, 3.08f, -8.08f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.78f, 4.46f, 5.75f), new Vector3(180f, 90f, 0f))
-				],
-				[PREFAB_PTBOAT] = [
+				},
+				[PREFAB_PTBOAT] = new Attachment[] {
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(-1.48f, 2.88f, 0.69f)),
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(1.48f, 2.88f, 0.69f)),
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.0f, 1.65f, 4.8f)),
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(-1.42f, 1.65f, -4.66f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.0f, 3.06f, 0.615f), new Vector3(180f, 90f, 0f))
-				],
-				[PREFAB_SNOWMOBILE] = [
+				},
+				[PREFAB_SNOWMOBILE] = new Attachment[] {
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.0f, 0.74f, 0.6f), new Vector3(18f, 0f, 0f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.0f, 0.6f, 0.62f), new Vector3(180f, 90f, 0f))
-				],
-				[PREFAB_SNOWMOBILE_TOMAHA] = [
+				},
+				[PREFAB_SNOWMOBILE_TOMAHA] = new Attachment[] {
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(-0.08f, 0.66f, 0.45f), new Vector3(8f, 0f, 0f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.0f, 0.34f, 0.65f), new Vector3(180f, 90f, 0f))
-				]
+				}
 			}, new Tone(Notes.A, NoteType.Regular, 4, 1f), new Tone(Notes.D, NoteType.Regular, 5, 1f));
 		#endregion variables
 
