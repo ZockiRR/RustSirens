@@ -62,6 +62,8 @@ namespace Oxide.Plugins
 		private const string PREFAB_PEDALTRIKE = "assets/content/vehicles/bikes/pedaltrike.prefab";
 		private const string PREFAB_TUGBOAT = "assets/content/vehicles/boats/tugboat/tugboat.prefab";
 		private const string PREFAB_PTBOAT = "assets/content/vehicles/boats/ptboat/ptboat.prefab";
+		private const string PREFAB_SNOWMOBILE = "assets/content/vehicles/snowmobiles/snowmobile.prefab";
+		private const string PREFAB_SNOWMOBILE_TOMAHA = "assets/content/vehicles/snowmobiles/tomahasnowmobile.prefab";
 
 		private const string KEY_MODULAR_CAR = "MODULAR_CAR";
 
@@ -200,6 +202,14 @@ namespace Oxide.Plugins
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.0f, 1.65f, 4.8f)),
 					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-1.42f, 1.65f, -4.66f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.0f, 3.06f, 0.615f), new Vector3(180f, 90f, 0f))
+				],
+				[PREFAB_SNOWMOBILE] = [
+					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(0.0f, 0.74f, 0.6f), new Vector3(18f, 0f, 0f)),
+					new Attachment(PREFAB_TRUMPET, new Vector3(0.0f, 0.6f, 0.62f), new Vector3(180f, 90f, 0f))
+				],
+				[PREFAB_SNOWMOBILE_TOMAHA] = [
+					new Attachment(PREFAB_FLASHERLIGHT, new Vector3(-0.08f, 0.66f, 0.45f), new Vector3(8f, 0f, 0f)),
+					new Attachment(PREFAB_TRUMPET, new Vector3(0.0f, 0.34f, 0.65f), new Vector3(180f, 90f, 0f))
 				]
 			}, new Tone(Notes.A, NoteType.Regular, 4, 1f), new Tone(Notes.D, NoteType.Regular, 5, 1f));
 		private static readonly Siren SIREN_SILENT = new("warning-lights",
@@ -288,6 +298,12 @@ namespace Oxide.Plugins
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(1.48f, 2.88f, 0.69f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.0f, 1.65f, 4.8f)),
 					new Attachment(PREFAB_SIRENLIGHT, new Vector3(-1.42f, 1.65f, -4.66f))
+				],
+				[PREFAB_SNOWMOBILE] = [
+					new Attachment(PREFAB_SIRENLIGHT, new Vector3(0.0f, 0.74f, 0.6f), new Vector3(18f, 0f, 0f))
+				],
+				[PREFAB_SNOWMOBILE_TOMAHA] = [
+					new Attachment(PREFAB_SIRENLIGHT, new Vector3(-0.08f, 0.66f, 0.45f), new Vector3(8f, 0f, 0f))
 				]
 			});
 		private static readonly Siren SIREN_ORANGE = new("orange-lights",
@@ -376,6 +392,12 @@ namespace Oxide.Plugins
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(1.48f, 2.88f, 0.69f)),
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.0f, 1.65f, 4.8f)),
 					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(-1.42f, 1.65f, -4.66f))
+				],
+				[PREFAB_SNOWMOBILE] = [
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(0.0f, 0.74f, 0.6f), new Vector3(18f, 0f, 0f))
+				],
+				[PREFAB_SNOWMOBILE_TOMAHA] = [
+					new Attachment(PREFAB_SIRENLIGHT_ORANGE, new Vector3(-0.08f, 0.66f, 0.45f), new Vector3(8f, 0f, 0f))
 				]
 			});
 		private static readonly Siren SIREN_GREEN = new("green-lights",
@@ -464,6 +486,12 @@ namespace Oxide.Plugins
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(1.48f, 2.88f, 0.69f)),
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.0f, 1.65f, 4.8f)),
 					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(-1.42f, 1.65f, -4.66f))
+				],
+				[PREFAB_SNOWMOBILE] = [
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(0.0f, 0.74f, 0.6f), new Vector3(18f, 0f, 0f))
+				],
+				[PREFAB_SNOWMOBILE_TOMAHA] = [
+					new Attachment(PREFAB_SIRENLIGHT_GREEN, new Vector3(-0.08f, 0.66f, 0.45f), new Vector3(8f, 0f, 0f))
 				]
 			});
 		private static readonly Siren SIREN_BLUE = new("blue-sirens",
@@ -569,6 +597,14 @@ namespace Oxide.Plugins
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.0f, 1.65f, 4.8f)),
 					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(-1.42f, 1.65f, -4.66f)),
 					new Attachment(PREFAB_TRUMPET, new Vector3(0.0f, 3.06f, 0.615f), new Vector3(180f, 90f, 0f))
+				],
+				[PREFAB_SNOWMOBILE] = [
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(0.0f, 0.74f, 0.6f), new Vector3(18f, 0f, 0f)),
+					new Attachment(PREFAB_TRUMPET, new Vector3(0.0f, 0.6f, 0.62f), new Vector3(180f, 90f, 0f))
+				],
+				[PREFAB_SNOWMOBILE_TOMAHA] = [
+					new Attachment(PREFAB_SIRENLIGHT_BLUE, new Vector3(-0.08f, 0.66f, 0.45f), new Vector3(8f, 0f, 0f)),
+					new Attachment(PREFAB_TRUMPET, new Vector3(0.0f, 0.34f, 0.65f), new Vector3(180f, 90f, 0f))
 				]
 			}, new Tone(Notes.A, NoteType.Regular, 4, 1f), new Tone(Notes.D, NoteType.Regular, 5, 1f));
 		#endregion variables
